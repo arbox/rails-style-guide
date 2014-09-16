@@ -5,7 +5,8 @@
 
 Цель этого руководства в том, чтобы представить лучшие практики
  и стилевые предписания для разработки на Ruby on Rails 3 и 4.
- Это дополняющее руководство к существующему [Ruby coding style guide](https://github.com/bbatsov/ruby-style-guide),
+ Это дополняющее руководство к существующему
+ [Ruby coding style guide](https://github.com/bbatsov/ruby-style-guide),
  поддерживаемому сообществом.
 
 Некоторые советы в этом руководстве применимы только к версии Rails 4.0+.
@@ -54,52 +55,51 @@ supposed to help risks not getting used at all &ndash; no matter how good it is.
 
 ## Конфигурация
 
-* Put custom initialization code in `config/initializers`. The code in
-  initializers executes on application startup.
-* Keep initialization code for each gem in a separate file
-  with the same name as the gem, for example `carrierwave.rb`,
-  `active_admin.rb`, etc.
-* Adjust accordingly the settings for development, test and production
-  environment (in the corresponding files under `config/environments/`)
-  * Mark additional assets for precompilation (if any):
+* Поместите инициализационный код в `config/initializers`.
+ Код в initializers выполняется при старте приложения.
+* Храните инициализационный код для каждого приложения в отдельном
+ файле, названном так же, как сам гем, например `carrierwave.rb`,
+ `active_admin.rb`, и так далее.
+* Установите соответственно настройки для сред разработки, тестирования и
+ продакшена (в соответствующих файлах директории `config/environments`)
+  * Помечайте дополнительные исходники (assets) для прекомпиляции (если такие есть):
 
         ```Ruby
         # config/environments/production.rb
-        # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
+        # Прекомпилировать дополнительные ассеты (application.js, application.css, and all non-JS/CSS are already added)
         config.assets.precompile += %w( rails_admin/rails_admin.css rails_admin/rails_admin.js )
         ```
 
-* Keep configuration that's applicable to all environments in the `config/application.rb` file.
-* Create an additional `staging` environment that closely resembles
-the `production` one.
+* Храните конфигурацию, применимую ко всем средам в файле `config/application.rb`.
+* Создайте дополнительную среду `staging`, которая будет максимально близка к среде `production`.
 
 ## Роутинг(маршрутизация)
 
-* When you need to add more actions to a RESTful resource (do you
-  really need them at all?) use `member` and `collection` routes.
+* Когда вы добавляете новые экшены к RESTful-ресурсу (вам действительно
+ все они нужны?), используйте роуты `member` и `collection`.
 
     ```Ruby
-    # bad
+    # плохо
     get 'subscriptions/:id/unsubscribe'
     resources :subscriptions
 
-    # good
+    # хорошо
     resources :subscriptions do
       get 'unsubscribe', on: :member
     end
 
-    # bad
+    # плохо
     get 'photos/search'
     resources :photos
 
-    # good
+    # хорошо
     resources :photos do
       get 'search', on: :collection
     end
     ```
 
-* If you need to define multiple `member/collection` routes use the
-  alternative block syntax.
+* Если вам нужно определить несколько роутов `member/collection`,
+ используйте альтернативный синтаксис блоков.
 
     ```Ruby
     resources :subscriptions do
@@ -117,8 +117,8 @@ the `production` one.
     end
     ```
 
-* Use nested routes to express better the relationship between
-  ActiveRecord models.
+* Используйте вложенные роуты, чтобы более прозрачно объяснять
+ отношения между моделями ActiveRecord.
 
     ```Ruby
     class Post < ActiveRecord::Base
@@ -135,43 +135,46 @@ the `production` one.
     end
     ```
 
-* Use namespaced routes to group related actions.
+* Используйте неймспейсы(namespace), чтобы группировать похожие
+ экшены.
 
     ```Ruby
     namespace :admin do
-      # Directs /admin/products/* to Admin::ProductsController
+      # Направляет /admin/products/* на Admin::ProductsController
       # (app/controllers/admin/products_controller.rb)
       resources :products
     end
     ```
 
-* Never use the legacy wild controller route. This route will make all
-  actions in every controller accessible via GET requests.
+* Никогда не используйте стандартные роуты для контроллеров.
+ Этот роут делает все экшены в каждом контроллере доступными
+  через GET запрос.
 
     ```Ruby
-    # very bad
+    # очень плохо
     match ':controller(/:action(/:id(.:format)))'
     ```
 
-* Don't use `match` to define any routes. It's removed from Rails 4.
+* Не используйте `match`, чтобы определять какие-либо роуты. Он
+ удален в Rails 4.
 
 ## Контроллеры
 
-* Keep the controllers skinny - they should only retrieve data for the
-  view layer and shouldn't contain any business logic (all the
-  business logic should naturally reside in the model).
-* Each controller action should (ideally) invoke only one method other
-  than an initial find or new.
-* Share no more than two instance variables between a controller and a view.
+* Сохраняйте контроллеры тонкими - они должны лишь получать данные для
+ уровня шаблона(view) и не должны содержать бизнес-логики (вся бизнес-логика
+  должна содержаться в файле модели).
+* Каждый экшен контроллера должен (в идеале) вызывать только один метод
+ кроме изначального `find` или `new`.
+* Обменивайтесь между контроллером и шаблоном (view) не более, чем двумя
+ переменными экземпляра.
 
 ## Модели
 
-* Introduce non-ActiveRecord model classes freely.
-* Name the models with meaningful (but short) names without
-abbreviations.
-* If you need model objects that support ActiveRecord behavior(like
-  validation) use the
-  [ActiveAttr](https://github.com/cgriego/active_attr) gem.
+* Свободно добавляйте не-ActiveRecord модели.
+* Называйте модели осмысленно (но кратко) и без аббревиатур.
+* Если вам нужны объекты моделей, поддерживающие поведение
+ ActiveRecord (например, валидации), используйте гем
+[ActiveAttr](https://github.com/cgriego/active_attr).
 
     ```Ruby
     class Message
@@ -190,7 +193,7 @@ abbreviations.
     end
     ```
 
-    For a more complete example refer to the
+    Для более полного примера рекомендую посмотреть
     [RailsCast on the subject](http://railscasts.com/episodes/326-activeattr).
 
 ### ActiveRecord
