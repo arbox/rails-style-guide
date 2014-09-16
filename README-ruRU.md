@@ -3,14 +3,14 @@
 > Role models are important. <br/>
 > -- Officer Alex J. Murphy / RoboCop
 
-The goal of this guide is to present a set of best practices and style
-prescriptions for Ruby on Rails 3 & 4 development. It's a complementary
-guide to the already existing community-driven
-[Ruby coding style guide](https://github.com/bbatsov/ruby-style-guide).
+Цель этого руководства в том, чтобы представить лучшие практики
+ и стилевые предписания для разработки на Ruby on Rails 3 и 4.
+ Это дополняющее руководство к существующему [Ruby coding style guide](https://github.com/bbatsov/ruby-style-guide),
+ поддерживаемому сообществом.
 
-Some of the advice here is applicable only to Rails 4.0+.
+Некоторые советы в этом руководстве применимы только к версии Rails 4.0+.
 
-You can generate a PDF or an HTML copy of this guide using
+Вы можете сгенерировать PDF или HTML копию этого руководства, используя
 [Transmuter](https://github.com/TechnoGate/transmuter).
 
 Переводы данного руководства доступны на следующих языках:
@@ -20,7 +20,7 @@ You can generate a PDF or an HTML copy of this guide using
 * [китайский упрощенный](https://github.com/JuanitoFatas/rails-style-guide/blob/master/README-zhCN.md)
 * [русский (данный документ)](https://github.com/JuanitoFatas/rails-style-guide/blob/master/README-zhTW.md)
 
-# The Rails Style Guide
+# Руководство по стилю Rails
 
 This Rails style guide recommends best practices so that real-world Rails
 programmers can write code that can be maintained by other real-world Rails
@@ -28,31 +28,31 @@ programmers. A style guide that reflects real-world usage gets used, and a
 style guide that holds to an ideal that has been rejected by the people it is
 supposed to help risks not getting used at all &ndash; no matter how good it is.
 
-The guide is separated into several sections of related rules. I've
-tried to add the rationale behind the rules (if it's omitted I've
-assumed it's pretty obvious).
+Руководство разделено на несколько групп правил. Я постарался
+ разумно обосновывать правила, но если обоснования нет, я предполагаю,
+ что оно достаточно очевидно.
 
-I didn't come up with all the rules out of nowhere - they are mostly
-based on my extensive career as a professional software engineer,
-feedback and suggestions from members of the Rails community and
-various highly regarded Rails programming resources.
+Я не придумал эти правила, взяв их из ниоткуда - по большей части, они основаны
+ на моем обширном опыте работы в качестве профессионального разработчика,
+ отзывах и предложениях от участников сообщества Rails и различных
+ высоко ценимых ресурсах, посвященных программированию на Rails.
 
 ## Содержание
 
-* [Configuration](#configuration)
-* [Routing](#routing)
-* [Controllers](#controllers)
-* [Models](#models)
-* [Migrations](#migrations)
-* [Views](#views)
-* [Internationalization](#internationalization)
+* [Конфигурация](#configuration)
+* [Роутинг(маршрутизация)](#routing)
+* [Контроллеры](#controllers)
+* [Модели](#models)
+* [Миграции](#migrations)
+* [Шаблоны(Views)](#views)
+* [Интернационализация](#internationalization)
 * [Assets](#assets)
 * [Mailers](#mailers)
 * [Bundler](#bundler)
 * [Flawed Gems](#flawed-gems)
-* [Managing processes](#managing-processes)
+* [Управление процессами](#managing-processes)
 
-## Configuration
+## Конфигурация
 
 * Put custom initialization code in `config/initializers`. The code in
   initializers executes on application startup.
@@ -73,7 +73,7 @@ various highly regarded Rails programming resources.
 * Create an additional `staging` environment that closely resembles
 the `production` one.
 
-## Routing
+## Роутинг(маршрутизация)
 
 * When you need to add more actions to a RESTful resource (do you
   really need them at all?) use `member` and `collection` routes.
@@ -155,7 +155,7 @@ the `production` one.
 
 * Don't use `match` to define any routes. It's removed from Rails 4.
 
-## Controllers
+## Контроллеры
 
 * Keep the controllers skinny - they should only retrieve data for the
   view layer and shouldn't contain any business logic (all the
@@ -164,7 +164,7 @@ the `production` one.
   than an initial find or new.
 * Share no more than two instance variables between a controller and a view.
 
-## Models
+## Модели
 
 * Introduce non-ActiveRecord model classes freely.
 * Name the models with meaningful (but short) names without
@@ -428,7 +428,7 @@ There is more than one way to achieve this:
     end
     ```
 
-## Migrations
+## Миграции
 
 * Keep the `schema.rb` (or `structure.sql`) under version control.
 * Use `rake db:schema:load` instead of `rake db:migrate` to initialize
@@ -484,14 +484,14 @@ them natively, there some great third-party gems like
 constantly evolving and at some point in the future migrations that
 used to work might stop, because of changes in the models used.
 
-## Views
+## Шаблоны(Views)
 
 * Never call the model layer directly from a view.
 * Never make complex formatting in the views, export the formatting to
   a method in the view helper or the model.
 * Mitigate code duplication by using partial templates and layouts.
 
-## Internationalization
+## Интернационализация
 
 * No strings or other locale specific settings should be used in the views,
 models and controllers. These texts should be moved to the locale files in
