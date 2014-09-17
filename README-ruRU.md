@@ -41,20 +41,20 @@ various highly regarded Rails programming resources.
 
 ## Содержание
 
-* [Configuration](#configuration)
-* [Routing](#routing)
-* [Controllers](#controllers)
-* [Models](#models)
-* [Migrations](#migrations)
-* [Views](#views)
-* [Internationalization](#internationalization)
+* [Конфигурация](#Конфигурация)
+* [Маршрутизация](#Маршрутизация)
+* [Контроллеры](#Контроллеры)
+* [Модели](#Модели)
+* [Миграции](#Миграции)
+* [Представления](#Представления)
+* [Интернационализация](#Интернационализация)
 * [Assets](#assets)
 * [Mailers](#mailers)
 * [Bundler](#bundler)
 * [Flawed Gems](#flawed-gems)
-* [Managing processes](#managing-processes)
+* [Управление процессами](#Управление-процессами)
 
-## Configuration
+## Конфигурация
 
 * Put custom initialization code in `config/initializers`. The code in
   initializers executes on application startup.
@@ -75,7 +75,7 @@ various highly regarded Rails programming resources.
 * Create an additional `staging` environment that closely resembles
 the `production` one.
 
-## Routing
+## Маршрутизация
 
 * When you need to add more actions to a RESTful resource (do you
   really need them at all?) use `member` and `collection` routes.
@@ -157,7 +157,7 @@ the `production` one.
 
 * Don't use `match` to define any routes. It's removed from Rails 4.
 
-## Controllers
+## Контроллеры
 
 * Keep the controllers skinny - they should only retrieve data for the
   view layer and shouldn't contain any business logic (all the
@@ -166,7 +166,7 @@ the `production` one.
   than an initial find or new.
 * Share no more than two instance variables between a controller and a view.
 
-## Models
+## Модели
 
 * Introduce non-ActiveRecord model classes freely.
 * Name the models with meaningful (but short) names without
@@ -324,9 +324,11 @@ some regular expression mapping, create a custom validator file.
     ```
 
 * Keep custom validators under `app/validators`.
+
 * Consider extracting custom validators to a shared gem if you're
   maintaining several related apps or the validators are generic
   enough.
+
 * Use named scopes freely.
 
     ```Ruby
@@ -338,7 +340,8 @@ some regular expression mapping, create a custom validator file.
     end
     ```
 
-* Wrap named scopes in `lambdas` to initialize them lazily (this is only a prescription in Rails 3, but is mandatory in Rails 4).
+* Wrap named scopes in `lambdas` to initialize them lazily (this is only
+  a prescription in Rails 3, but is mandatory in Rails 4).
 
     ```Ruby
     # bad
@@ -359,10 +362,10 @@ some regular expression mapping, create a custom validator file.
     ```
 
 * When a named scope defined with a lambda and parameters becomes too
-complicated, it is preferable to make a class method instead which serves
-the same purpose of the named scope and returns an
-`ActiveRecord::Relation` object. Arguably you can define even simpler
-scopes like this.
+  complicated, it is preferable to make a class method instead which serves
+  the same purpose of the named scope and returns an
+  `ActiveRecord::Relation` object. Arguably you can define even simpler
+  scopes like this.
 
     ```Ruby
     class User < ActiveRecord::Base
@@ -374,11 +377,14 @@ scopes like this.
 
 * Beware of the behavior of the [`update_attribute`](http://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-update_attribute) method. It doesn't
   run the model validations (unlike `update_attributes`) and could easily corrupt the model state.
+
 * Use user-friendly URLs. Show some descriptive attribute of the model in the URL rather than its `id`.
-There is more than one way to achieve this:
-  * Override the `to_param` method of the model. This method is used by Rails for constructing a URL to the object.
-  The default implementation returns the `id` of the record as a String.
-  It could be overridden to include another human-readable attribute.
+  There is more than one way to achieve this:
+
+  * Override the `to_param` method of the model. This method is used by Rails
+    for constructing a URL to the object. The default implementation returns the
+    `id` of the record as a String. It could be overridden to include another
+    human-readable attribute.
 
         ```Ruby
         class Person
@@ -388,10 +394,12 @@ There is more than one way to achieve this:
         end
         ```
 
-    In order to convert this to a URL-friendly value, `parameterize` should be called on the string. The `id` of the
-    object needs to be at the beginning so that it can be found by the `find` method of ActiveRecord.
+    In order to convert this to a URL-friendly value, `parameterize` should be
+    called on the string. The `id` of the object needs to be at the beginning so
+    that it can be found by the `find` method of ActiveRecord.
 
-  * Use the `friendly_id` gem. It allows creation of human-readable URLs by using some descriptive attribute of the model instead of its `id`.
+  * Use the `friendly_id` gem. It allows creation of human-readable URLs by using
+    some descriptive attribute of the model instead of its `id`.
 
         ```Ruby
         class Person
@@ -400,7 +408,8 @@ There is more than one way to achieve this:
         end
         ```
 
-  Check the [gem documentation](https://github.com/norman/friendly_id) for more information about its usage.
+  Check the [gem documentation](https://github.com/norman/friendly_id)
+  for more information about its usage.
 
 * Use `find_each` to iterate over a collection of AR objects. Looping
    through a collection of records from the database (using the `all`
@@ -430,12 +439,15 @@ There is more than one way to achieve this:
     end
     ```
 
-## Migrations
+## Миграции
 
 * Keep the `schema.rb` (or `structure.sql`) under version control.
+
 * Use `rake db:schema:load` instead of `rake db:migrate` to initialize
-an empty database.
+  an empty database.
+
 * Use `rake db:test:prepare` to update the schema of the test database.
+
 * Enforce default values in the migrations themselves instead of in
   the application layer.
 
@@ -454,8 +466,9 @@ an empty database.
     the Rails app is impossible.
 
 * Enforce foreign-key constraints. While ActiveRecord does not support
-them natively, there some great third-party gems like
-[schema_plus](https://github.com/lomba/schema_plus) and [foreigner](https://github.com/matthuhiggins/foreigner).
+  them natively, there some great third-party gems like
+  [schema_plus](https://github.com/lomba/schema_plus) and
+  [foreigner](https://github.com/matthuhiggins/foreigner).
 
 * When writing constructive migrations (adding tables or columns), use
   the new Rails 3.1 way of doing the migrations - use the `change`
@@ -486,20 +499,23 @@ them natively, there some great third-party gems like
 constantly evolving and at some point in the future migrations that
 used to work might stop, because of changes in the models used.
 
-## Views
+## Представления
 
 * Never call the model layer directly from a view.
+
 * Never make complex formatting in the views, export the formatting to
   a method in the view helper or the model.
+
 * Mitigate code duplication by using partial templates and layouts.
 
-## Internationalization
+## Интернационализация
 
 * No strings or other locale specific settings should be used in the views,
-models and controllers. These texts should be moved to the locale files in
-the `config/locales` directory.
+  models and controllers. These texts should be moved to the locale files in
+  the `config/locales` directory.
+
 * When the labels of an ActiveRecord model need to be translated,
-use the `activerecord` scope:
+  use the `activerecord` scope:
 
     ```
     en:
@@ -516,11 +532,12 @@ use the `activerecord` scope:
     translations of the attributes will be used as labels in the views.
 
 * Separate the texts used in the views from translations of ActiveRecord
-attributes. Place the locale files for the models in a folder `models` and
-the texts used in the views in folder `views`.
+  attributes. Place the locale files for the models in a folder `models` and
+  the texts used in the views in folder `views`.
+
   * When organization of the locale files is done with additional
-  directories, these directories must be described in the `application.rb`
-  file in order to be loaded.
+    directories, these directories must be described in the `application.rb`
+    file in order to be loaded.
 
         ```Ruby
         # config/application.rb
@@ -528,13 +545,13 @@ the texts used in the views in folder `views`.
         ```
 
 * Place the shared localization options, such as date or currency formats, in
-files
-under
-the root of the `locales` directory.
+  files under the root of the `locales` directory.
+
 * Use the short form of the I18n methods: `I18n.t` instead of `I18n.translate`
-and `I18n.l` instead of `I18n.localize`.
+  and `I18n.l` instead of `I18n.localize`.
+
 * Use "lazy" lookup for the texts used in views. Let's say we have the
-following structure:
+  following structure:
 
     ```
     en:
@@ -551,8 +568,8 @@ following structure:
     ```
 
 * Use the dot-separated keys in the controllers and models instead of
-specifying the `:scope` option. The dot-separated call is easier to read and
-trace the hierarchy.
+  specifying the `:scope` option. The dot-separated call is easier to read and
+  trace the hierarchy.
 
     ```Ruby
     # use this call
@@ -563,8 +580,7 @@ trace the hierarchy.
     ```
 
 * More detailed information about the Rails i18n can be found in the [Rails
-Guides]
-(http://guides.rubyonrails.org/i18n.html)
+  Guides](http://guides.rubyonrails.org/i18n.html)
 
 ## Assets
 
@@ -572,18 +588,27 @@ Use the [assets pipeline](http://guides.rubyonrails.org/asset_pipeline.html) to 
 your application.
 
 * Reserve `app/assets` for custom stylesheets, javascripts, or images.
+
 * Use `lib/assets` for your own libraries, that doesn’t really fit into the scope of the application.
+
 * Third party code such as [jQuery](http://jquery.com/) or [bootstrap](http://twitter.github.com/bootstrap/)
   should be placed in `vendor/assets`.
-* When possible, use gemified versions of assets (e.g. [jquery-rails](https://github.com/rails/jquery-rails), [jquery-ui-rails](https://github.com/joliss/jquery-ui-rails), [bootstrap-sass](https://github.com/thomas-mcdonald/bootstrap-sass), [zurb-foundation](https://github.com/zurb/foundation)).
+
+* When possible, use gemified versions of assets (e.g. [jquery-rails](https://github.com/rails/jquery-rails),
+  [jquery-ui-rails](https://github.com/joliss/jquery-ui-rails),
+  [bootstrap-sass](https://github.com/thomas-mcdonald/bootstrap-sass),
+  [zurb-foundation](https://github.com/zurb/foundation)).
 
 ## Mailers
 
 * Name the mailers `SomethingMailer`. Without the Mailer suffix it
   isn't immediately apparent what's a mailer and which views are
   related to the mailer.
+
 * Provide both HTML and plain-text view templates.
-* Enable errors raised on failed mail delivery in your development environment. The errors are disabled by default.
+
+* Enable errors raised on failed mail delivery in your development environment.
+  The errors are disabled by default.
 
     ```Ruby
     # config/environments/development.rb
@@ -669,13 +694,15 @@ your application.
 ## Bundler
 
 * Put gems used only for development or testing in the appropriate group in the Gemfile.
+
 * Use only established gems in your projects. If you're contemplating
-on including some little-known gem you should do a careful review of
-its source code first.
+  on including some little-known gem you should do a careful review of
+  its source code first.
+
 * OS-specific gems will by default result in a constantly changing `Gemfile.lock`
-for projects with multiple developers using different operating systems.
-Add all OS X specific gems to a `darwin` group in the Gemfile, and all Linux
-specific gems to a `linux` group:
+  for projects with multiple developers using different operating systems.
+  Add all OS X specific gems to a `darwin` group in the Gemfile, and all Linux
+  specific gems to a `linux` group:
 
     ```Ruby
     # Gemfile
@@ -707,12 +734,15 @@ This is a list of gems that are either problematic or superseded by
 other gems. You should avoid using them in your projects.
 
 * [rmagick](http://rmagick.rubyforge.org/) - this gem is notorious for its memory consumption. Use
-[minimagick](https://github.com/probablycorey/mini_magick) instead.
+  [minimagick](https://github.com/probablycorey/mini_magick) instead.
+
 * [autotest](http://www.zenspider.com/ZSS/Products/ZenTest/) - old solution for running tests automatically. Far
-inferior to [guard](https://github.com/guard/guard) and [watchr](https://github.com/mynyml/watchr).
+  inferior to [guard](https://github.com/guard/guard) and [watchr](https://github.com/mynyml/watchr).
+
 * [rcov](https://github.com/relevance/rcov) - code coverage tool, not
   compatible with Ruby 1.9. Use
   [SimpleCov](https://github.com/colszowka/simplecov) instead.
+
 * [therubyracer](https://github.com/cowboyd/therubyracer) - the use of
   this gem in production is strongly discouraged as it uses a very large amount of
   memory. I'd suggest using `node.js` instead.
@@ -720,7 +750,7 @@ inferior to [guard](https://github.com/guard/guard) and [watchr](https://github.
 This list is also a work in progress. Please, let me know if you know
 other popular, but flawed gems.
 
-## Managing processes
+## Управление процессами
 
 * If your projects depends on various external processes use
   [foreman](https://github.com/ddollar/foreman) to manage them.
@@ -738,35 +768,38 @@ consider if you have time to spare:
 
 # Contributing
 
-Nothing written in this guide is set in stone. It's my desire to work
-together with everyone interested in Rails coding style, so that we could
-ultimately create a resource that will be beneficial to the entire Ruby
-community.
+Ничто, описанное в этом руководстве, не высечено в камне. И я очень хотел бы
+сотрудничать со всеми, кто интересуется стилистикой оформления кода Rails,
+чтобы мы смогли вместе создать ресурс, который был бы полезен для всего сообщества
+программистов на Руби.
 
-Feel free to open tickets or send pull requests with improvements. Thanks in
-advance for your help!
+Не стесняйтесь создавать отчеты об ошибках и присылать мне запросы на интеграцию
+вашего кода. И заранее большое спасибо за вашу помощь!
 
-You can also support the project (and RuboCop) with financial
-contributions via [gittip](https://www.gittip.com/bbatsov).
+Вы можете поддержать проект (и РубоКоп) денежным взносом
+при помощи [gittip](https://www.gittip.com/bbatsov).
 
-[![Support via Gittip](https://rawgithub.com/twolfson/gittip-badge/0.2.0/dist/gittip.png)](https://www.gittip.com/bbatsov)
+[![Дай Gittip](https://rawgithub.com/twolfson/gittip-badge/0.2.0/dist/gittip.png)](https://www.gittip.com/bbatsov)
+
 
 ## Как сотрудничать в проекте?
 
-It's easy, just follow the [contribution guidelines](https://github.com/bbatsov/rails-style-guide/blob/master/CONTRIBUTING.md).
+Это просто! Просто следуйте [руководству по сотрудничеству
+](https://github.com/bbatsov/rails-style-guide/blob/master/CONTRIBUTING.md).
 
 # Лицензирование
 
 ![Creative Commons License](http://i.creativecommons.org/l/by/3.0/88x31.png)
-This work is licensed under a [Creative Commons Attribution 3.0 Unported License](http://creativecommons.org/licenses/by/3.0/deed.en_US)
+Данная работа опубликована на условиях лицензии [Creative Commons Attribution 3.0
+Unported License](http://creativecommons.org/licenses/by/3.0/deed.en_US)
 
 # Расскажи другому
 
-A community-driven style guide is of little use to a community that
-doesn't know about its existence. Tweet about the guide, share it with
-your friends and colleagues. Every comment, suggestion or opinion we
-get makes the guide just a little bit better. And we want to have the
-best possible guide, don't we?
+Создаваемое сообществом руководство по стилю оформления будет малопригодным для
+сообщества, которое об этом руководстве ничего не знает. Делитесь ссылками на
+это руководство с вашими друзьями и коллегами доступными вам средствами. Каждый
+получаемый нами комментарий, предложение или мнение сделает это руководство еще
+чуточку лучше. А ведь мы хотим самое лучшее руководство из возможных, не так ли?
 
-Cheers,<br/>
-[Bozhidar](https://twitter.com/bbatsov)
+Всего,<br/>
+[Божидар](https://twitter.com/bbatsov)
