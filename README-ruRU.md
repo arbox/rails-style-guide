@@ -6,7 +6,7 @@
 The goal of this guide is to present a set of best practices and style
 prescriptions for Ruby on Rails 3 & 4 development. It's a complementary
 guide to the already existing community-driven
-[Руби: руководство по стилю оформления](https://github.com/bbatsov/ruby-style-guide).
+[Руби: руководство по стилю оформления](https://github.com/arbox/ruby-style-guide/blob/master/README-ruRU.md).
 
 Some of the advice here is applicable only to Rails 4.0+.
 
