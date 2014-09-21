@@ -1,16 +1,15 @@
 # Прелюдия
 
-> Role models are important. <br/>
+> Роль моделей является важной. <br/>
 > -- Офицер Алекс Мёрфи / Робот-полицейский
 
-The goal of this guide is to present a set of best practices and style
-prescriptions for Ruby on Rails 3 & 4 development. It's a complementary
-guide to the already existing community-driven
+Целью данного руководства является представление набора лучших практик и рецептов стиля разработки
+для Ruby On Rails 3 и 4. Это дополняющее руководство к уже существующему, развиваемому сообществом
 [Руби: руководство по стилю оформления](https://github.com/bbatsov/ruby-style-guide).
 
-Some of the advice here is applicable only to Rails 4.0+.
+Некоторые из советов здесь применимы только к Rails 4.0+.
 
-You can generate a PDF or an HTML copy of this guide using
+Вы можете сгенерировать PDF или HTML копию этого руководства используя
 [Transmuter](https://github.com/TechnoGate/transmuter).
 
 Переводы данного руководства доступны на следующих языках:
