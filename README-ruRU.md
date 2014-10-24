@@ -56,14 +56,13 @@ various highly regarded Rails programming resources.
 
 ## Конфигурация
 
-* Put custom initialization code in `config/initializers`. The code in
-  initializers executes on application startup.
-* Keep initialization code for each gem in a separate file
-  with the same name as the gem, for example `carrierwave.rb`,
+* Код собственных иницилизаторов должен хранится `config/initializers`. Код инициализаторов отрабатывает при запуске приложения.
+*Для каждого гема код инициализатора должен быть в отдельном файле
+  созвучным с названием гема, например `carrierwave.rb`,
   `active_admin.rb`, etc.
-* Adjust accordingly the settings for development, test and production
-  environment (in the corresponding files under `config/environments/`)
-  * Mark additional assets for precompilation (if any):
+* Исправте дефолтные настройки development, test и production
+  среды (в соответсвующих файлах в `config/environments/`)
+  * Включить прекомпиляйию  assets  (если есть):
 
         ```Ruby
         # config/environments/production.rb
@@ -71,37 +70,37 @@ various highly regarded Rails programming resources.
         config.assets.precompile += %w( rails_admin/rails_admin.css rails_admin/rails_admin.js )
         ```
 
-* Keep configuration that's applicable to all environments in the `config/application.rb` file.
+* Проврить наличие всех сред в фале  `config/application.rb` file.
 * Create an additional `staging` environment that closely resembles
 the `production` one.
 
 ## Маршрутизация
 
-* When you need to add more actions to a RESTful resource (do you
-  really need them at all?) use `member` and `collection` routes.
+* Если необходимо созздать больше действий для RESTful объекта (Вам
+* действительно это нужно?) используйте `member` и `collection` routes.
 
     ```Ruby
-    # bad
+    # плохо
     get 'subscriptions/:id/unsubscribe'
     resources :subscriptions
 
-    # good
+    # хорошо
     resources :subscriptions do
       get 'unsubscribe', on: :member
     end
 
-    # bad
+    # плохо
     get 'photos/search'
     resources :photos
 
-    # good
+    # хорошо
     resources :photos do
       get 'search', on: :collection
     end
     ```
 
-* If you need to define multiple `member/collection` routes use the
-  alternative block syntax.
+* Если необходимо несколько путей для `member/collection` 
+  используется альтернативный синтаксис блоков
 
     ```Ruby
     resources :subscriptions do
@@ -119,8 +118,8 @@ the `production` one.
     end
     ```
 
-* Use nested routes to express better the relationship between
-  ActiveRecord models.
+* Лучше использовать вложенные пути для указания отношений между
+   моделями ActiveRecord.
 
     ```Ruby
     class Post < ActiveRecord::Base
@@ -137,7 +136,7 @@ the `production` one.
     end
     ```
 
-* Use namespaced routes to group related actions.
+* Использоватьnamespaced пути для группировки связанных действий.
 
     ```Ruby
     namespace :admin do
@@ -147,15 +146,15 @@ the `production` one.
     end
     ```
 
-* Never use the legacy wild controller route. This route will make all
-  actions in every controller accessible via GET requests.
+* Никогда не используйте наслеование в путях. Это делает 
+* все действия доступными методом GET.
 
     ```Ruby
     # very bad
     match ':controller(/:action(/:id(.:format)))'
     ```
 
-* Don't use `match` to define any routes. It's removed from Rails 4.
+* Не используйте `match` для определения путей. Это удалено в  Rails 4.
 
 ## Контроллеры
 
@@ -202,7 +201,7 @@ abbreviations.
   your control).
 
     ```Ruby
-    # bad - don't do this if you can modify the schema
+    # плохо - don't do this if you can modify the schema
     class Transaction < ActiveRecord::Base
       self.table_name = 'order'
       ...
@@ -280,12 +279,12 @@ abbreviations.
 * Prefer `self[:attribute]` over `read_attribute(:attribute)`.
 
     ```Ruby
-    # bad
+    # плохо
     def amount
       read_attribute(:amount) * 100
     end
 
-    # good
+    # хорошо
     def amount
       self[:amount] * 100
     end
@@ -295,10 +294,10 @@ abbreviations.
   ["sexy" validations](http://thelucid.com/2010/01/08/sexy-validation-in-edge-rails-rails-3/).
 
     ```Ruby
-    # bad
+    # плохо
     validates_presence_of :email
 
-    # good
+    # хорошо
     validates :email, presence: true
     ```
 
@@ -306,12 +305,12 @@ abbreviations.
 some regular expression mapping, create a custom validator file.
 
     ```Ruby
-    # bad
+    # плохо
     class Person
       validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
     end
 
-    # good
+    # хорошо
     class EmailValidator < ActiveModel::EachValidator
       def validate_each(record, attribute, value)
         record.errors[attribute] << (options[:message] || 'is not a valid email') unless value =~ /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
@@ -344,7 +343,7 @@ some regular expression mapping, create a custom validator file.
   a prescription in Rails 3, but is mandatory in Rails 4).
 
     ```Ruby
-    # bad
+    # плохо
     class User < ActiveRecord::Base
       scope :active, where(active: true)
       scope :inactive, where(active: false)
@@ -352,7 +351,7 @@ some regular expression mapping, create a custom validator file.
       scope :with_orders, joins(:orders).select('distinct(users.id)')
     end
 
-    # good
+    # хорошо
     class User < ActiveRecord::Base
       scope :active, -> { where(active: true) }
       scope :inactive, -> { where(active: false) }
@@ -420,7 +419,7 @@ some regular expression mapping, create a custom validator file.
 
 
     ```Ruby
-    # bad
+    # плохо
     Person.all.each do |person|
       person.do_awesome_stuff
     end
@@ -429,7 +428,7 @@ some regular expression mapping, create a custom validator file.
       person.party_all_night!
     end
 
-    # good
+    # хорошо
     Person.all.find_each do |person|
       person.do_awesome_stuff
     end
@@ -452,7 +451,7 @@ some regular expression mapping, create a custom validator file.
   the application layer.
 
     ```Ruby
-    # bad - application enforced default value
+    # плохо - application enforced default value
     def amount
       self[:amount] or 0
     end
