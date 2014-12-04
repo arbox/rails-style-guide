@@ -1,4 +1,4 @@
-# Прелюдия
+# Вступление
 
 > Role models are important. <br/>
 > -- Офицер Алекс Мёрфи / Робот-полицейский
@@ -6,12 +6,13 @@
 The goal of this guide is to present a set of best practices and style
 prescriptions for Ruby on Rails 3 & 4 development. It's a complementary
 guide to the already existing community-driven
-[Руби: руководство по стилю оформления](https://github.com/arbox/ruby-style-guide/blob/master/README-ruRU.md).
+[Руби: руководство по стилю оформления][ruby-style-guide].
 
-Some of the advice here is applicable only to Rails 4.0+.
+Некоторые из приведенных здесь рекомендаций будут применимы только
+для Rails 4.0+.
 
-You can generate a PDF or an HTML copy of this guide using
-[Transmuter](https://github.com/TechnoGate/transmuter).
+Вы можете создать копию этого руководства в форматах PDF или HTML при помощи
+[Transmuter][].
 
 Переводы данного руководства доступны на следующих языках:
 
@@ -967,3 +968,7 @@ Unported License](http://creativecommons.org/licenses/by/3.0/deed.en_US)
 
 Всего,<br/>
 [Божидар](https://twitter.com/bbatsov)
+
+<!--- Links -->
+[ruby-style-guide]: https://github.com/arbox/ruby-style-guide/blob/master/README-ruRU.md
+[transmutter]: https://github.com/TechnoGate/transmuter
