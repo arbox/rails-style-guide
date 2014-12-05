@@ -98,20 +98,20 @@ various highly regarded Rails programming resources.
   <sup>[[ссылка](#member-collection-routes)]</sup>
 
     ```Ruby
-    # bad
+    # плохо
     get 'subscriptions/:id/unsubscribe'
     resources :subscriptions
 
-    # good
+    # хорошо
     resources :subscriptions do
       get 'unsubscribe', on: :member
     end
 
-    # bad
+    # плохо
     get 'photos/search'
     resources :photos
 
-    # good
+    # хорошо
     resources :photos do
       get 'search', on: :collection
     end
@@ -176,7 +176,7 @@ various highly regarded Rails programming resources.
   <sup>[[ссылка](#no-wild-routes)]</sup>
 
     ```Ruby
-    # very bad
+    # очень плохо
     match ':controller(/:action(/:id(.:format)))'
     ```
 
@@ -244,7 +244,7 @@ various highly regarded Rails programming resources.
   <sup>[[ссылка](#keep-ar-defaults)]</sup>
 
     ```Ruby
-    # bad - don't do this if you can modify the schema
+    # плохо (не делайте так, если вы можете изменить схему)
     class Transaction < ActiveRecord::Base
       self.table_name = 'order'
       ...
@@ -298,7 +298,7 @@ various highly regarded Rails programming resources.
   <sup>[[ссылка](#has-many-through)]</sup>
 
     ```Ruby
-    # using has_and_belongs_to_many
+    # не особо (using has_and_belongs_to_many)
     class User < ActiveRecord::Base
       has_and_belongs_to_many :groups
     end
@@ -329,12 +329,12 @@ various highly regarded Rails programming resources.
   <sup>[[ссылка](#read-attribute)]</sup>
 
     ```Ruby
-    # bad
+    # плохо
     def amount
       read_attribute(:amount) * 100
     end
 
-    # good
+    # хорошо
     def amount
       self[:amount] * 100
     end
@@ -345,10 +345,10 @@ various highly regarded Rails programming resources.
   <sup>[[ссылка](#write-attribute)]</sup>
 
     ```Ruby
-    # bad
+    # плохо
     validates_presence_of :email
 
-    # good
+    # хорошо
     validates :email, presence: true
     ```
 
@@ -358,12 +358,12 @@ various highly regarded Rails programming resources.
   <sup>[[ссылка](#sexy-validations)]</sup>
 
     ```Ruby
-    # bad
+    # плохо
     class Person
       validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
     end
 
-    # good
+    # хорошо
     class EmailValidator < ActiveModel::EachValidator
       def validate_each(record, attribute, value)
         record.errors[attribute] << (options[:message] || 'is not a valid email') unless value =~ /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
@@ -403,7 +403,7 @@ various highly regarded Rails programming resources.
   <sup>[[ссылка](#named-scopes)]</sup>
 
     ```Ruby
-    # bad
+    # плохо
     class User < ActiveRecord::Base
       scope :active, where(active: true)
       scope :inactive, where(active: false)
@@ -484,7 +484,7 @@ various highly regarded Rails programming resources.
 
 
     ```Ruby
-    # bad
+    # плохо
     Person.all.each do |person|
       person.do_awesome_stuff
     end
@@ -509,7 +509,7 @@ various highly regarded Rails programming resources.
   `before_destroy` callbacks that perform validation with `prepend: true`.
 
   ```Ruby
-  # bad (roles will be deleted automatically even if super_admin? is true)
+  # плохо (roles will be deleted automatically even if super_admin? is true)
   has_many :roles, dependent: :destroy
 
   before_destroy :ensure_deletable
@@ -546,7 +546,7 @@ various highly regarded Rails programming resources.
 <sup>[[ссылка](#default-migration-values)]</sup>
 
   ```Ruby
-  # bad - application enforced default value
+  # плохо - application enforced default value
   def amount
     self[:amount] or 0
   end
@@ -792,7 +792,7 @@ your application.
 <sup>[[ссылка](#url-not-path-in-email)]</sup>
 
   ```Ruby
-  # bad
+  # плохо
   You can always find more info about this course
   = link_to 'here', course_path(@course)
 
