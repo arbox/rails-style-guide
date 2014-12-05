@@ -1,4 +1,4 @@
-** Under heavy construction **
+**Under heavy construction**
 
 # Вступление
 
