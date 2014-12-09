@@ -263,7 +263,7 @@ programming resources.
     default_scope { where(active: true) }
 
     # constants come up next
-    GENDERS = %w(male female)
+    COLORS = %w(red green blue)
 
     # afterwards we put attr related macros
     attr_accessor :formatted_date_of_birth
@@ -897,7 +897,7 @@ other gems. You should avoid using them in your projects.
 
 * [rmagick](http://rmagick.rubyforge.org/) - this gem is notorious for its
   memory consumption. Use
-  [minimagick](https://github.com/probablycorey/mini_magick) instead.
+  [minimagick](https://github.com/minimagick/minimagick) instead.
 
 * [autotest](http://www.zenspider.com/ZSS/Products/ZenTest/) - old solution for
   running tests automatically. Far inferior to
