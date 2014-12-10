@@ -5,9 +5,9 @@
 > Role models are important. <br/>
 > -- Офицер Алекс Мёрфи / Робот-полицейский
 
-The goal of this guide is to present a set of best practices and style
-prescriptions for Ruby on Rails 3 & 4 development. It's a complementary
-guide to the already existing community-driven
+Целью этого руководства является распространение набора проверенных практик
+и стилистических рекомендаций при разработки приложений с помощью Ruby on Rails
+(для версий 3 и 4). Это руководство дополняет уже существующий сборник:
 [Руби: руководство по стилю оформления][ruby-style-guide].
 
 Некоторые из приведенных здесь рекомендаций будут применимы только

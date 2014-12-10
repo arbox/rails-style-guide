@@ -4,6 +4,9 @@
 помощью обычный программист на Руби будет создавать код, который с легкостью
 смогут поддерживать и развивать другие обычные разработчики.
 
+Это руководство дополняет уже существующий сборник:
+[Руби: руководство по стилю оформления][ruby-style-guide].
+
 Читайте [руководство][russian] на русском языке.
 
 [Оригинал][english] этого руководства был составлен
@@ -17,8 +20,10 @@
 * [турецкий](https://github.com/tolgaavci/rails-style-guide/blob/master/README-trTR.md)
 * [японский](https://github.com/satour/rails-style-guide/blob/master/README-jaJA.md)
 
-Если вы хотите оставаться в курсе актуальных изменений, следите за репозиторием и жмите на звездочку!
+Если вы хотите оставаться в курсе актуальных изменений, следите за репозиторием
+и жмите на звездочку!
 
 [russian]: https://github.com/arbox/rails-style-guide/blob/master/README-ruRU.md
 [english]: https://github.com/bbatsov/rails-style-guide/blob/master/README.md
 [bbatsov]: https://github.com/bbatsov
+[ruby-style-guide]: https://github.com/arbox/ruby-style-guide/blob/master/README-ruRU.md
