@@ -56,7 +56,7 @@
 * [Assets](#assets)
 * [Mailers](#mailers)
 * [Bundler](#bundler)
-* [Flawed Gems](#flawed-gems)
+* [Гемы с дефектами](#Гемы-с-дефектами)
 * [Управление процессами](#Управление-процессами)
 
 ## Конфигурация
@@ -890,32 +890,39 @@ your application.
   ```
 
 * <a name="gemfile-lock"></a>
-  Do not remove the `Gemfile.lock` from version control. This is not some
-  randomly generated file - it makes sure that all of your team members get the
-  same gem versions when they do a `bundle install`.
-<sup>[[ссылка](#gemfile-lock)]</sup>
+  Сохраняйте файл `Gemfile.lock` в вашей системе управления версиями. Этот файл
+  содержит неслучайную информацию, так вы сможете удостовериться, что все члены
+  вашей команды установят точно ту же версию библиотек, что и вы, при помощи
+  команды `bundle install`.
+  <sup>[[ссылка](#gemfile-lock)]</sup>
 
-## Flawed Gems
+## Гемы с дефектами
 
-This is a list of gems that are either problematic or superseded by
-other gems. You should avoid using them in your projects.
+В настоящем списке перечислены гемы, которые либо имеют проблемы в реализации,
+либо имеют лучшие аналоги. Вам не следует применять их в своих проектах.
 
-* [rmagick](http://rmagick.rubyforge.org/) - this gem is notorious for its memory consumption. Use  [minimagick](https://github.com/probablycorey/mini_magick) instead.
-
-
-*  [autotest](http://www.zenspider.com/ZSS/Products/ZenTest/) - old solution for running tests automatically. Far  inferior to [guard](https://github.com/guard/guard) and [watchr](https://github.com/mynyml/watchr).
-
-
-*  [rcov](https://github.com/relevance/rcov) - code coverage tool, not  compatible with Ruby 1.9. Use
-  [SimpleCov](https://github.com/colszowka/simplecov) instead.
+* [rmagick](http://rmagick.rubyforge.org/) - this gem is notorious
+  for its memory consumption.
+  Use [minimagick](https://github.com/probablycorey/mini_magick) instead.
 
 
-*  [therubyracer](https://github.com/cowboyd/therubyracer) - the use of  this gem in production is strongly discouraged as it uses a very large amount of
-  memory. I'd suggest using `node.js` instead.
+* [autotest](http://www.zenspider.com/ZSS/Products/ZenTest/) - old solution
+  for running tests automatically. Far  inferior to
+  [guard](https://github.com/guard/guard) and
+  [watchr](https://github.com/mynyml/watchr).
 
 
-This list is also a work in progress. Please, let me know if you know
-other popular, but flawed gems.
+* [rcov](https://github.com/relevance/rcov) - code coverage tool, not compatible
+  with Ruby 1.9. Use [SimpleCov](https://github.com/colszowka/simplecov) instead.
+
+
+* [therubyracer](https://github.com/cowboyd/therubyracer) - the use of this gem
+  in production is strongly discouraged as it uses a very large amount
+  of memory. I'd suggest using `node.js` instead.
+
+
+Работа над этим списком лишь начата. Пожалуйста, если вы знаете о популярных,
+но дефектных библиотеках, то проинформируйте меня.
 
 ## Управление процессами
 
@@ -926,16 +933,18 @@ other popular, but flawed gems.
 
 # Дополнительные источники
 
-There are a few excellent resources on Rails style, that you should
-consider if you have time to spare:
+Существует несколько отличных источников по стилю офрмления приложений на Rails,
+на которые вы можете взглянуть, если у вас будет свободное время:
 
-*  [The Rails 4 Way](http://www.amazon.com/The-Rails-Addison-Wesley-Professional-Ruby/dp/0321944275)* [Ruby on Rails Guides](http://guides.rubyonrails.org/)
+<!--- @FIFXME: find russian translations -->
+* [The Rails 4 Way](http://www.amazon.com/The-Rails-Addison-Wesley-Professional-Ruby/dp/0321944275)
+* [Ruby on Rails Guides](http://guides.rubyonrails.org/)
 * [The RSpec Book](http://pragprog.com/book/achbd/the-rspec-book)
 * [The Cucumber Book](http://pragprog.com/book/hwcuc/the-cucumber-book)
 * [Everyday Rails Testing with RSpec](https://leanpub.com/everydayrailsrspec)
 
 
-# Contributing
+# Сотрудничество
 
 Ничто, описанное в этом руководстве, не высечено в камне. И я очень хотел бы
 сотрудничать со всеми, кто интересуется стилистикой оформления кода Rails,
@@ -945,8 +954,8 @@ consider if you have time to spare:
 Не стесняйтесь создавать отчеты об ошибках и присылать мне запросы на интеграцию
 вашего кода. И заранее большое спасибо за вашу помощь!
 
-Вы можете поддержать проект (и РубоКоп) денежным взносом
-при помощи [gittip](https://www.gittip.com/bbatsov).
+Вы можете поддержать проект (и РубоКоп) денежным взносом при помощи
+[gittip](https://www.gittip.com/bbatsov).
 
 [![Дай Gittip](https://rawgithub.com/twolfson/gittip-badge/0.2.0/dist/gittip.png)](https://www.gittip.com/bbatsov)
 
