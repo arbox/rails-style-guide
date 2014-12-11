@@ -27,20 +27,22 @@
 
 # Руководство по стилю оформления Rails
 
-This Rails style guide recommends best practices so that real-world Rails
-programmers can write code that can be maintained by other real-world Rails
-programmers. A style guide that reflects real-world usage gets used, and a
-style guide that holds to an ideal that has been rejected by the people it is
-supposed to help risks not getting used at all &ndash; no matter how good it is.
+Настоящее руководство по стилю рекомендует лучшие практики оформленя, благодаря
+которым обычные разработчики на Rails смогут писать код, который с легкостью
+будут поддерживать другие обычные программисты. Руководство по оформлению,
+которое отражает повседневные реалии, будет применяться постоянно,
+а руководство, стремящееся к идеалу, который не принимается обычными людьми,
+подвергается риску вообще быть забытым. При этом абсолютно не важно, насколько
+хорошим оно является.
 
-The guide is separated into several sections of related rules. I've
-tried to add the rationale behind the rules (if it's omitted I've
-assumed it's pretty obvious).
+Данное руководство разделено на несколько частей, состоящий из связанных
+по смыслу правил. В каждом случае я попытался обосновать появление этих правил
+(объяснение опущено в ситуациях, когда я посчитал его очевидным).
 
-I didn't come up with all the rules out of nowhere - they are mostly
-based on my extensive career as a professional software engineer,
-feedback and suggestions from members of the Rails community and
-various highly regarded Rails programming resources.
+Все эти правила не появились из пустоты, они по большей части основываются
+на моем собственном обширном профессиональном опыте в качестве разработчика ПО,
+отзывах и предложениях других членов сообщества разработчиков на Rails
+и различных общепризнанных источниках по разработке Rails-приложений.
 
 ## Содержание
 
