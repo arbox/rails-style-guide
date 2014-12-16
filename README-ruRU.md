@@ -51,7 +51,7 @@
 * [Контроллеры](#Контроллеры)
 * [Модели](#Модели)
 * [Миграции](#Миграции)
-* [Представления](#Представления)
+* [Представления](#Представления) <!--- @FIXME -->
 * [Интернационализация](#Интернационализация)
 * [Assets](#assets)
 * [Mailers](#mailers)
@@ -62,16 +62,17 @@
 ## Конфигурация
 
 * <a name="config-initializers"></a>
-  Put custom initialization code in `config/initializers`. The code in
-  initializers executes on application startup.
+  Код для инициализации приложения помещайте в директорию `config/initializers/`.
+  Код в этой директории выполняется при запуске приложения.
   <sup>[[ссылка](#config-initializers)]</sup>
 
 * <a name="gem-initializers"></a>
-  Keep initialization code for each gem in a separate file with the same name as
-  the gem, for example `carrierwave.rb`, `active_admin.rb`, etc.
+  Для каждого гема записывайте код инициализации в одноименный отдельный файл.
+  Например, `carrierwave.rb`, `active_admin.rb` и т.д.
   <sup>[[ссылка](#gem-initializers)]</sup>
 
 * <a name="dev-test-prod-configs"></a>
+
   Adjust accordingly the settings for development, test and production
   environment (in the corresponding files under `config/environments/`)
   <sup>[[ссылка](#dev-test-prod-configs)]</sup>
