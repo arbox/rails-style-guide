@@ -72,9 +72,8 @@
   <sup>[[ссылка](#gem-initializers)]</sup>
 
 * <a name="dev-test-prod-configs"></a>
-
-  Adjust accordingly the settings for development, test and production
-  environment (in the corresponding files under `config/environments/`)
+  Поправьте настройки для рабочего, тестового и промышленного укружений
+  в соответствующих файлах в директории `config/environments/`.
   <sup>[[ссылка](#dev-test-prod-configs)]</sup>
 
         ```Ruby
@@ -84,13 +83,13 @@
         ```
 
 * <a name="app-config"></a>
-  Keep configuration that's applicable to all environments
-  in the `config/application.rb` file.
+  Сохраняйте настройки, которые относятся ко всем окружениям, в файле
+  `config/application.rb`.
   <sup>[[ссылка](#app-config)]</sup>
 
 * <a name="staging-like-prod"></a>
-  Create an additional `staging` environment that closely resembles
-  the `production` one.
+  Создайте дополнительное окружение `staging`, которое будет очень схоже с
+  вашим окружением `production`.
   <sup>[[ссылка](#staging-like-prod)]</sup>
 
 ## Маршрутизация
