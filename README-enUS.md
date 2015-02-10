@@ -559,6 +559,7 @@ programming resources.
 * <a name="foreign-key-constraints"></a>
   Enforce foreign-key constraints. As of Rails 4.2, ActiveRecord
   supports foreign key constraints natively.
+  <sup>[[ссылка](#foreign-key-constraints)]</sup>
 
 * <a name="change-vs-up-down"></a>
   When writing constructive migrations (adding tables or columns),

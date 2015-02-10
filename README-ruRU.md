@@ -562,11 +562,9 @@
   the Rails app is impossible.
 
 * <a name="foreign-key-constraints"></a>
-  Enforce foreign-key constraints. While ActiveRecord does not support them
-  natively, there some great third-party gems like
-  [schema_plus](https://github.com/lomba/schema_plus) and
-  [foreigner](https://github.com/matthuhiggins/foreigner).
-<sup>[[ссылка](#foreign-key-constraints)]</sup>
+  Enforce foreign-key constraints. As of Rails 4.2, ActiveRecord
+  supports foreign key constraints natively.
+  <sup>[[ссылка](#foreign-key-constraints)]</sup>
 
 * <a name="change-vs-up-down"></a>
   When writing constructive migrations (adding tables or columns),
