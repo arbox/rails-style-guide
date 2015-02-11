@@ -51,7 +51,7 @@
 * [Контроллеры](#Контроллеры)
 * [Модели](#Модели)
 * [Миграции](#Миграции)
-* [Представления](#Представления) <!--- @FIXME -->
+* [Представления](#Представления)
 * [Интернационализация](#Интернационализация)
 * [Assets](#assets)
 * [Mailers](#mailers)
@@ -206,16 +206,17 @@
 ## Модели
 
 * <a name="model-classes"></a>
-  Introduce non-ActiveRecord model classes freely.
+  Без зазрений совести используйте модели, не базирующиеся на ActiveRecord.
   <sup>[[ссылка](#model-classes)]</sup>
 
 * <a name="meaningful-model-names"></a>
-  Name the models with meaningful (but short) names without  abbreviations.
+  Называйте модели говорящими (но короткими) именами без сокращений.
   <sup>[[ссылка](#meaningful-model-names)]</sup>
 
 * <a name="activeattr-gem"></a>
-  If you need model objects that support ActiveRecord behavior (like validation)
-  use the [ActiveAttr](https://github.com/cgriego/active_attr) gem.
+  Если вам нужна модель, поддерживающая некоторые аспекты ActiveRecord
+  (например, валидации), используйте библиотеку
+  [ActiveAttr](https://github.com/cgriego/active_attr)
   <sup>[[ссылка](#activeattr-gem)]</sup>
 
     ```Ruby
@@ -235,14 +236,15 @@
     end
     ```
 
-    For a more complete example refer to the
+    Более подробный пример (на английском языке) вы найдете здесь:
     [RailsCast on the subject](http://railscasts.com/episodes/326-activeattr).
 
 ### ActiveRecord
 
 * <a name="keep-ar-defaults"></a>
-  Avoid altering ActiveRecord defaults (table names, primary key, etc) unless
-  you have a very good reason (like a database that's not under your control).
+  Не меняйте стандартных значений ActiveRecord (например, наименования таблиц,
+  первичных ключей и т.д.) без особой нужды. Это оправдано в таких случаях,
+  когда вы работаете с базой данных, схему которой нет возможности изменить.
   <sup>[[ссылка](#keep-ar-defaults)]</sup>
 
     ```Ruby
@@ -254,8 +256,8 @@
     ```
 
 * <a name="macro-style-methods"></a>
-  Group macro-style methods (`has_many`, `validates`, etc) in the beginning of
-  the class definition.
+  Группируйте макро-методы (`has_many`, `validates` и т.д.) в начале определения
+  класса.
   <sup>[[ссылка](#macro-style-methods)]</sup>
 
     ```Ruby
@@ -294,13 +296,14 @@
     ```
 
 * <a name="has-many-through"></a>
-  Prefer `has_many :through` to `has_and_belongs_to_many`. Using
-  `has_many :through` allows additional attributes and validations on the join
-  model.
+  Используйте преимущественно `has_many :through` вместо
+  `has_and_belongs_to_many`. Применение ассоциации `has_many :through`
+  дает вам большую свободу в определении дополнительных атрибутов и задании
+  валидаций на модели объединения.
   <sup>[[ссылка](#has-many-through)]</sup>
 
     ```Ruby
-    # не особо (using has_and_belongs_to_many)
+    # не особо (применяется has_and_belongs_to_many)
     class User < ActiveRecord::Base
       has_and_belongs_to_many :groups
     end
@@ -309,7 +312,7 @@
       has_and_belongs_to_many :users
     end
 
-    # prefered way - using has_many :through
+    # предпочтительное решение (применяется has_many :through)
     class User < ActiveRecord::Base
       has_many :memberships
       has_many :groups, through: :memberships
@@ -327,7 +330,7 @@
     ```
 
 * <a name="read-attribute"></a>
-  Prefer `self[:attribute]` over `read_attribute(:attribute)`.
+  Используйте `self[:attribute]` вместо `read_attribute(:attribute)`.
   <sup>[[ссылка](#read-attribute)]</sup>
 
     ```Ruby
@@ -378,12 +381,13 @@
     ```
 
 * <a name="custom-validator-file"></a>
-  Keep custom validators under `app/validators`.
+  Храните файлы определенных вами валидаторов в `app/validators`.
   <sup>[[ссылка](#custom-validator-file)]</sup>
 
 * <a name="app-validators"></a>
-  Consider extracting custom validators to a shared gem if you're maintaining
-  several related apps or the validators are generic enough.
+  Подумайте о том, чтобы выделить ряд определенных вами валидаторов в отдельный
+  гем, если вы работаете над рядом схожих приложений и валидаторы имеют
+  достаточно обобщенные функции.
   <sup>[[ссылка](#app-validators)]</sup>
 
 * <a name="custom-validators-gem"></a>
@@ -535,17 +539,17 @@
 
 * <a name="schema-version"></a>
   Keep the `schema.rb` (or `structure.sql`) under version control.
-<sup>[[ссылка](#schema-version)]</sup>
+  <sup>[[ссылка](#schema-version)]</sup>
 
 * <a name="db-schema-load"></a>
   Use `rake db:schema:load` instead of `rake db:migrate` to initialize an empty
   database.
-<sup>[[ссылка](#db-schema-load)]</sup>
+  <sup>[[ссылка](#db-schema-load)]</sup>
 
 * <a name="default-migration-values"></a>
   Enforce default values in the migrations themselves instead of in the
   application layer.
-<sup>[[ссылка](#default-migration-values)]</sup>
+  <sup>[[ссылка](#default-migration-values)]</sup>
 
   ```Ruby
   # плохо - application enforced default value
@@ -569,7 +573,7 @@
 * <a name="change-vs-up-down"></a>
   When writing constructive migrations (adding tables or columns),
   use the `change` method instead of `up` and `down` methods.
-<sup>[[ссылка](#change-vs-up-down)]</sup>
+  <sup>[[ссылка](#change-vs-up-down)]</sup>
 
   ```Ruby
   # the old way
