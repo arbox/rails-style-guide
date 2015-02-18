@@ -1,8 +1,6 @@
-**Under heavy construction**
-
 # Вступление
 
-> Role models are important. <br/>
+> Ролевые модели важны. <br/>
 > -- Офицер Алекс Мёрфи / Робот-полицейский
 
 Целью этого руководства является распространение набора проверенных практик
@@ -72,15 +70,15 @@
   <sup>[[ссылка](#gem-initializers)]</sup>
 
 * <a name="dev-test-prod-configs"></a>
-  Поправьте настройки для рабочего, тестового и промышленного укружений
+  Уточните настройки для рабочего, тестового и промышленного окружений
   в соответствующих файлах в директории `config/environments/`.
   <sup>[[ссылка](#dev-test-prod-configs)]</sup>
 
-        ```Ruby
-        # config/environments/production.rb
-        # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-        config.assets.precompile += %w( rails_admin/rails_admin.css rails_admin/rails_admin.js )
-        ```
+    ```Ruby
+    # config/environments/production.rb
+    # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
+    config.assets.precompile += %w( rails_admin/rails_admin.css rails_admin/rails_admin.js )
+    ```
 
 * <a name="app-config"></a>
   Сохраняйте настройки, которые относятся ко всем окружениям, в файле
@@ -95,8 +93,9 @@
 ## Маршрутизация
 
 * <a name="member-collection-routes"></a>
-  When you need to add more actions to a RESTful resource (do you really need
-  them at all?) use `member` and `collection` routes.
+  Если вам требуется добавить дополнительные действия к ресурсу REST (и вы
+  уверены, что это вам абсолютно нужно), то используйте пути `member`
+  и `collection`.
   <sup>[[ссылка](#member-collection-routes)]</sup>
 
     ```Ruby
@@ -536,14 +535,14 @@
 
 ## Миграции
 
-
 * <a name="schema-version"></a>
-  Keep the `schema.rb` (or `structure.sql`) under version control.
+  Храните файл `schema.rb` (или `structure.sql`) в вашей системе управления
+  версиями.
   <sup>[[ссылка](#schema-version)]</sup>
 
 * <a name="db-schema-load"></a>
-  Use `rake db:schema:load` instead of `rake db:migrate` to initialize an empty
-  database.
+  Используйте вызов `rake db:schema:load` вместо `rake db:migrate` для
+  инициализации пустой базы данных.
   <sup>[[ссылка](#db-schema-load)]</sup>
 
 * <a name="default-migration-values"></a>
@@ -601,33 +600,33 @@
   stop, because of changes in the models used.
 <sup>[[ссылка](#no-model-class-migrations)]</sup>
 
-## Views
+## Представления
 
 * <a name="no-direct-model-view"></a>
-  Never call the model layer directly from a view.
-<sup>[[ссылка](#no-direct-model-view)]</sup>
+  Ни при каких условиях не следует работать с моделями напрямую из отображений.
+  <sup>[[ссылка](#no-direct-model-view)]</sup>
 
 * <a name="no-complex-view-formatting"></a>
-  Never make complex formatting in the views, export the formatting to a method
-  in the view helper or the model.
-<sup>[[ссылка](#no-complex-view-formatting)]</sup>
+  Избегайте сложной логики в отображениях, выделяйте этот код во вспомогательные
+  методы отображений или выносите их в модель.
+  <sup>[[ссылка](#no-complex-view-formatting)]</sup>
 
 * <a name="partials"></a>
-  Mitigate code duplication by using partial templates and layouts.
-<sup>[[ссылка](#partials)]</sup>
+  Избегайте повторений кода, используйте отдельные шаблоны и подшаблоны.
+  <sup>[[ссылка](#partials)]</sup>
 
-## Internationalization
+## Интернационализация
 
 * <a name="locale-texts"></a>
-  No strings or other locale specific settings should be used in the views,
-  models and controllers. These texts should be moved to the locale files in the
-  `config/locales` directory.
-<sup>[[ссылка](#locale-texts)]</sup>
+  Строки и другие локальные настройки и детали следует выносить из представлений
+  и контроллеров, а также моделей в файлы для конкретных локалей в директории
+  `config/locales`.
+  <sup>[[ссылка](#locale-texts)]</sup>
 
 * <a name="translated-labels"></a>
-  When the labels of an ActiveRecord model need to be translated, use the
-  `activerecord` scope:
-<sup>[[ссылка](#translated-labels)]</sup>
+  Когда вам нужно перевести идентификаторы для моделей ActiveRecord, применяйте
+  контекст `activerecord`:
+  <sup>[[ссылка](#translated-labels)]</sup>
 
   ```
   en:
@@ -639,16 +638,15 @@
           name: 'Full name'
   ```
 
-  Then `User.model_name.human` will return "Member" and
-  `User.human_attribute_name("name")` will return "Full name". These
-  translations of the attributes will be used as labels in the views.
-
+  В этом случае `User.model_name.human` вернет `'Member'` и
+  `User.human_attribute_name('name')` вернет `'Full name'`. Переводы этих
+  атрибутов будут использоваться в качестве идентификаторов в представлениях.
 
 * <a name="organize-locale-files"></a>
   Separate the texts used in the views from translations of ActiveRecord
   attributes. Place the locale files for the models in a folder `models` and the
   texts used in the views in folder `views`.
-<sup>[[ссылка](#organize-locale-files)]</sup>
+  <sup>[[ссылка](#organize-locale-files)]</sup>
 
   * When organization of the locale files is done with additional directories,
     these directories must be described in the `application.rb` file in order
@@ -662,17 +660,17 @@
 * <a name="shared-localization"></a>
   Place the shared localization options, such as date or currency formats, in
   files under the root of the `locales` directory.
-<sup>[[ссылка](#shared-localization)]</sup>
+  <sup>[[ссылка](#shared-localization)]</sup>
 
 * <a name="short-i18n"></a>
   Use the short form of the I18n methods: `I18n.t` instead of `I18n.translate`
   and `I18n.l` instead of `I18n.localize`.
-<sup>[[ссылка](#short-i18n)]</sup>
+  <sup>[[ссылка](#short-i18n)]</sup>
 
 * <a name="lazy-lookup"></a>
   Use "lazy" lookup for the texts used in views. Let's say we have the following
   structure:
-<sup>[[ссылка](#lazy-lookup)]</sup>
+  <sup>[[ссылка](#lazy-lookup)]</sup>
 
   ```
   en:
@@ -692,19 +690,21 @@
   Use the dot-separated keys in the controllers and models instead of specifying
   the `:scope` option. The dot-separated call is easier to read and trace the
   hierarchy.
-<sup>[[ссылка](#dot-separated-keys)]</sup>
+  <sup>[[ссылка](#dot-separated-keys)]</sup>
 
   ```Ruby
-  # use this call
+  # используте этот вызов
   I18n.t 'activerecord.errors.messages.record_invalid'
 
-  # instead of this
+  # вместо вот такого
   I18n.t :record_invalid, :scope => [:activerecord, :errors, :messages]
   ```
 
 * <a name="i18n-guides"></a>
-  More detailed information about the Rails i18n can be found in the [Rails
-  Guides](http://guides.rubyonrails.org/i18n.html)
+  Более подробную информацию по интернационализации (i18n) в Rails можно найти
+  по адресу [API интернационализации Rails
+  ](http://rusrails.ru/rails-internationalization-i18n-api) либо
+  [Rails Guides](http://guides.rubyonrails.org/i18n.html) (английский оригинал).
 <sup>[[ссылка](#i18n-guides)]</sup>
 
 ## Ресурсы
@@ -736,7 +736,7 @@
   - [jquery-rails](https://github.com/rails/jquery-rails);
   - [jquery-ui-rails](https://github.com/joliss/jquery-ui-rails);
   - [bootstrap-sass](https://github.com/thomas-mcdonald/bootstrap-sass);
-  - [zurb-foundation](https://github.com/zurb/foundation)).
+  - [zurb-foundation](https://github.com/zurb/foundation).
 
 ## Mailers
 
@@ -990,4 +990,4 @@ Unported License](http://creativecommons.org/licenses/by/3.0/deed.en_US)
 
 <!--- Links -->
 [ruby-style-guide]: https://github.com/arbox/ruby-style-guide/blob/master/README-ruRU.md
-[transmutter]: https://github.com/TechnoGate/transmuter
+[transmuter]: https://github.com/TechnoGate/transmuter
