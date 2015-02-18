@@ -854,22 +854,23 @@ your application.
 ## Bundler
 
 * <a name="dev-test-gems"></a>
-  Put gems used only for development or testing in the appropriate group in the
-  Gemfile.
-<sup>[[ссылка](#dev-test-gems)]</sup>
+  Держите гемы, которые используются только для разработки и/или тестирования в
+  соответствующих группах вашего `Gemfile`.
+  <sup>[[ссылка](#dev-test-gems)]</sup>
 
 * <a name="only-good-gems"></a>
-  Use only established gems in your projects. If you're contemplating on
-  including some little-known gem you should do a careful review of its source
-  code first.
-<sup>[[ссылка](#only-good-gems)]</sup>
+  Применяйте в своих проектах только рекомендованные временем библиотеки. Если
+  вы задумываетесь, не включить ли в проект малоизвестный гем, вам следует
+  сперва внимательно просмотреть его исходных код.
+  <sup>[[ссылка](#only-good-gems)]</sup>
 
 * <a name="os-specific-gemfile-locks"></a>
-  OS-specific gems will by default result in a constantly changing
-  `Gemfile.lock` for projects with multiple developers using different operating
-  systems.  Add all OS X specific gems to a `darwin` group in the Gemfile, and
-  all Linux specific gems to a `linux` group:
-<sup>[[ссылка](#os-specific-gemfile-locks)]</sup>
+  Системозависимые библиотеки в вашем проекте будут причиной постоянного
+  изменения файла `Gemfile.lock` для проектов с несколькими разработчиками,
+  работающими на разных операционных системах. Поэтому внесите все библиотеки,
+  написанные для `OS X`, в группу `darwin`, а библиотеки, написанные
+  для `Linux`, в группу `linux`.
+  <sup>[[ссылка](#os-specific-gemfile-locks)]</sup>
 
   ```Ruby
   # Gemfile
@@ -883,8 +884,8 @@ your application.
   end
   ```
 
-  To require the appropriate gems in the right environment, add the
-  following to `config/application.rb`:
+  Для включения нужных библиотек только в нужном окружении, добавьте в файл
+  `config/application.rb` следующие строки:
 
   ```Ruby
   platform = RUBY_PLATFORM.match(/(linux|darwin)/)[0].to_sym
