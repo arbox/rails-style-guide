@@ -52,7 +52,7 @@
 * [Представления](#Представления)
 * [Интернационализация](#Интернационализация)
 * [Ресурсы](#Ресурсы)
-* [Mailers](#mailers)
+* [Почтовые модули](#почтовые-модули)
 * [Bundler](#bundler)
 * [Гемы с дефектами](#Гемы-с-дефектами)
 * [Управление процессами](#Управление-процессами)
@@ -738,21 +738,21 @@
   - [bootstrap-sass](https://github.com/thomas-mcdonald/bootstrap-sass);
   - [zurb-foundation](https://github.com/zurb/foundation).
 
-## Mailers
+## Почтовые модули
 
 * <a name="mailer-name"></a>
-  Name the mailers `SomethingMailer`. Without the Mailer suffix it isn't
-  immediately apparent what's a mailer and which views are related to the
-  mailer.
+  Называйте почтовые модули по образцу `SomethingMailer`. Без суффикса `Mailer`
+  не сразу будет понятно, что это почтовый модуль и какие представления
+  связаны с этим модулем.
   <sup>[[ссылка](#mailer-name)]</sup>
 
 * <a name="html-plain-email"></a>
-  Provide both HTML and plain-text view templates.
+  Создавайте шаблоны представлений в текстовом формате и в форате HTML.
   <sup>[[ссылка](#html-plain-email)]</sup>
 
 * <a name="enable-delivery-errors"></a>
-  Enable errors raised on failed mail delivery in your development environment.
-  The errors are disabled by default.
+  Включите вызов ошибок при проблемах с доставкой почты в вашем окружении для
+  разработки. По умолчанию эти вызовы отключены.
   <sup>[[ссылка](#enable-delivery-errors)]</sup>
 
   ```Ruby
@@ -762,10 +762,9 @@
   ```
 
 * <a name="local-smtp"></a>
-  Use a local SMTP server like
-  [Mailcatcher](https://github.com/sj26/mailcatcher) in the development
-  environment.
-<sup>[[ссылка](#local-smtp)]</sup>
+  Используйте локальный сервер SMTP, например, [Mailcatcher
+  ](https://github.com/sj26/mailcatcher) в вашем окружении разработки.
+  <sup>[[ссылка](#local-smtp)]</sup>
 
   ```Ruby
   # config/environments/development.rb
@@ -779,7 +778,7 @@
 
 * <a name="default-hostname"></a>
   Provide default settings for the host name.
-<sup>[[ссылка](#default-hostname)]</sup>
+  <sup>[[ссылка](#default-hostname)]</sup>
 
   ```Ruby
   # config/environments/development.rb
@@ -820,7 +819,7 @@
 * <a name="delivery-method-test"></a>
   Make sure that the e-mail delivery method for your test environment is set to
   `test`:
-<sup>[[ссылка](#delivery-method-test)]</sup>
+  <sup>[[ссылка](#delivery-method-test)]</sup>
 
   ```Ruby
   # config/environments/test.rb
@@ -829,8 +828,8 @@
   ```
 
 * <a name="delivery-method-smtp"></a>
-  The delivery method for development and production should be `smtp`:
-<sup>[[ссылка](#delivery-method-smtp)]</sup>
+  Методом доставки почты для разработки и развертывания должен быть `smtp`:
+  <sup>[[ссылка](#delivery-method-smtp)]</sup>
 
   ```Ruby
   # config/environments/development.rb, config/environments/production.rb
@@ -839,20 +838,22 @@
   ```
 
 * <a name="inline-email-styles"></a>
-  When sending html emails all styles should be inline, as some mail clients
-  have problems with external styles. This however makes them harder to maintain
-  and leads to code duplication. There are two similar gems that transform the
-  styles and put them in the corresponding html tags:
-  [premailer-rails](https://github.com/fphilipe/premailer-rails) and
+  При рассылке электронной почты в формате HTML все описания стилей должны быть
+  включены в текст, потому что некоторые почтовые программы неверно обрабатывают
+  внешние таблицы стилей. Однако, это приводит к сложностям в поддержке таких
+  таблиц и повторениям в коде. Для преобразования и внедрения стилей в текст
+  письма существую два схожим по функциональности гема:
+  [premailer-rails](https://github.com/fphilipe/premailer-rails) и
   [roadie](https://github.com/Mange/roadie).
-<sup>[[ссылка](#inline-email-styles)]</sup>
+  <sup>[[ссылка](#inline-email-styles)]</sup>
 
 * <a name="background-email"></a>
-  Sending emails while generating page response should be avoided. It causes
-  delays in loading of the page and request can timeout if multiple email are
-  sent. To overcome this emails can be sent in background process with the help
-  of [sidekiq](https://github.com/mperham/sidekiq) gem.
-<sup>[[ссылка](#background-email)]</sup>
+  Избегайте рассылки почты параллельно к генерации страницы в ответ на запрос
+  пользователя. Это вызовет задержки в загрузке страницы, и запрос может быть
+  отклонен из-за превышения таймаута, если вы рассылаете много писем. Вы можете
+  преодолеть данное ограничение, вызывая процессы рассылки в фоне, например, при
+  помощи гема [sidekiq](https://github.com/mperham/sidekiq).
+  <sup>[[ссылка](#background-email)]</sup>
 
 ## Bundler
 
