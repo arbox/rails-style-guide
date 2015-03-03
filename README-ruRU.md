@@ -48,12 +48,15 @@
 * [Маршрутизация](#Маршрутизация)
 * [Контроллеры](#Контроллеры)
 * [Модели](#Модели)
+  * [ActiveRecord](#Activerecord)
+  * [Запросы ActiveRecord](#Запросы-activerecord)
 * [Миграции](#Миграции)
 * [Представления](#Представления)
 * [Интернационализация](#Интернационализация)
 * [Ресурсы](#Ресурсы)
-* [Почтовые модули](#почтовые-модули)
-* [Bundler](#bundler)
+* [Почтовые модули](#Почтовые-модули)
+* [Время](#Время)
+* [Bundler](#Bundler)
 * [Гемы с дефектами](#Гемы-с-дефектами)
 * [Управление процессами](#Управление-процессами)
 
@@ -74,9 +77,12 @@
   в соответствующих файлах в директории `config/environments/`.
   <sup>[[ссылка](#dev-test-prod-configs)]</sup>
 
+  * Mark additional assets for precompilation (if any):
+
     ```Ruby
     # config/environments/production.rb
-    # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
+    # Precompile additional assets (application.js, application.css,
+    # and all non-JS/CSS are already added)
     config.assets.precompile += %w( rails_admin/rails_admin.css rails_admin/rails_admin.js )
     ```
 
@@ -214,7 +220,7 @@
 
 * <a name="activeattr-gem"></a>
   Если вам нужна модель, поддерживающая некоторые аспекты ActiveRecord
-  (например, валидации), используйте библиотеку
+  (например, валидации), без привязки к работе с БД используйте библиотеку
   [ActiveAttr](https://github.com/cgriego/active_attr)
   <sup>[[ссылка](#activeattr-gem)]</sup>
 
@@ -259,40 +265,40 @@
   класса.
   <sup>[[ссылка](#macro-style-methods)]</sup>
 
-    ```Ruby
-    class User < ActiveRecord::Base
-      # keep the default scope first (if any)
-      default_scope { where(active: true) }
+  ```Ruby
+  class User < ActiveRecord::Base
+    # keep the default scope first (if any)
+    default_scope { where(active: true) }
 
-      # constants come up next
-      GENDERS = %w(male female)
+    # constants come up next
+    COLORS = %w(red green blue)
 
-      # afterwards we put attr related macros
-      attr_accessor :formatted_date_of_birth
+    # afterwards we put attr related macros
+    attr_accessor :formatted_date_of_birth
 
-      attr_accessible :login, :first_name, :last_name, :email, :password
+    attr_accessible :login, :first_name, :last_name, :email, :password
 
-      # followed by association macros
-      belongs_to :country
+    # followed by association macros
+    belongs_to :country
 
-      has_many :authentications, dependent: :destroy
+    has_many :authentications, dependent: :destroy
 
-      # and validation macros
-      validates :email, presence: true
-      validates :username, presence: true
-      validates :username, uniqueness: { case_sensitive: false }
-      validates :username, format: { with: /\A[A-Za-z][A-Za-z0-9._-]{2,19}\z/ }
-      validates :password, format: { with: /\A\S{8,128}\z/, allow_nil: true}
+    # and validation macros
+    validates :email, presence: true
+    validates :username, presence: true
+    validates :username, uniqueness: { case_sensitive: false }
+    validates :username, format: { with: /\A[A-Za-z][A-Za-z0-9._-]{2,19}\z/ }
+    validates :password, format: { with: /\A\S{8,128}\z/, allow_nil: true}
 
-      # next we have callbacks
-      before_save :cook
-      before_save :update_username_lower
+    # next we have callbacks
+    before_save :cook
+    before_save :update_username_lower
 
-      # other macros (like devise's) should be placed after the callbacks
+    # other macros (like devise's) should be placed after the callbacks
 
-      ...
-    end
-    ```
+    ...
+  end
+  ```
 
 * <a name="has-many-through"></a>
   Используйте преимущественно `has_many :through` вместо
@@ -345,107 +351,132 @@
     ```
 
 * <a name="write-attribute"></a>
-  Always use the new ["sexy" validations](http://thelucid.com/2010/01/08/sexy-validation-in-edge-rails-rails-3/).
+  Prefer `self[:attribute] = value` over `write_attribute(:attribute, value)`.
   <sup>[[ссылка](#write-attribute)]</sup>
 
-    ```Ruby
-    # плохо
-    validates_presence_of :email
+  ```Ruby
+  # плохо
+  def amount
+    write_attribute(:amount, 100)
+  end
 
-    # хорошо
-    validates :email, presence: true
-    ```
+  # хорошо
+  def amount
+    self[:amount] = 100
+  end
+  ```
 
 * <a name="sexy-validations"></a>
-  When a custom validation is used more than once or the validation is some
-  regular expression mapping, create a custom validator file.
+  Always use the new ["sexy" validations
+  ](http://thelucid.com/2010/01/08/sexy-validation-in-edge-rails-rails-3/).
   <sup>[[ссылка](#sexy-validations)]</sup>
 
-    ```Ruby
-    # плохо
-    class Person
-      validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
-    end
+  ```Ruby
+  # плохо
+  validates_presence_of :email
+  validates_length_of :email, maximum: 100
 
-    # хорошо
-    class EmailValidator < ActiveModel::EachValidator
-      def validate_each(record, attribute, value)
-        record.errors[attribute] << (options[:message] || 'is not a valid email') unless value =~ /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
-      end
-    end
-
-    class Person
-      validates :email, email: true
-    end
-    ```
+  # хорошо
+  validates :email, presence: true, length: { maximum: 100 }
+  ```
 
 * <a name="custom-validator-file"></a>
-  Храните файлы определенных вами валидаторов в `app/validators`.
+  When a custom validation is used more than once or the validation is some
+  regular expression mapping, create a custom validator file.
   <sup>[[ссылка](#custom-validator-file)]</sup>
 
+  ```Ruby
+  # плохо
+  class Person
+    validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
+  end
+
+  # хорошо
+  class EmailValidator < ActiveModel::EachValidator
+    def validate_each(record, attribute, value)
+      record.errors[attribute] << (options[:message] || 'is not a valid email') unless value =~ /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+    end
+  end
+
+  class Person
+    validates :email, email: true
+  end
+  ```
+
 * <a name="app-validators"></a>
-  Подумайте о том, чтобы выделить ряд определенных вами валидаторов в отдельный
-  гем, если вы работаете над рядом схожих приложений и валидаторы имеют
-  достаточно обобщенные функции.
+  Храните файлы определенных вами валидаторов в `app/validators`.
   <sup>[[ссылка](#app-validators)]</sup>
 
 * <a name="custom-validators-gem"></a>
-  Use named scopes freely.
+  Подумайте о том, чтобы выделить ряд определенных вами валидаторов в отдельный
+  гем, если вы работаете над рядом схожих приложений и валидаторы имеют
+  достаточно обобщенные функции.
   <sup>[[ссылка](#custom-validators-gem)]</sup>
 
-    ```Ruby
-    class User < ActiveRecord::Base
-      scope :active, -> { where(active: true) }
-      scope :inactive, -> { where(active: false) }
-
-      scope :with_orders, -> { joins(:orders).select('distinct(users.id)') }
-    end
-    ```
-
 * <a name="named-scopes"></a>
-  Wrap named scopes in `lambdas` to initialize them lazily (this is only
-  a prescription in Rails 3, but is mandatory in Rails 4).
+  Use named scopes freely.
   <sup>[[ссылка](#named-scopes)]</sup>
 
-    ```Ruby
-    # плохо
-    class User < ActiveRecord::Base
-      scope :active, where(active: true)
-      scope :inactive, where(active: false)
+  ```Ruby
+  class User < ActiveRecord::Base
+    scope :active, -> { where(active: true) }
+    scope :inactive, -> { where(active: false) }
 
-      scope :with_orders, joins(:orders).select('distinct(users.id)')
-    end
-
-    # good
-    class User < ActiveRecord::Base
-      scope :active, -> { where(active: true) }
-      scope :inactive, -> { where(active: false) }
-
-      scope :with_orders, -> { joins(:orders).select('distinct(users.id)') }
-    end
-    ```
+    scope :with_orders, -> { joins(:orders).select('distinct(users.id)') }
+  end
+  ```
 
 * <a name="named-scope-class"></a>
   When a named scope defined with a lambda and parameters becomes too
-  complicated, it is preferable to make a class method instead which serves
-  the same purpose of the named scope and returns an `ActiveRecord::Relation`
+  complicated, it is preferable to make a class method instead which serves the
+  same purpose of the named scope and returns an `ActiveRecord::Relation`
   object. Arguably you can define even simpler scopes like this.
   <sup>[[ссылка](#named-scope-class)]</sup>
 
-    ```Ruby
-    class User < ActiveRecord::Base
-      def self.with_orders
-        joins(:orders).select('distinct(users.id)')
-      end
+  ```Ruby
+  class User < ActiveRecord::Base
+    def self.with_orders
+      joins(:orders).select('distinct(users.id)')
     end
-    ```
+  end
+  ```
+
+  Note that this style of scoping can not be chained in the same way as named scopes. For instance:
+
+  ```Ruby
+  # unchainable
+  class User < ActiveRecord::Base
+    def User.old
+      where('age > ?', 80)
+    end
+
+    def User.heavy
+      where('weight > ?', 200)
+    end
+  end
+  ```
+
+  In this style both `old` and `heavy` work individually, but you can not call
+  `User.old.heavy`, to chain these scopes use:
+
+  ```Ruby
+  # chainable
+  class User < ActiveRecord::Base
+    scope :old, -> { where('age > 60') }
+    scope :heavy, -> { where('weight > 200') }
+  end
+  ```
 
 * <a name="beware-update-attribute"></a>
-  Beware of the behavior of the [`update_attribute`](http://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-update_attribute) method. It doesn't  run the model validations (unlike `update_attributes`) and could easily corrupt the model state.
+  Beware of the behavior of the [`update_attribute`
+  ](http://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-update_attribute)
+  method. It doesn't  run the model validations (unlike `update_attributes`)
+  and could easily corrupt the model state.
   <sup>[[ссылка](#beware-update-attribute)]</sup>
 
 * <a name="user-friendly-urls"></a>
-  Use user-friendly URLs. Show some descriptive attribute of the model in the URL rather than its `id`.  There is more than one way to achieve this:
+  Use user-friendly URLs. Show some descriptive attribute of the model
+  in the URL rather than its `id`.  There is more than one way to achieve this:
   <sup>[[ссылка](#user-friendly-urls)]</sup>
 
   * Override the `to_param` method of the model. This method is used by Rails
@@ -498,7 +529,7 @@
       person.party_all_night!
     end
 
-    # good
+    # хорошо
     Person.all.find_each do |person|
       person.do_awesome_stuff
     end
@@ -512,6 +543,7 @@
   Since [Rails creates callbacks for dependent
   associations](https://github.com/rails/rails/issues/3458), always call
   `before_destroy` callbacks that perform validation with `prepend: true`.
+  <sup>[[ссылка](#before_destroy)]</sup>
 
   ```Ruby
   # плохо (roles will be deleted automatically even if super_admin? is true)
@@ -523,7 +555,7 @@
     fail "Cannot delete super admin." if super_admin?
   end
 
-  # good
+  # хорошо
   has_many :roles, dependent: :destroy
 
   before_destroy :ensure_deletable, prepend: true
@@ -531,6 +563,95 @@
   def ensure_deletable
     fail "Cannot delete super admin." if super_admin?
   end
+  ```
+### Запросы ActiveRecord
+
+* <a name="avoid-interpolation"></a>
+  Avoid string interpolation in
+  queries, as it will make your code susceptible to SQL injection
+  attacks.
+  <sup>[[ссылка](#avoid-interpolation)]</sup>
+
+  ```Ruby
+  # плохо - param will be interpolated unescaped
+  Client.where("orders_count = #{params[:orders]}")
+
+  # хорошо - param will be properly escaped
+  Client.where('orders_count = ?', params[:orders])
+  ```
+
+* <a name="named-placeholder"></a>
+  Consider using named placeholders instead of positional placeholders
+  when you have more than 1 placeholder in your query.
+  <sup>[[ссылка](#named-placeholder)]</sup>
+
+  ```Ruby
+  # okish
+  Client.where(
+    'created_at >= ? AND created_at <= ?',
+    params[:start_date], params[:end_date]
+  )
+
+  # хорошо
+  Client.where(
+    'created_at >= :start_date AND created_at <= :end_date',
+    start_date: params[:start_date], end_date: params[:end_date]
+  )
+  ```
+
+* <a name="find"></a>
+  Favor the use of `find` over `where`
+  when you need to retrieve a single record by id.
+  <sup>[[ссылка](#find)]</sup>
+
+  ```Ruby
+  # плохо
+  User.where(id: id).take
+
+  # хорошо
+  User.find(id)
+  ```
+
+* <a name="find_by"></a>
+  Favor the use of `find_by` over `where`
+  when you need to retrieve a single record by some attributes.
+  <sup>[[ссылка](#find_by)]</sup>
+
+  ```Ruby
+  # плохо
+  User.where(first_name: 'Bruce', last_name: 'Wayne').first
+
+  # хорошо
+  User.find_by(first_name: 'Bruce', last_name: 'Wayne')
+  ```
+
+* <a name="find_each"></a>
+  Use `find_each` when you need to process a lot of records.
+  <sup>[[ссылка](#find_each)]</sup>
+
+  ```Ruby
+  # плохо - loads all the records at once
+  # This is very inefficient when the users table has thousands of rows.
+  User.all.each do |user|
+    NewsMailer.weekly(user).deliver_now
+  end
+
+  # хорошо - records are retrieved in batches
+  User.find_each do |user|
+    NewsMailer.weekly(user).deliver_now
+  end
+  ```
+
+* <a name="where-not"></a>
+  Favor the use of `where.not` over SQL.
+  <sup>[[ссылка](#where-not)]</sup>
+
+  ```Ruby
+  # плохо
+  User.where("id != ?", id)
+
+  # хорошо
+  User.where.not(id: id)
   ```
 
 ## Миграции
@@ -693,15 +814,15 @@
   <sup>[[ссылка](#dot-separated-keys)]</sup>
 
   ```Ruby
-  # используте этот вызов
-  I18n.t 'activerecord.errors.messages.record_invalid'
-
-  # вместо вот такого
+  # плохо
   I18n.t :record_invalid, :scope => [:activerecord, :errors, :messages]
+
+  # хорошо
+  I18n.t 'activerecord.errors.messages.record_invalid'
   ```
 
 * <a name="i18n-guides"></a>
-  Более подробную информацию по интернационализации (i18n) в Rails можно найти
+  Более подробную информацию по интернационализации (I18n) в Rails можно найти
   по адресу [API интернационализации Rails
   ](http://rusrails.ru/rails-internationalization-i18n-api) либо
   [Rails Guides](http://guides.rubyonrails.org/i18n.html) (английский оригинал).
@@ -800,11 +921,11 @@
   ```Ruby
   # плохо
   You can always find more info about this course
-  = link_to 'here', course_path(@course)
+  <%= link_to 'here', course_path(@course) %>
 
-  # good
+  # хорошо
   You can always find more info about this course
-  = link_to 'here', course_url(@course)
+  <%= link_to 'here', course_url(@course) %>
   ```
 
 * <a name="email-addresses"></a>
@@ -854,6 +975,43 @@
   преодолеть данное ограничение, вызывая процессы рассылки в фоне, например, при
   помощи гема [sidekiq](https://github.com/mperham/sidekiq).
   <sup>[[ссылка](#background-email)]</sup>
+
+## Время
+
+* <a name="tz-config"></a>
+  Config your timezone accordingly in `application.rb`.
+  <sup>[[ссылка](#time-now)]</sup>
+
+  ```Ruby
+  config.time_zone = 'Eastern European Time'
+  # optional - note it can be only :utc or :local (default is :utc)
+  config.active_record.default_timezone = :local
+  ```
+
+* <a name="time-parse"></a>
+  Don't use `Time.parse`.
+  <sup>[[ссылка](#time-parse)]</sup>
+
+  ```Ruby
+  # плохо
+  Time.parse('2015-03-02 19:05:37') # => Will assume time string given is in the system's time zone.
+
+  # хорошо
+  Time.zone.parse('2015-03-02 19:05:37') # => Mon, 02 Mar 2015 19:05:37 EET +02:00
+  ```
+
+* <a name="time-now"></a>
+  Don't use `Time.now`.
+  <sup>[[ссылка](#time-now)]</sup>
+
+  ```Ruby
+  # плохо
+  Time.now # => Returns system time and ignores your configured time zone.
+
+  # хорошо
+  Time.zone.now # => Fri, 12 Mar 2014 22:04:47 EET +02:00
+  Time.current # Same thing but shorter.
+  ```
 
 ## Bundler
 
@@ -943,13 +1101,13 @@
 Существует несколько отличных источников по стилю офрмления приложений на Rails,
 на которые вы можете взглянуть, если у вас будет свободное время:
 
-<!--- @FIFXME: find russian translations -->
+<!--- @FIXME: Find russian translations. -->
 * [The Rails 4 Way](http://www.amazon.com/The-Rails-Addison-Wesley-Professional-Ruby/dp/0321944275)
 * [Ruby on Rails Guides](http://guides.rubyonrails.org/)
 * [The RSpec Book](http://pragprog.com/book/achbd/the-rspec-book)
 * [The Cucumber Book](http://pragprog.com/book/hwcuc/the-cucumber-book)
 * [Everyday Rails Testing with RSpec](https://leanpub.com/everydayrailsrspec)
-
+* [Better Specs for RSpec](http://betterspecs.org)
 
 # Сотрудничество
 
