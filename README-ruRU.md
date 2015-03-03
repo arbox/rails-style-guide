@@ -979,38 +979,41 @@
 ## Время
 
 * <a name="tz-config"></a>
-  Config your timezone accordingly in `application.rb`.
+  Настройте в файле `application.rb` вашу временную зону.
   <sup>[[ссылка](#time-now)]</sup>
 
   ```Ruby
   config.time_zone = 'Eastern European Time'
-  # optional - note it can be only :utc or :local (default is :utc)
+  # опционально (обратите внимание, возможные значения только :utc или :local,
+  # по умолчанию :utc)
   config.active_record.default_timezone = :local
   ```
 
 * <a name="time-parse"></a>
-  Don't use `Time.parse`.
+  Не используйте `Time.parse`.
   <sup>[[ссылка](#time-parse)]</sup>
 
   ```Ruby
   # плохо
-  Time.parse('2015-03-02 19:05:37') # => Will assume time string given is in the system's time zone.
+  # Подразумевается, что передаваемая строка со временем отражает временную зону вашей ОС.
+  Time.parse('2015-03-02 19:05:37')
 
   # хорошо
   Time.zone.parse('2015-03-02 19:05:37') # => Mon, 02 Mar 2015 19:05:37 EET +02:00
   ```
 
 * <a name="time-now"></a>
-  Don't use `Time.now`.
+  Не используйет `Time.now`.
   <sup>[[ссылка](#time-now)]</sup>
 
   ```Ruby
   # плохо
-  Time.now # => Returns system time and ignores your configured time zone.
+  # Возвращает системное время и не учитывает настройки временной зоны.
+  Time.now
 
   # хорошо
   Time.zone.now # => Fri, 12 Mar 2014 22:04:47 EET +02:00
-  Time.current # Same thing but shorter.
+  Time.current # Более короткая форма записи.
   ```
 
 ## Bundler
