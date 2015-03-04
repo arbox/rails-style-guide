@@ -28,6 +28,8 @@
 * МVC (Model-View-Controller) &mdash; модель-представление-контроллер
 * View &mdash; шаблон (представления)
 * Partial &mdash; подшаблон (представления)
+* Assets &mdash; ресурсы
+* Assets Pipeline &mdash; конвейер ресурсов
 
 [russian]: https://github.com/arbox/rails-style-guide/blob/master/README-ruRU.md
 [english]: https://github.com/bbatsov/rails-style-guide/blob/master/README.md
