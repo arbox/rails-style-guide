@@ -23,6 +23,12 @@
 Если вы хотите оставаться в курсе актуальных изменений, следите за репозиторием
 и жмите на звездочку!
 
+## Терминология
+
+* МVC (Model-View-Controller) &mdash; модель-представление-контроллер
+* View &mdash; шаблон (представления)
+* Partial &mdash; подшаблон (представления)
+
 [russian]: https://github.com/arbox/rails-style-guide/blob/master/README-ruRU.md
 [english]: https://github.com/bbatsov/rails-style-guide/blob/master/README.md
 [bbatsov]: https://github.com/bbatsov
