@@ -77,12 +77,12 @@
   в соответствующих файлах в директории `config/environments/`.
   <sup>[[ссылка](#dev-test-prod-configs)]</sup>
 
-  * Mark additional assets for precompilation (if any):
+  * Укажите добавленные вами ресурсы для комплиляции (при наличии):
 
     ```Ruby
     # config/environments/production.rb
-    # Precompile additional assets (application.js, application.css,
-    # and all non-JS/CSS are already added)
+    # Скомпилируйте дополнительные ресурсы (application.js, application.css,
+    # и прочие не JS/CSS уже добавлены)
     config.assets.precompile += %w( rails_admin/rails_admin.css rails_admin/rails_admin.js )
     ```
 
