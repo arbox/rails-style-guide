@@ -567,26 +567,25 @@
 ### Запросы ActiveRecord
 
 * <a name="avoid-interpolation"></a>
-  Avoid string interpolation in
-  queries, as it will make your code susceptible to SQL injection
-  attacks.
+  Избегайте интерполяции строк в запросах, это сделает ваш код менее уязвимым
+  к атакам типа `SQL injection`.
   <sup>[[ссылка](#avoid-interpolation)]</sup>
 
   ```Ruby
-  # плохо - param will be interpolated unescaped
+  # плохо (param будет вставлен без экранирования)
   Client.where("orders_count = #{params[:orders]}")
 
-  # хорошо - param will be properly escaped
+  # хорошо (param будет экранирован должным образом)
   Client.where('orders_count = ?', params[:orders])
   ```
 
 * <a name="named-placeholder"></a>
-  Consider using named placeholders instead of positional placeholders
-  when you have more than 1 placeholder in your query.
+  Предпочитайте поименованные подстановки вместо позиционных подстановок,
+  если у вас в запросе их более двух.
   <sup>[[ссылка](#named-placeholder)]</sup>
 
   ```Ruby
-  # okish
+  # сойдет
   Client.where(
     'created_at >= ? AND created_at <= ?',
     params[:start_date], params[:end_date]
@@ -600,8 +599,8 @@
   ```
 
 * <a name="find"></a>
-  Favor the use of `find` over `where`
-  when you need to retrieve a single record by id.
+  Отдавайте предпочтение использованию `find` вместо `where`, если вам нужно
+  получить всего одну запись по ее идентификатору.
   <sup>[[ссылка](#find)]</sup>
 
   ```Ruby
@@ -613,8 +612,8 @@
   ```
 
 * <a name="find_by"></a>
-  Favor the use of `find_by` over `where`
-  when you need to retrieve a single record by some attributes.
+  Отдавайте предпочтение использованию `find_by` вместо `where`, если вам нужно
+  получить всего одну запись по значению какого-то ее атрибута.
   <sup>[[ссылка](#find_by)]</sup>
 
   ```Ruby
@@ -626,24 +625,24 @@
   ```
 
 * <a name="find_each"></a>
-  Use `find_each` when you need to process a lot of records.
+  Используйте `find_each`, когда вам нужно работать с целым рядом записей.
   <sup>[[ссылка](#find_each)]</sup>
 
   ```Ruby
-  # плохо - loads all the records at once
-  # This is very inefficient when the users table has thousands of rows.
+  # плохо (загружает все записи сразу)
+  # Это очень неэффективно в случае, когда таблица пользователей имеет тысячи записей.
   User.all.each do |user|
     NewsMailer.weekly(user).deliver_now
   end
 
-  # хорошо - records are retrieved in batches
+  # хорошо (записи запрашиваются порциями)
   User.find_each do |user|
     NewsMailer.weekly(user).deliver_now
   end
   ```
 
 * <a name="where-not"></a>
-  Favor the use of `where.not` over SQL.
+  Используйте `where.not` вместо простого SQL.
   <sup>[[ссылка](#where-not)]</sup>
 
   ```Ruby
