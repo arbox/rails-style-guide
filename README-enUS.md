@@ -93,6 +93,16 @@ programming resources.
   `production` one.
 <sup>[[link](#staging-like-prod)]</sup>
 
+* <a name="yaml-config"></a>
+  Keep any additional configuration in YAML files under the `config/` directory.
+<sup>[[link](#yaml-config)]</sup>
+
+  Since Rails 4.2 YAML configuration files can be easily loaded with the new `config_for` method:
+
+  ```Ruby
+  Rails::Application.config_for(:yaml_file)
+  ```
+
 ## Routing
 
 * <a name="member-collection-routes"></a>
@@ -434,7 +444,7 @@ programming resources.
   end
   ```
 
-  Note that this style of scoping can not be chained in the same way as named scopes. For instance:
+  Note that this style of scoping cannot be chained in the same way as named scopes. For instance:
 
   ```Ruby
   # unchainable
@@ -449,7 +459,7 @@ programming resources.
   end
   ```
 
-  In this style both `old` and `heavy` work individually, but you can not call `User.old.heavy`, to chain these scopes use:
+  In this style both `old` and `heavy` work individually, but you cannot call `User.old.heavy`, to chain these scopes use:
 
   ```Ruby
   # chainable
