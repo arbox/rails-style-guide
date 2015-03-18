@@ -96,13 +96,13 @@
   вашим окружением `production`.
   <sup>[[ссылка](#staging-like-prod)]</sup>
 
-<!--- @FIXME -->
 * <a name="yaml-config"></a>
-  Keep any additional configuration in YAML files under the `config/` directory.
+  Храните любые дополнительные файлы конфиругации в формате YAML в директории
+  `config/`.
   <sup>[[link](#yaml-config)]</sup>
 
-  Since Rails 4.2 YAML configuration files can be easily loaded with the new
-  `config_for` method:
+  Начиная с `Rails 4.2` файлы конфиругации в `YAML` можно легко загружать при
+  помощи нового метода `config_for`:
 
   ```Ruby
   Rails::Application.config_for(:yaml_file)
