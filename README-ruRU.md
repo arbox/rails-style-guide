@@ -25,7 +25,7 @@
 
 # Руководство по стилю оформления Rails
 
-Настоящее руководство по стилю рекомендует лучшие практики оформленя, благодаря
+Настоящее руководство по стилю рекомендует лучшие практики оформления, благодаря
 которым обычные разработчики на Rails смогут писать код, который с легкостью
 будут поддерживать другие обычные программисты. Руководство по оформлению,
 которое отражает повседневные реалии, будет применяться постоянно,
@@ -136,22 +136,22 @@
     ```
 
 * <a name="many-member-collection-routes"></a>
-  If you need to define multiple `member/collection` routes use the alternative
-  block syntax.
+  Когда вам нужно определить несколько контекстов маршрутизации при помощи
+  `member/collection`, используйте альтернативную блочную запись.
   <sup>[[ссылка](#many-member-collection-routes)]</sup>
 
     ```Ruby
     resources :subscriptions do
       member do
         get 'unsubscribe'
-        # more routes
+        # дополнительные маршруты
       end
     end
 
     resources :photos do
       collection do
         get 'search'
-        # more routes
+        # дополнительные маршруты
       end
     end
     ```
@@ -199,7 +199,8 @@
     ```
 
 * <a name="no-match-routes"></a>
-  Don't use `match` to define any routes. It's removed from Rails 4.
+  Избегайте использования `#match` для определения маршрутов. Эта возможность
+  удалена из `Rails 4`.
   <sup>[[ссылка](#no-match-routes)]</sup>
 
 ## Контроллеры
