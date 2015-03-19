@@ -30,6 +30,8 @@
 * Partial &mdash; подшаблон (представления)
 * Assets &mdash; ресурсы
 * Assets Pipeline &mdash; конвейер ресурсов
+* (Controller) Action &mdash; действие
+* Namespace &mdash; пространство имен
 
 [russian]: https://github.com/arbox/rails-style-guide/blob/master/README-ruRU.md
 [english]: https://github.com/bbatsov/rails-style-guide/blob/master/README.md

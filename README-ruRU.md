@@ -111,7 +111,7 @@
 
 * <a name="member-collection-routes"></a>
   Если вам требуется добавить дополнительные действия к ресурсу REST (и вы
-  уверены, что это вам абсолютно нужно), то используйте пути `member`
+  уверены, что это вам абсолютно необходимо), то используйте пути `member`
   и `collection`.
   <sup>[[ссылка](#member-collection-routes)]</sup>
 
@@ -157,8 +157,8 @@
     ```
 
 * <a name="nested-routes"></a>
-  Use nested routes to express better the relationship between ActiveRecord
-  models.
+  Используйте вложенные определения маршрутов, чтобы лучше показать отношения
+  между разными моделями `ActiveRecord`.
   <sup>[[ссылка](#nested-routes)]</sup>
 
     ```Ruby
@@ -177,20 +177,21 @@
     ```
 
 * <a name="namespaced-routes"></a>
-  Use namespaced routes to group related actions.
+  Используйте определенные в отдельном пространстве имен маршруты, чтобы
+  объединить связанные действия.
   <sup>[[ссылка](#namespaced-routes)]</sup>
 
     ```Ruby
     namespace :admin do
-      # Directs /admin/products/* to Admin::ProductsController
+      # Направляет /admin/products/* to Admin::ProductsController
       # (app/controllers/admin/products_controller.rb)
       resources :products
     end
     ```
 
 * <a name="no-wild-routes"></a>
-  Never use the legacy wild controller route. This route will make all actions
-  in every controller accessible via GET requests.
+  Избегайте устаревшей обобщенной формы записи маршрутов. Такие маршруты откроют
+  все действия во всех контроллерах для запросов `GET`.
   <sup>[[ссылка](#no-wild-routes)]</sup>
 
     ```Ruby
