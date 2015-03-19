@@ -362,7 +362,7 @@
       self[:amount] * 100
     end
     ```
-
+<!--- @FIXME -->
 * <a name="write-attribute"></a>
   Prefer `self[:attribute] = value` over `write_attribute(:attribute, value)`.
   <sup>[[ссылка](#write-attribute)]</sup>
