@@ -362,9 +362,10 @@
       self[:amount] * 100
     end
     ```
-<!--- @FIXME -->
+
 * <a name="write-attribute"></a>
-  Prefer `self[:attribute] = value` over `write_attribute(:attribute, value)`.
+  Преимущественно используйте `self[:attribute] = value` вместо
+  `write_attribute(:attribute, value)`.
   <sup>[[ссылка](#write-attribute)]</sup>
 
   ```Ruby
@@ -380,7 +381,8 @@
   ```
 
 * <a name="sexy-validations"></a>
-  Always use the new ["sexy" validations
+  Всегда применяйте новый синтаксис валидаций, так называемые ["sexy"
+  validations
   ](http://thelucid.com/2010/01/08/sexy-validation-in-edge-rails-rails-3/).
   <sup>[[ссылка](#sexy-validations)]</sup>
 
@@ -394,8 +396,9 @@
   ```
 
 * <a name="custom-validator-file"></a>
-  When a custom validation is used more than once or the validation is some
-  regular expression mapping, create a custom validator file.
+  Если определенная разработчиком валидация исользуется несколько раз или
+  содержит сложные (регулярные) выражения, то стоит ее вынести в отдельный файл
+  валидаторов.
   <sup>[[ссылка](#custom-validator-file)]</sup>
 
   ```Ruby
@@ -427,7 +430,7 @@
   <sup>[[ссылка](#custom-validators-gem)]</sup>
 
 * <a name="named-scopes"></a>
-  Use named scopes freely.
+  Спокойно применяйте поименованные области поиска.
   <sup>[[ссылка](#named-scopes)]</sup>
 
   ```Ruby
@@ -440,10 +443,11 @@
   ```
 
 * <a name="named-scope-class"></a>
-  When a named scope defined with a lambda and parameters becomes too
-  complicated, it is preferable to make a class method instead which serves the
-  same purpose of the named scope and returns an `ActiveRecord::Relation`
-  object. Arguably you can define even simpler scopes like this.
+  Если поименованная область поиска определяется с помощью `lambda`
+  с дополнительными параметрами, то такая запись очень быстро может стать
+  слишком сложной. В таком случае лучше определить метод класса, который будет
+  служить той же цели и возвращать объект класса `ActiveRecord::Relation`.
+  Наверное, этим же образом можно определять и более простые области поиска.
   <sup>[[ссылка](#named-scope-class)]</sup>
 
   ```Ruby
@@ -454,11 +458,11 @@
   end
   ```
 
-  Note that this style of scoping cannot be chained in the same way as named
-  scopes. For instance:
+  Стоит отметить, что определенные таким образом области поиска не могут
+  объединяться в цепочки вызовов, как области поиска. Например:
 
   ```Ruby
-  # unchainable
+  # нельзя объединить
   class User < ActiveRecord::Base
     def User.old
       where('age > ?', 80)
@@ -470,11 +474,12 @@
   end
   ```
 
-  In this style both `old` and `heavy` work individually, but you cannot call
-  `User.old.heavy`, to chain these scopes use:
+  Определенные в этом стиле `old` и `heavy` работают каждый по отдельности, но
+  вызов `User.old.heavy` не сработает, для объединения областей поиска запись
+  должна быть такой:
 
   ```Ruby
-  # chainable
+  # можно объединить
   class User < ActiveRecord::Base
     scope :old, -> { where('age > 60') }
     scope :heavy, -> { where('weight > 200') }
@@ -482,12 +487,14 @@
   ```
 
 * <a name="beware-update-attribute"></a>
-  Beware of the behavior of the [`update_attribute`
-  ](http://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-update_attribute)
-  method. It doesn't  run the model validations (unlike `update_attributes`)
-  and could easily corrupt the model state.
+  Осознайте принцип работы метода [`update_attribute`
+  ](http://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-update_attribute).
+  Он не вызывает валидации моделей (в отличие от
+  `update_attributes`) и может быстро привести к появлению ошибочных записей в
+  базе данных.
   <sup>[[ссылка](#beware-update-attribute)]</sup>
 
+<!--- @FIXME -->
 * <a name="user-friendly-urls"></a>
   Use user-friendly URLs. Show some descriptive attribute of the model
   in the URL rather than its `id`.  There is more than one way to achieve this:
