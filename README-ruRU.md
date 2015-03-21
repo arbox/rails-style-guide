@@ -1089,24 +1089,26 @@
 В настоящем списке перечислены гемы, которые либо имеют проблемы в реализации,
 либо имеют лучшие аналоги. Вам не следует применять их в своих проектах.
 
-* [rmagick](http://rmagick.rubyforge.org/) - this gem is notorious
-  for its memory consumption.
-  Use [minimagick](https://github.com/probablycorey/mini_magick) instead.
+* [rmagick](http://rmagick.rubyforge.org/) &mdash; эта библиотека широко
+  известна своими проблемами в управлении памятью. Используйте вместо нее
+  [minimagick](https://github.com/probablycorey/mini_magick).
 
 
-* [autotest](http://www.zenspider.com/ZSS/Products/ZenTest/) - old solution
-  for running tests automatically. Far  inferior to
-  [guard](https://github.com/guard/guard) and
+* [autotest](http://www.zenspider.com/ZSS/Products/ZenTest/) &mdash;  старое
+  решение для автоматизации запуска тестов. Оно значительно уступает
+  [guard](https://github.com/guard/guard) и
   [watchr](https://github.com/mynyml/watchr).
 
 
-* [rcov](https://github.com/relevance/rcov) - code coverage tool, not compatible
-  with Ruby 1.9. Use [SimpleCov](https://github.com/colszowka/simplecov) instead.
+* [rcov](https://github.com/relevance/rcov) &mdash; утилита оценки покрытия
+  кода тестами. Она несовместима с Руби `>= 1.9`. Используйте вместо нее
+  [SimpleCov](https://github.com/colszowka/simplecov).
 
 
-* [therubyracer](https://github.com/cowboyd/therubyracer) - the use of this gem
-  in production is strongly discouraged as it uses a very large amount
-  of memory. I'd suggest using `node.js` instead.
+* [therubyracer](https://github.com/cowboyd/therubyracer) &mdash; применение
+  этого гема при развертывании приложении не рекомендуется по причине того,
+  что эта библиотека использует огромный объем оперативной памяти.
+  Применяйте напрямую `node.js` в чистом виде.
 
 
 Работа над этим списком лишь начата. Пожалуйста, если вы знаете о популярных,
