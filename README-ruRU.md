@@ -687,36 +687,36 @@
   <sup>[[ссылка](#db-schema-load)]</sup>
 
 * <a name="default-migration-values"></a>
-  Enforce default values in the migrations themselves instead of in the
-  application layer.
+  Устанавливайте стандартные значения в миграциях, а не в логике вашего
+  приложения.
   <sup>[[ссылка](#default-migration-values)]</sup>
 
   ```Ruby
-  # плохо - application enforced default value
+  # плохо (стандартное значение устанавливается в приложении)
   def amount
     self[:amount] or 0
   end
   ```
 
-  While enforcing table defaults only in Rails is suggested by many
-  Rails developers, it's an extremely brittle approach that
-  leaves your data vulnerable to many application bugs.  And you'll
-  have to consider the fact that most non-trivial apps share a
-  database with other applications, so imposing data integrity from
-  the Rails app is impossible.
+  Многие опытные разработчики на `Rails` рекомендуют устанавливать стандартные
+  значения только на уровне приложения и миграций, однако этот подход скрывает
+  множество уязвимостей и потенциальных ошибок. Кроме этого, стоит рассмотреть
+  тот момент, что большиство сложных приложений используют одну совместную базу
+  данных вместе с другими приложениями, поэтому логика проверки, реализованная
+  в приложении на `Rails`, будет недоступа из других приложений.
 
 * <a name="foreign-key-constraints"></a>
-  Enforce foreign-key constraints. As of Rails 4.2, ActiveRecord
-  supports foreign key constraints natively.
+  Устанавливайте ограничения на вторичные ключи. С `Rails 4.2` библиотека
+  `ActiveRecord` поддерживает вторичные ключи напрямую.
   <sup>[[ссылка](#foreign-key-constraints)]</sup>
 
 * <a name="change-vs-up-down"></a>
-  When writing constructive migrations (adding tables or columns),
-  use the `change` method instead of `up` and `down` methods.
+  При написании миграций для добавления таблиц или столбцов создавайте метод
+  `change` вместо методов `up` и `down`.
   <sup>[[ссылка](#change-vs-up-down)]</sup>
 
   ```Ruby
-  # the old way
+  # старый способ
   class AddNameToPeople < ActiveRecord::Migration
     def up
       add_column :people, :name, :string
@@ -727,7 +727,7 @@
     end
   end
 
-  # the new prefered way
+  # новый предпочтительный способ
   class AddNameToPeople < ActiveRecord::Migration
     def change
       add_column :people, :name, :string
@@ -736,10 +736,10 @@
   ```
 
 * <a name="no-model-class-migrations"></a>
-  Don't use model classes in migrations. The model classes are constantly
-  evolving and at some point in the future migrations that used to work might
-  stop, because of changes in the models used.
-<sup>[[ссылка](#no-model-class-migrations)]</sup>
+  Не используйте классы моделей в миграциях. Классы моделей постоянно меняются,
+  неизбежно наступит момент, когда код миграций перестанет работать из-за
+  изменений в модели, хотя ранее этот код работал без проблем.
+  <sup>[[ссылка](#no-model-class-migrations)]</sup>
 
 ## Представления
 
