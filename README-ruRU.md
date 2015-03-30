@@ -918,7 +918,7 @@
   ```
 
 * <a name="default-hostname"></a>
-  Provide default settings for the host name.
+  Указывайте стандартные настройки имени вашего узла.
   <sup>[[ссылка](#default-hostname)]</sup>
 
   ```Ruby
@@ -928,15 +928,15 @@
   # config/environments/production.rb
   config.action_mailer.default_url_options = { host: 'your_site.com' }
 
-  # in your mailer class
+  # в вашем классе мейлера
   default_url_options[:host] = 'your_site.com'
   ```
 
 * <a name="url-not-path-in-email"></a>
-  If you need to use a link to your site in an email, always use the `_url`, not
-  `_path` methods. The `_url` methods include the host name and the `_path`
-  methods don't.
-<sup>[[ссылка](#url-not-path-in-email)]</sup>
+  Если вам нужно указать ссылку на ваш сайт в тексте письма, всегда используйте
+  методы с суффиксом `_url`, а не `_path`. Методы с суффиксом `_url` включают
+  имя вашего узла в текст ссылки, а с суффиксом `_path` не включают.
+  <sup>[[ссылка](#url-not-path-in-email)]</sup>
 
   ```Ruby
   # плохо
@@ -949,17 +949,18 @@
   ```
 
 * <a name="email-addresses"></a>
-  Format the from and to addresses properly. Use the following format:
-<sup>[[ссылка](#email-addresses)]</sup>
+  Записывайте адреса отправителя и получателя должным образом. Используйте
+  следующий формат:
+  <sup>[[ссылка](#email-addresses)]</sup>
 
   ```Ruby
-  # in your mailer class
+  # в классе мейлера
   default from: 'Your Name <info@your_site.com>'
   ```
 
 * <a name="delivery-method-test"></a>
-  Make sure that the e-mail delivery method for your test environment is set to
-  `test`:
+  Убедитесь в том, что метод доставки писем в вашем тестовом окружении обозначен
+  как `test`:
   <sup>[[ссылка](#delivery-method-test)]</sup>
 
   ```Ruby
