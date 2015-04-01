@@ -32,6 +32,10 @@
 * Assets Pipeline &mdash; конвейер ресурсов
 * (Controller) Action &mdash; действие
 * Namespace &mdash; пространство имен
+* Окружения
+  * development &mdash; рабочее
+  * test &mdash; тестовое
+  * production &mdash; промышленное
 
 [russian]: https://github.com/arbox/rails-style-guide/blob/master/README-ruRU.md
 [english]: https://github.com/bbatsov/rails-style-guide/blob/master/README.md
