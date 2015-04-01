@@ -22,7 +22,7 @@
 * [турецкий](https://github.com/tolgaavci/rails-style-guide/blob/master/README-trTR.md)
 * [японский](https://github.com/satour/rails-style-guide/blob/master/README-jaJA.md)
 
-# Руководство по стилю оформления Rails
+# Rails: руководство по стилю оформления
 
 Настоящее руководство по стилю рекомендует лучшие практики оформления, благодаря
 которым обычные разработчики на Rails смогут писать код, который с легкостью
