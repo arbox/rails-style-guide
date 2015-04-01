@@ -280,34 +280,34 @@
 
   ```Ruby
   class User < ActiveRecord::Base
-    # keep the default scope first (if any)
+    # записывайте стандартную область видимости в начале (если имеется)
     default_scope { where(active: true) }
 
-    # constants come up next
+    # после этого записывайте константы
     COLORS = %w(red green blue)
 
-    # afterwards we put attr related macros
+    # далее следуют макросы доступа к атрибутам
     attr_accessor :formatted_date_of_birth
 
     attr_accessible :login, :first_name, :last_name, :email, :password
 
-    # followed by association macros
+    # за которыми следуют макросы ассоциаций
     belongs_to :country
 
     has_many :authentications, dependent: :destroy
 
-    # and validation macros
+    # и макросы валидаций
     validates :email, presence: true
     validates :username, presence: true
     validates :username, uniqueness: { case_sensitive: false }
     validates :username, format: { with: /\A[A-Za-z][A-Za-z0-9._-]{2,19}\z/ }
     validates :password, format: { with: /\A\S{8,128}\z/, allow_nil: true}
 
-    # next we have callbacks
+    # после этого идут функции обратного вызова (callbacks)
     before_save :cook
     before_save :update_username_lower
 
-    # other macros (like devise's) should be placed after the callbacks
+    # оставшиеся макросы (например, Devise) дожны записываться в конце
 
     ...
   end
@@ -487,23 +487,23 @@
   ```
 
 * <a name="beware-update-attribute"></a>
-  Осознайте принцип работы метода [`update_attribute`
+  Поймите принцип работы метода [`update_attribute`
   ](http://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-update_attribute).
   Он не вызывает валидации моделей (в отличие от
   `update_attributes`) и может быстро привести к появлению ошибочных записей в
   базе данных.
   <sup>[[ссылка](#beware-update-attribute)]</sup>
 
-<!--- @FIXME -->
 * <a name="user-friendly-urls"></a>
-  Use user-friendly URLs. Show some descriptive attribute of the model
-  in the URL rather than its `id`.  There is more than one way to achieve this:
+  Используйте дружественную пользователю запись URL. Указывайте в URL какой-то
+  говорящий сам за себя атрибут модели, а не `id`. Есть несколько путей для
+  достижения такого результата:
   <sup>[[ссылка](#user-friendly-urls)]</sup>
 
-  * Override the `to_param` method of the model. This method is used by Rails
-    for constructing a URL to the object. The default implementation returns the
-    `id` of the record as a String. It could be overridden to include another
-    human-readable attribute.
+  * Переопределите метод `to_param` в модели. Это метод используется в `Rails`
+    для генерирования URL к объекту. Стандартная реализация возвращает `id`
+    объекта (записи) в виде строки. Это поведение можно переопределить и
+    включить некоторый понятный человеку атрибут.
 
         ```Ruby
         class Person
@@ -513,12 +513,13 @@
         end
         ```
 
-    In order to convert this to a URL-friendly value, `parameterize` should be
-    called on the string. The `id` of the object needs to be at the beginning so
-    that it can be found by the `find` method of ActiveRecord.
+    Чтобы преобразовать эту форму в более адекватную для URL, нужно вызвать
+    метод `parameterize` на строковом объекте. Идентификатор `id` объекта должен
+    быть в начале строки, чтобы его мог найти метод `find` библиотеки
+    `ActiveRecord`.
 
-  * Use the `friendly_id` gem. It allows creation of human-readable URLs by using
-    some descriptive attribute of the model instead of its `id`.
+  * Используйте гем `friendly_id`. Эта библиотека создает легко читаемые URL
+    с использованием некоторых говорящих атрибутов моделей вместо `id`.
 
         ```Ruby
         class Person
@@ -527,16 +528,17 @@
         end
         ```
 
-  Check the [gem documentation](https://github.com/norman/friendly_id)
-  for more information about its usage.
+
+    Изучите [документацию гема](https://github.com/norman/friendly_id), чтобы
+    лучше разобраться в его применении.
 
 * <a name="find-each"></a>
-  Use `find_each` to iterate over a collection of AR objects. Looping through
-  a collection of records from the database (using the `all`
-  method, for example) is very inefficient since it will try to
-  instantiate all the objects at once. In that case, batch processing
-  methods allow you to work with the records in batches, thereby
-  greatly reducing memory consumption.
+  Используйте `find_each` для обхода коллекций объектов `ActiveRecord`. Перебор
+  объектов записей базы данных в цикле (например, с использованием метода `all`)
+  крайне неэффективен, так как в данном случае в памяти будут созданы все
+  интересующие нас объекты за раз. Для такого рода задач больше подходит
+  пакетная обработка, при которой методы вызывают записи порциями, что
+  значительно сокращает потребление памяти.
   <sup>[[ссылка](#find-each)]</sup>
 
 
@@ -561,13 +563,13 @@
     ```
 
 * <a name="before_destroy"></a>
-  Since [Rails creates callbacks for dependent
-  associations](https://github.com/rails/rails/issues/3458), always call
-  `before_destroy` callbacks that perform validation with `prepend: true`.
+  [Rails создает методы обратного вызова для зависимых
+  ассоциаций](https://github.com/rails/rails/issues/3458), поэтому всегда
+  вызывайте метод `before_destroy` для валидации с параметром `prepend: true`.
   <sup>[[ссылка](#before_destroy)]</sup>
 
   ```Ruby
-  # плохо (roles will be deleted automatically even if super_admin? is true)
+  # плохо (роли будут удалены в любом случае, даже super_admin? верен)
   has_many :roles, dependent: :destroy
 
   before_destroy :ensure_deletable
