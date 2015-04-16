@@ -18,6 +18,7 @@
 * [английский (исходная версия)](https://github.com/bbatsov/rails-style-guide/blob/master/README.md)
 * [китайский традиционный](https://github.com/JuanitoFatas/rails-style-guide/blob/master/README-zhTW.md)
 * [китайский упрощенный](https://github.com/JuanitoFatas/rails-style-guide/blob/master/README-zhCN.md)
+* [корейский](https://github.com/pureugong/rails-style-guide/blob/master/README-koKR.md)
 * [русский (данный документ)](https://github.com/arbox/rails-style-guide/blob/master/README-ruRU.md)
 * [турецкий](https://github.com/tolgaavci/rails-style-guide/blob/master/README-trTR.md)
 * [японский](https://github.com/satour/rails-style-guide/blob/master/README-jaJA.md)
