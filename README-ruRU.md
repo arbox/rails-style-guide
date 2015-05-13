@@ -1029,7 +1029,7 @@
   ```
 
 * <a name="time-now"></a>
-  Не используйет `Time.now`.
+  Не используйте `Time.now`.
   <sup>[[ссылка](#time-now)]</sup>
 
   ```Ruby
