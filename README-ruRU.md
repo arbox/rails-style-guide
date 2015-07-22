@@ -19,6 +19,7 @@
 * [китайский традиционный](https://github.com/JuanitoFatas/rails-style-guide/blob/master/README-zhTW.md)
 * [китайский упрощенный](https://github.com/JuanitoFatas/rails-style-guide/blob/master/README-zhCN.md)
 * [корейский](https://github.com/pureugong/rails-style-guide/blob/master/README-koKR.md)
+* [немецкий](https://github.com/arbox/de-rails-style-guide/blob/master/README-deDE.md)
 * [русский (данный документ)](https://github.com/arbox/rails-style-guide/blob/master/README-ruRU.md)
 * [турецкий](https://github.com/tolgaavci/rails-style-guide/blob/master/README-trTR.md)
 * [японский](https://github.com/satour/rails-style-guide/blob/master/README-jaJA.md)
@@ -176,6 +177,19 @@
       resources :comments
     end
     ```
+* <a name="namespaced-routes"></a>
+  Если существует необходимость делать несколько уровней вложенности, то следует
+  применять опцию `shallow: true`. Это оградит пользователя от длинных URL
+  `posts/1/comments/5/versions/7/edit` и вас от применения длинных наименований
+  вроде `edit_post_comment_version`.
+
+  ```Ruby
+  resources :posts, shallow: true do
+    resources :comments do
+      resources :versions
+    end
+  end
+  ```
 
 * <a name="namespaced-routes"></a>
   Используйте определенные в отдельном пространстве имен маршруты, чтобы
@@ -678,6 +692,36 @@
   User.where.not(id: id)
   ```
 
+* <a name="squished-heredocs"></a>
+  При явном формулировании запроса в таких методах, как `find_by_sql`,
+  используйте HEREDOC в сочетании с методом `squish`. Это позволит вам
+  оформить код SQL читаемым образом с переносами строк и отступами и
+  сохранит подержку подсветки синтаксиса на большинстве платформ (GitHub, Atom,
+  RubyMine).
+  <sup>[[link](#squished-heredocs)]</sup>
+
+  ```Ruby
+  User.find_by_sql(<<SQL.squish)
+    SELECT
+      users.id, accounts.plan
+    FROM
+      users
+    INNER JOIN
+      accounts
+    ON
+      accounts.user_id = users.id
+    # прочие детали...
+  SQL
+  ```
+
+  [`String#squish`](http://apidock.com/rails/String/squish) удаляет отступы и
+  переносы, таким образом запросы будут отображаться в виде обычных строк, а не
+  в виде вот таких последовательностей:
+
+  ```
+  SELECT\n    users.id, accounts.plan\n  FROM\n    users\n  INNER JOIN\n    acounts\n  ON\n    accounts.user_id = users.id
+  ```
+
 ## Миграции
 
 * <a name="schema-version"></a>
@@ -1006,7 +1050,7 @@
 
 * <a name="tz-config"></a>
   Настройте в файле `application.rb` вашу временную зону.
-  <sup>[[ссылка](#time-now)]</sup>
+  <sup>[[ссылка](#tz-config)]</sup>
 
   ```Ruby
   config.time_zone = 'Eastern European Time'
