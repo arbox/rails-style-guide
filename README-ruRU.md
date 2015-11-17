@@ -520,13 +520,13 @@
     объекта (записи) в виде строки. Это поведение можно переопределить и
     включить некоторый понятный человеку атрибут.
 
-        ```Ruby
-        class Person
-          def to_param
-            "#{id} #{name}".parameterize
-          end
-        end
-        ```
+    ```Ruby
+    class Person
+      def to_param
+        "#{id} #{name}".parameterize
+      end
+    end
+    ```
 
     Чтобы преобразовать эту форму в более адекватную для URL, нужно вызвать
     метод `parameterize` на строковом объекте. Идентификатор `id` объекта должен
@@ -536,12 +536,12 @@
   * Используйте гем `friendly_id`. Эта библиотека создает легко читаемые URL
     с использованием некоторых говорящих атрибутов моделей вместо `id`.
 
-        ```Ruby
-        class Person
-          extend FriendlyId
-          friendly_id :name, use: :slugged
-        end
-        ```
+    ```Ruby
+    class Person
+      extend FriendlyId
+      friendly_id :name, use: :slugged
+    end
+    ```
 
 
     Изучите [документацию гема](https://github.com/norman/friendly_id), чтобы
