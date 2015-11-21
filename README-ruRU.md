@@ -316,7 +316,7 @@
     validates :username, presence: true
     validates :username, uniqueness: { case_sensitive: false }
     validates :username, format: { with: /\A[A-Za-z][A-Za-z0-9._-]{2,19}\z/ }
-    validates :password, format: { with: /\A\S{8,128}\z/, allow_nil: true}
+    validates :password, format: { with: /\A\S{8,128}\z/, allow_nil: true }
 
     # после этого идут функции обратного вызова (callbacks)
     before_save :cook
@@ -470,34 +470,6 @@
     def self.with_orders
       joins(:orders).select('distinct(users.id)')
     end
-  end
-  ```
-
-  Стоит отметить, что определенные таким образом области поиска не могут
-  объединяться в цепочки вызовов, как обычные области поиска. Например:
-
-  ```Ruby
-  # нельзя объединить
-  class User < ActiveRecord::Base
-    def User.old
-      where('age > ?', 80)
-    end
-
-    def User.heavy
-      where('weight > ?', 200)
-    end
-  end
-  ```
-
-  Определенные в этом стиле `.old` и `.heavy` работают каждый по отдельности, но
-  вызов `User.old.heavy` не сработает, для объединения областей поиска запись
-  должна быть такой:
-
-  ```Ruby
-  # можно объединить
-  class User < ActiveRecord::Base
-    scope :old, -> { where('age > 60') }
-    scope :heavy, -> { where('weight > 200') }
   end
   ```
 
@@ -833,8 +805,9 @@
 
 * <a name="organize-locale-files"></a>
   Разделяйте файлы с переводами представлений от переводов атрибутов
-  `ActiveRecord`. Размещайте файлы локалей для моделей в директории `models`, а
-  используемые в представлениях тексты в директории `views`.
+  `ActiveRecord`. Размещайте файлы локалей для моделей в директории
+  `locales/models`, а используемые в представлениях тексты в директории
+  `locales/views`.
   <sup>[[ссылка](#organize-locale-files)]</sup>
 
   * Если файлы локалей сохраняются в дополнительных директориях, то пути к ним
@@ -883,7 +856,7 @@
 
   ```Ruby
   # плохо
-  I18n.t :record_invalid, :scope => [:activerecord, :errors, :messages]
+  I18n.t :record_invalid, scope: [:activerecord, :errors, :messages]
 
   # хорошо
   I18n.t 'activerecord.errors.messages.record_invalid'
