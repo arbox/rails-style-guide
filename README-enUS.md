@@ -305,7 +305,7 @@ programming resources.
     validates :username, presence: true
     validates :username, uniqueness: { case_sensitive: false }
     validates :username, format: { with: /\A[A-Za-z][A-Za-z0-9._-]{2,19}\z/ }
-    validates :password, format: { with: /\A\S{8,128}\z/, allow_nil: true}
+    validates :password, format: { with: /\A\S{8,128}\z/, allow_nil: true }
 
     # next we have callbacks
     before_save :cook
@@ -455,32 +455,6 @@ programming resources.
     end
   end
   ```
-
-  Note that this style of scoping cannot be chained in the same way as named scopes. For instance:
-
-  ```Ruby
-  # unchainable
-  class User < ActiveRecord::Base
-    def User.old
-      where('age > ?', 80)
-    end
-
-    def User.heavy
-      where('weight > ?', 200)
-    end
-  end
-  ```
-
-  In this style both `old` and `heavy` work individually, but you cannot call `User.old.heavy`, to chain these scopes use:
-
-  ```Ruby
-  # chainable
-  class User < ActiveRecord::Base
-    scope :old, -> { where('age > 60') }
-    scope :heavy, -> { where('weight > 200') }
-  end
-  ```
-
 
 * <a name="beware-update-attribute"></a>
   Beware of the behavior of the
@@ -807,8 +781,8 @@ when you need to retrieve a single record by some attributes.
 
 * <a name="organize-locale-files"></a>
   Separate the texts used in the views from translations of ActiveRecord
-  attributes. Place the locale files for the models in a folder `models` and the
-  texts used in the views in folder `views`.
+  attributes. Place the locale files for the models in a folder `locales/models` and the
+  texts used in the views in folder `locales/views`.
 <sup>[[link](#organize-locale-files)]</sup>
 
   * When organization of the locale files is done with additional directories,
@@ -857,7 +831,7 @@ when you need to retrieve a single record by some attributes.
 
   ```Ruby
   # bad
-  I18n.t :record_invalid, :scope => [:activerecord, :errors, :messages]
+  I18n.t :record_invalid, scope: [:activerecord, :errors, :messages]
 
   # good
   I18n.t 'activerecord.errors.messages.record_invalid'
