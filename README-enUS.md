@@ -46,6 +46,7 @@ programming resources.
 * [Configuration](#configuration)
 * [Routing](#routing)
 * [Controllers](#controllers)
+  * [Rendering](#rendering)
 * [Models](#models)
   * [ActiveRecord](#activerecord)
   * [ActiveRecord Queries](#activerecord-queries)
@@ -54,6 +55,7 @@ programming resources.
 * [Internationalization](#internationalization)
 * [Assets](#assets)
 * [Mailers](#mailers)
+* [Active Support Core Extensions](#active-support-core-extensions)
 * [Time](#time)
 * [Bundler](#bundler)
 * [Managing processes](#managing-processes)
@@ -171,10 +173,10 @@ programming resources.
     resources :comments
   end
   ```
-  
+
 * <a name="namespaced-routes"></a>
   If you need to nest routes more than 1 level deep then use the `shallow: true` option. This will save user from long urls `posts/1/comments/5/versions/7/edit` and you from long url helpers `edit_post_comment_version`.
-  
+
   ```Ruby
   resources :posts, shallow: true do
     resources :comments do
@@ -225,6 +227,58 @@ programming resources.
 * <a name="shared-instance-variables"></a>
   Share no more than two instance variables between a controller and a view.
 <sup>[[link](#shared-instance-variables)]</sup>
+
+
+### Rendering
+
+* <a name="inline-rendering"></a>
+  Prefer using a template over inline rendering.
+<sup>[[link](#inline-rendering)]</sup>
+
+```Ruby
+# very bad
+class ProductsController < ApplicationController
+  def index
+    render inline: "<% products.each do |p| %><p><%= p.name %></p><% end %>", type: :erb
+  end
+end
+
+# good
+## app/views/products/index.html.erb
+<%= render partial: 'product', collection: products %>
+
+## app/views/products/_product.html.erb
+<p><%= product.name %></p>
+<p><%= product.price %></p>
+
+## app/controllers/foo_controller.rb
+class ProductsController < ApplicationController
+  def index
+    render :index
+  end
+end
+```
+
+* <a name="plain-text-rendering"></a>
+  Prefer `render plain:` over `render text:`.
+<sup>[[link](#plain-text-rendering)]</sup>
+
+```Ruby
+# bad - sets MIME type to `text/html`
+...
+render text: 'Ruby!'
+...
+
+# bad - requires explicit MIME type declaration
+...
+render text: 'Ruby!', content_type: 'text/plain'
+...
+
+# good - short and precise
+...
+render plain: 'Ruby!'
+...
+```
 
 ## Models
 
@@ -445,7 +499,6 @@ programming resources.
   complicated, it is preferable to make a class method instead which serves the
   same purpose of the named scope and returns an `ActiveRecord::Relation`
   object. Arguably you can define even simpler scopes like this.
-
 <sup>[[link](#named-scope-class)]</sup>
 
   ```Ruby
@@ -985,6 +1038,81 @@ your application.
   sent. To overcome this emails can be sent in background process with the help
   of [sidekiq](https://github.com/mperham/sidekiq) gem.
 <sup>[[link](#background-email)]</sup>
+
+
+## Active Support Core Extensions
+
+* <a name="try-bang"></a>
+  Prefer Ruby 2.3's safe navigation operator `&.` over `ActiveSupport#try!`.
+<sup>[[link](#try-bang)]</sup>
+
+```ruby
+# bad
+obj.try! :fly
+
+# good
+obj&.fly
+```
+
+* <a name="active_support_aliases"></a>
+  Prefer Ruby's Standard Library methods over `ActiveSupport` aliases.
+<sup>[[link](#active_support_aliases)]</sup>
+
+```ruby
+# bad
+'the day'.starts_with? 'th'
+'the day'.ends_with? 'ay'
+
+# good
+'the day'.start_with? 'th'
+'the day'.end_with? 'ay'
+```
+
+* <a name="active_support_extensions"></a>
+  Prefer Ruby's Standard Library over uncommon ActiveSupport extensions.
+<sup>[[link](#active_support_extensions)]</sup>
+
+```ruby
+# bad
+(1..50).to_a.forty_two
+1.in? [1, 2]
+'day'.in? 'the day'
+
+# good
+(1..50).to_a[41]
+[1, 2].include? 1
+'the day'.include? 'day'
+```
+
+* <a name="inquiry"></a>
+  Prefer Ruby's comparison operators over ActiveSupport's `Array#inquiry`, `Numeric#inquiry` and `String#inquiry`.
+<sup>[[link](#inquiry)]</sup>
+
+```ruby
+# bad - String#inquiry
+ruby = 'two'.inquiry
+ruby.two?
+
+# good
+ruby = 'two'
+ruby == 'two'
+
+# bad - Array#inquiry
+pets = %w(cat dog).inquiry
+pets.gopher?
+
+# good
+pets = %w(cat dog).inquiry
+pets.include? 'cat'
+
+# bad - Numeric#inquiry
+0.positive?
+0.negative?
+
+# good
+0 > 0
+0 < 0
+```
 
 ## Time
 
