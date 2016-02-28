@@ -7,7 +7,7 @@
 Это руководство дополняет уже существующий сборник:
 :blue_book: [Руби: руководство по стилю оформления][ruby-style-guide].
 
-Читайте :green_book: [руководство][russian] на русском языке.
+Хотите писать _читаемый_ код в ваших проектах? Читайте :green_book: [руководство][russian] на _русском_ языке!
 
 [Оригинал][english] этого руководства был составлен
 [Божидаром Бацовым][bbatsov]. Переводы данного руководства доступны на
@@ -23,19 +23,7 @@
 Если вы хотите оставаться в курсе актуальных изменений, следите за репозиторием
 и жмите на звездочку!
 
-## Терминология
-
-* МVC (Model-View-Controller) &mdash; модель-представление-контроллер
-* View &mdash; шаблон (представления)
-* Partial &mdash; подшаблон (представления)
-* Assets &mdash; ресурсы
-* Assets Pipeline &mdash; конвейер ресурсов
-* (Controller) Action &mdash; действие
-* Namespace &mdash; пространство имен
-* Окружения
-  * development &mdash; рабочее
-  * test &mdash; тестовое
-  * production &mdash; промышленное
+Хотите помочь в развитии проекта? [Здесь](CONTRIBUTING.md) написано, как это сделать!
 
 [russian]: https://github.com/arbox/rails-style-guide/blob/master/README-ruRU.md
 [english]: https://github.com/bbatsov/rails-style-guide/blob/master/README.md
