@@ -23,7 +23,7 @@
 Если вы хотите оставаться в курсе актуальных изменений, следите за репозиторием
 и жмите на звездочку!
 
-Хотите помочь в развитии проекта? [Здесь](CONTRIBUTING.md) написано, как это сделать!
+Хотите помочь в развитии проекта? [Здесь](CONTRIBUTING-ruRU.md) написано, как это сделать!
 
 [russian]: https://github.com/arbox/rails-style-guide/blob/master/README-ruRU.md
 [english]: https://github.com/bbatsov/rails-style-guide/blob/master/README.md
