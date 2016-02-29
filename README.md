@@ -1,5 +1,7 @@
 # :green_book: Rails: руководство по стилю оформления
 
+[![Build Status](https://travis-ci.org/arbox/rails-style-guide.svg?branch=master)](https://travis-ci.org/arbox/rails-style-guide)
+
 Это руководство по оформлению кода на Rails дает передовые рекомендации. С его
 помощью обычный программист на Руби будет создавать код, который с легкостью
 смогут поддерживать и развивать другие обычные разработчики.
