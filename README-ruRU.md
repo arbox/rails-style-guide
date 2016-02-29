@@ -941,7 +941,7 @@
 
 * <a name="vendor-assets"></a>
   Код сторонних библиотек, например, [jQuery](http://jquery.com/) или
-  [bootstrap](http://twitter.github.com/bootstrap/), следует размещать в
+  [bootstrap](http://getbootstrap.com/), следует размещать в
   директории `vendor/assets`.
   <sup>[[ссылка](#vendor-assets)]</sup>
 
@@ -951,8 +951,8 @@
 
   - [jquery-rails](https://github.com/rails/jquery-rails);
   - [jquery-ui-rails](https://github.com/joliss/jquery-ui-rails);
-  - [bootstrap-sass](https://github.com/thomas-mcdonald/bootstrap-sass);
-  - [zurb-foundation](https://github.com/zurb/foundation).
+  - [bootstrap-sass](https://github.com/twbs/bootstrap-sass);
+  - [zurb-foundation](https://github.com/zurb/foundation-sites).
 
 ## Почтовые модули
 
@@ -1251,8 +1251,8 @@
 <!--- @FIXME: Find russian translations. -->
 * [The Rails 4 Way](http://www.amazon.com/The-Rails-Addison-Wesley-Professional-Ruby/dp/0321944275)
 * [Ruby on Rails Guides](http://guides.rubyonrails.org/)
-* [The RSpec Book](http://pragprog.com/book/achbd/the-rspec-book)
-* [The Cucumber Book](http://pragprog.com/book/hwcuc/the-cucumber-book)
+* [The RSpec Book](https://pragprog.com/book/achbd/the-rspec-book)
+* [The Cucumber Book](https://pragprog.com/book/hwcuc/the-cucumber-book)
 * [Everyday Rails Testing with RSpec](https://leanpub.com/everydayrailsrspec)
 * [Better Specs for RSpec](http://betterspecs.org)
 
@@ -1267,9 +1267,9 @@
 вашего кода. И заранее большое спасибо за вашу помощь!
 
 Вы можете поддержать проект (и РубоКоп) денежным взносом при помощи
-[gittip](https://www.gittip.com/bbatsov).
+[gittip][gratipay].
 
-[![Дай Gittip](https://rawgithub.com/twolfson/gittip-badge/0.2.0/dist/gittip.png)](https://www.gittip.com/bbatsov)
+[![Дай Gittip](https://raw.githubusercontent.com/twolfson/gittip-badge/0.2.0/dist/gittip.png)][gratipay]
 
 
 ## Как сотрудничать в проекте?
@@ -1278,7 +1278,7 @@
 
 # Лицензирование
 
-![Creative Commons License](http://i.creativecommons.org/l/by/3.0/88x31.png)
+![Creative Commons License](https://licensebuttons.net/l/by/3.0/88x31.png)
 Данная работа опубликована на условиях лицензии [Creative Commons Attribution 3.0
 Unported License](http://creativecommons.org/licenses/by/3.0/deed.en_US)
 
@@ -1295,4 +1295,5 @@ Unported License](http://creativecommons.org/licenses/by/3.0/deed.en_US)
 
 <!--- Links -->
 [ruby-style-guide]: https://github.com/arbox/ruby-style-guide/blob/master/README-ruRU.md
-[transmuter]: https://github.com/TechnoGate/transmuter
+[transmuter]: https://github.com/kalbasit/transmuter
+[gratipay]: https://gratipay.com/~bbatsov/
