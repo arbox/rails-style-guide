@@ -2,6 +2,9 @@
 
 [![Build Status](https://travis-ci.org/arbox/rails-style-guide.svg?branch=master)](https://travis-ci.org/arbox/rails-style-guide)
 
+![Ruby on Rails Logo](assets/Ruby_on_Rails_logo.jpg "Rails Style Guide")
+
+
 Это руководство по оформлению кода на Rails дает передовые рекомендации. С его
 помощью обычный программист на Руби будет создавать код, который с легкостью
 смогут поддерживать и развивать другие обычные разработчики.
