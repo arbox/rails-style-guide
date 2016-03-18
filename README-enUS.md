@@ -316,6 +316,14 @@ render plain: 'Ruby!'
   For a more complete example refer to the
   [RailsCast on the subject](http://railscasts.com/episodes/326-activeattr).
 
+* <a name="model-business-logic"></a>
+  Unless they have some meaning in the business domain, don't put methods in
+  your model that just format your data (like code generating HTML). These
+  methods are most likely going to be called from the view layer only, so their
+  place is in helpers. Keep your models for business logic and data-persistance
+  only.
+<sup>[[link](#model-business-logic)]</sup>
+
 ### ActiveRecord
 
 * <a name="keep-ar-defaults"></a>
@@ -348,7 +356,10 @@ render plain: 'Ruby!'
     attr_accessor :formatted_date_of_birth
 
     attr_accessible :login, :first_name, :last_name, :email, :password
-
+    
+    # Rails4+ enums after attr macros, prefer the hash syntax
+    enum gender: { female: 0, male: 1 }
+    
     # followed by association macros
     belongs_to :country
 
@@ -386,7 +397,7 @@ render plain: 'Ruby!'
     has_and_belongs_to_many :users
   end
 
-  # prefered way - using has_many :through
+  # preferred way - using has_many :through
   class User < ActiveRecord::Base
     has_many :memberships
     has_many :groups, through: :memberships
@@ -606,6 +617,22 @@ render plain: 'Ruby!'
   end
   ```
 
+* <a name="has_many-has_one-dependent-option"></a>
+  Define the `dependent` option to the `has_many` and `has_one` associations.
+<sup>[[link](#has_many-has_one-dependent-option)]</sup>
+
+  ```Ruby
+  # bad
+  class Post < ActiveRecord::Base
+    has_many :comments
+  end
+
+  # good
+  class Post < ActiveRecord::Base
+    has_many :comments, dependent: :destroy
+  end
+  ```
+
 ### ActiveRecord Queries
 
 * <a name="avoid-interpolation"></a>
@@ -655,7 +682,7 @@ when you need to retrieve a single record by id.
   ```
 
 * <a name="find_by"></a>
-  Favor the use of `find_by` over `where`
+  Favor the use of `find_by` over `where` and `find_by_attribute`
 when you need to retrieve a single record by some attributes.
 <sup>[[link](#find_by)]</sup>
 
@@ -663,25 +690,11 @@ when you need to retrieve a single record by some attributes.
   # bad
   User.where(first_name: 'Bruce', last_name: 'Wayne').first
 
+  # bad
+  User.find_by_first_name_and_last_name('Bruce', 'Wayne')
+
   # good
   User.find_by(first_name: 'Bruce', last_name: 'Wayne')
-  ```
-
-* <a name="find_each"></a>
-  Use `find_each` when you need to process a lot of records.
-<sup>[[link](#find_each)]</sup>
-
-  ```Ruby
-  # bad - loads all the records at once
-  # This is very inefficient when the users table has thousands of rows.
-  User.all.each do |user|
-    NewsMailer.weekly(user).deliver_now
-  end
-
-  # good - records are retrieved in batches
-  User.find_each do |user|
-    NewsMailer.weekly(user).deliver_now
-  end
   ```
 
 * <a name="where-not"></a>
@@ -775,7 +788,7 @@ when you need to retrieve a single record by some attributes.
     end
   end
 
-  # the new prefered way
+  # the new preferred way
   class AddNameToPeople < ActiveRecord::Migration
     def change
       add_column :people, :name, :string
