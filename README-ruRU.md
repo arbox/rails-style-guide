@@ -325,6 +325,15 @@
     Более подробный пример (на английском языке) вы найдете здесь:
     [RailsCast #326: ActiveAttr](http://railscasts.com/episodes/326-activeattr).
 
+* <a name="model-business-logic"></a>
+  Не расширяйте свои модели методами, которые реализуют форматирование данных
+  (например, кодогенерацию HTML), кроме случаев, когда это напрямую связано
+  с бизнес-логикой описываемой предметной области. Такие методы с большой
+  вероятностью будут вызываться только из шаблонов представлений, поэтому
+  их лучше разместить во вспомогательных модулях (helpers). Реализуйте в моделях
+  только бизнес-логику и функционал работы с данными.
+  <sup>[[link](#model-business-logic)]</sup>
+
 ### ActiveRecord
 
 * <a name="keep-ar-defaults"></a>
@@ -359,6 +368,10 @@
     attr_accessor :formatted_date_of_birth
 
     attr_accessible :login, :first_name, :last_name, :email, :password
+
+    # Энумераторы для `Rails >= 4` после макросов доступа,
+    # предпочтительно использовать новых синтаксис для хешей.
+    enum gender: { female: 0, male: 1 }
 
     # за которыми следуют макросы ассоциаций
     belongs_to :country
@@ -628,6 +641,23 @@
     fail "Cannot delete super admin." if super_admin?
   end
   ```
+
+* <a name="has_many-has_one-dependent-option"></a>
+  Задавайте опцию `dependent` в ассоциация типа `has_many` и `has_one`.
+  <sup>[[link](#has_many-has_one-dependent-option)]</sup>
+
+  ```Ruby
+  # плохо
+  class Post < ActiveRecord::Base
+    has_many :comments
+  end
+
+  # хорошо
+  class Post < ActiveRecord::Base
+    has_many :comments, dependent: :destroy
+  end
+  ```
+
 ### Запросы ActiveRecord
 
 * <a name="avoid-interpolation"></a>
@@ -676,33 +706,20 @@
   ```
 
 * <a name="find_by"></a>
-  Отдавайте предпочтение использованию `find_by` вместо `where`, если вам нужно
-  получить всего одну запись по значению какого-то ее атрибута.
+  Отдавайте предпочтение использованию `find_by` вместо `where` и
+  `find_by_attribute`, если вам нужно получить всего одну запись по значению
+  какого-то ее атрибута.
   <sup>[[ссылка](#find_by)]</sup>
 
   ```Ruby
   # плохо
   User.where(first_name: 'Bruce', last_name: 'Wayne').first
 
+  # плохо
+  User.find_by_first_name_and_last_name('Bruce', 'Wayne')
+
   # хорошо
   User.find_by(first_name: 'Bruce', last_name: 'Wayne')
-  ```
-
-* <a name="find_each"></a>
-  Используйте `find_each`, когда вам нужно работать с целым рядом записей.
-  <sup>[[ссылка](#find_each)]</sup>
-
-  ```Ruby
-  # плохо (загружает все записи сразу)
-  # Это очень неэффективно в случае, когда таблица пользователей имеет тысячи записей.
-  User.all.each do |user|
-    NewsMailer.weekly(user).deliver_now
-  end
-
-  # хорошо (записи запрашиваются порциями)
-  User.find_each do |user|
-    NewsMailer.weekly(user).deliver_now
-  end
   ```
 
 * <a name="where-not"></a>
@@ -837,7 +854,6 @@
   `config/locales`.
   <sup>[[ссылка](#locale-texts)]</sup>
 
-<!--- @FIXME -->
 * <a name="translated-labels"></a>
   Когда вам нужно перевести идентификаторы для моделей ActiveRecord, применяйте
   контекст `activerecord`:
