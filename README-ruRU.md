@@ -11,7 +11,7 @@
 Некоторые из приведенных здесь рекомендаций будут применимы только к Rails 4.0+.
 
 Вы можете создать копию этого руководства в форматах PDF или HTML при помощи
-[Transmuter][].
+[Pandoc][].
 
 Переводы данного руководства доступны на следующих языках:
 
@@ -237,7 +237,7 @@
   Старайтесь не передавать более двух переменных из контроллера в шаблон.
   <sup>[[ссылка](#shared-instance-variables)]</sup>
 
-<!--- @todo AB: Translate this snippet. --->
+<!--- @FIXME: Translate this snippet. --->
 ### Rendering
 
 * <a name="inline-rendering"></a>
@@ -287,6 +287,23 @@
   ...
   render plain: 'Ruby!'
   ...
+  ```
+<!--- @FIXME --->
+* <a name="http-status-code-symbols"></a>
+  Prefer [corresponding symbols](https://gist.github.com/mlanett/a31c340b132ddefa9cca) to numeric HTTP status codes.
+  They are meaningful and do not look like "magic" numbers for less known HTTP status codes.
+  <sup>[[link](#http-status-code-symbols)]</sup>
+
+  ```Ruby
+  # плохо
+  # некоторый код
+  render status: 500
+  # некоторый код
+
+  # хорошо
+  # некоторый код
+  render status: :forbidden
+  # некоторый код
   ```
 
 ## Модели
@@ -1088,7 +1105,7 @@
   помощи гема [sidekiq](https://github.com/mperham/sidekiq).
   <sup>[[ссылка](#background-email)]</sup>
 
-<!--- @todo AB: Translate this snippet. --->
+<!--- @FIXME: Translate this snippet. --->
 ## Active Support Core Extensions
 
 * <a name="try-bang"></a>
@@ -1152,7 +1169,7 @@
   pets.gopher?
 
   # good
-  pets = %w(cat dog).inquiry
+  pets = %w(cat dog)
   pets.include? 'cat'
 
   # bad - Numeric#inquiry
@@ -1313,3 +1330,4 @@ Unported License](http://creativecommons.org/licenses/by/3.0/deed.en_US)
 [ruby-style-guide]: https://github.com/arbox/ruby-style-guide/blob/master/README-ruRU.md
 [transmuter]: https://github.com/kalbasit/transmuter
 [gratipay]: https://gratipay.com/~bbatsov/
+[pandoc]: http://pandoc.org/
