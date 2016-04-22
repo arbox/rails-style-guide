@@ -1151,7 +1151,7 @@
   ```
 
 * <a name="inquiry"></a>
-  Prefer Ruby's comparison operators over ActiveSupport's `Array#inquiry`,
+  Prefer Ruby's comparison operators over `ActiveSupport` `Array#inquiry`,
   `Numeric#inquiry` and `String#inquiry`.
   <sup>[[link](#inquiry)]</sup>
 
