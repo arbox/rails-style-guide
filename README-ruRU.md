@@ -240,11 +240,11 @@
 ### Рендеринг
 
 * <a name="inline-rendering"></a>
-  Отдавайте предрочтение шаблонам вместо отдачи линейного кода.
+  Отдавайте предпочтение шаблонам вместо отдачи линейного кода.
   <sup>[[ссылка](#inline-rendering)]</sup>
 
   ```Ruby
-  # очень прохо
+  # очень плохо
   class ProductsController < ApplicationController
     def index
       render inline: "<% products.each do |p| %><p><%= p.name %></p><% end %>", type: :erb
@@ -289,7 +289,7 @@
   ```
 * <a name="http-status-code-symbols"></a>
   Используйте [символы, соответствующие](https://gist.github.com/mlanett/a31c340b132ddefa9cca) числовым кодам состояния HTTP.
-  Они лучше передают смысл вместо "магических" чисел для менее известных кодов состояния HTTP.
+  Они лучше передают смысл, нежели "магические" числа для менее известных кодов состояния HTTP.
   <sup>[[ссылка](#http-status-code-symbols)]</sup>
 
   ```Ruby
