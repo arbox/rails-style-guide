@@ -237,22 +237,21 @@
   Старайтесь не передавать более двух переменных из контроллера в шаблон.
   <sup>[[ссылка](#shared-instance-variables)]</sup>
 
-<!--- @FIXME: Translate this snippet. --->
-### Rendering
+### Рендеринг
 
 * <a name="inline-rendering"></a>
-  Prefer using a template over inline rendering.
-  <sup>[[link](#inline-rendering)]</sup>
+  Отдавайте предрочтение шаблонам вместо отдачи линейного кода.
+  <sup>[[ссылка](#inline-rendering)]</sup>
 
   ```Ruby
-  # very bad
+  # очень прохо
   class ProductsController < ApplicationController
     def index
       render inline: "<% products.each do |p| %><p><%= p.name %></p><% end %>", type: :erb
     end
   end
 
-  # good
+  # хорошо
   ## app/views/products/index.html.erb
   <%= render partial: 'product', collection: products %>
 
@@ -269,30 +268,29 @@
   ```
 
 * <a name="plain-text-rendering"></a>
-  Prefer `render plain:` over `render text:`.
-  <sup>[[link](#plain-text-rendering)]</sup>
+  Используйте `render plain:` вместо `render text:`.
+  <sup>[[ссылка](#plain-text-rendering)]</sup>
 
   ```Ruby
-  # bad - sets MIME type to `text/html`
+  # плохо - задается MIME-тип `text/html`
   ...
   render text: 'Ruby!'
   ...
 
-  # bad - requires explicit MIME type declaration
+  # плохо - требуется явное объявление MIME-типа
   ...
   render text: 'Ruby!', content_type: 'text/plain'
   ...
 
-  # good - short and precise
+  # хорошо - коротко и ясно
   ...
   render plain: 'Ruby!'
   ...
   ```
-<!--- @FIXME --->
 * <a name="http-status-code-symbols"></a>
-  Prefer [corresponding symbols](https://gist.github.com/mlanett/a31c340b132ddefa9cca) to numeric HTTP status codes.
-  They are meaningful and do not look like "magic" numbers for less known HTTP status codes.
-  <sup>[[link](#http-status-code-symbols)]</sup>
+  Используйте [символы, соответствующие](https://gist.github.com/mlanett/a31c340b132ddefa9cca) числовым кодам состояния HTTP.
+  Они лучше передают смысл вместо "магических" чисел для менее известных кодов состояния HTTP.
+  <sup>[[ссылка](#http-status-code-symbols)]</sup>
 
   ```Ruby
   # плохо
