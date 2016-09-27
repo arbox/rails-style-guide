@@ -19,6 +19,7 @@
 следующих языках:
 
 * [английский (исходная версия)][english]
+* [вьетнамский](https://github.com/CQBinh/rails-style-guide/blob/master/README-viVN.md)
 * [китайский традиционный](https://github.com/JuanitoFatas/rails-style-guide/blob/master/README-zhTW.md)
 * [китайский упрощенный](https://github.com/JuanitoFatas/rails-style-guide/blob/master/README-zhCN.md)
 * [русский (данный документ)](https://github.com/arbox/rails-style-guide/blob/master/README-ruRU.md)

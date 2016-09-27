@@ -675,6 +675,38 @@
   end
   ```
 
+<!--- @FIXME --->
+* <a name="save-bang"></a>
+  When persisting AR objects always use the exception raising bang! method or handle the method return value.
+  This applies to `create`, `save`, `update`, `destroy`, `first_or_create` and `find_or_create_by`.
+  <sup>[[link](#save-bang)]</sup>
+
+  ```Ruby
+  # bad
+  user.create(name: 'Bruce')
+
+  # bad
+  user.save
+
+  # good
+  user.create!(name: 'Bruce')
+  # or
+  bruce = user.create(name: 'Bruce')
+  if bruce.persisted?
+    ...
+  else
+    ...
+  end
+
+  # good
+  user.save!
+  # or
+  if user.save
+    ...
+  else
+    ...
+  end
+  ```
 ### Запросы ActiveRecord
 
 * <a name="avoid-interpolation"></a>
@@ -760,7 +792,7 @@
   <sup>[[link](#squished-heredocs)]</sup>
 
   ```Ruby
-  User.find_by_sql(<<SQL.squish)
+  User.find_by_sql(<<-SQL.squish)
     SELECT
       users.id, accounts.plan
     FROM
@@ -847,6 +879,29 @@
   неизбежно наступит момент, когда код миграций перестанет работать из-за
   изменений в модели, хотя ранее этот код работал без проблем.
   <sup>[[ссылка](#no-model-class-migrations)]</sup>
+
+<!--- @FIXME --->
+* <a name="meaningful-foreign-key-naming"></a>
+  Name your foreign keys explicitly instead of relying on Rails auto-generated
+  FK names. (http://edgeguides.rubyonrails.org/active_record_migrations.html#foreign-keys)
+
+  ```Ruby
+  # bad
+  class AddFkArticlesToAuthors < ActiveRecord::Migration
+    def change
+      add_foreign_key :articles, :authors
+    end
+  end
+
+  # good
+  class AddFkArticlesToAuthors < ActiveRecord::Migration
+    def change
+      add_foreign_key :articles, :authors, name: :articles_author_id_fk
+    end
+  end
+  ```
+
+<sup>[[link](#meaningful-foreign-key-naming)]</sup>
 
 ## Представления
 
@@ -1287,6 +1342,7 @@
 * [The RSpec Book](https://pragprog.com/book/achbd/the-rspec-book)
 * [The Cucumber Book](https://pragprog.com/book/hwcuc/the-cucumber-book)
 * [Everyday Rails Testing with RSpec](https://leanpub.com/everydayrailsrspec)
+* [Rails 4 Test Prescriptions](https://pragprog.com/book/nrtest2/rails-4-test-prescriptions)
 * [Better Specs for RSpec](http://betterspecs.org)
 
 # Сотрудничество
