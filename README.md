@@ -1,6 +1,6 @@
 # :green_book: Rails: руководство по стилю оформления
 
-[![Build Status](https://travis-ci.org/arbox/rails-style-guide.svg?branch=master)](https://travis-ci.org/arbox/rails-style-guide)
+[![Build Status](https://api.travis-ci.org/arbox/rails-style-guide.svg?branch=master)](https://travis-ci.org/arbox/rails-style-guide)
 
 ![Ruby on Rails Logo](assets/Ruby_on_Rails_logo.jpg "Rails Style Guide")
 
@@ -22,7 +22,7 @@
 * [вьетнамский](https://github.com/CQBinh/rails-style-guide/blob/master/README-viVN.md)
 * [китайский традиционный](https://github.com/JuanitoFatas/rails-style-guide/blob/master/README-zhTW.md)
 * [китайский упрощенный](https://github.com/JuanitoFatas/rails-style-guide/blob/master/README-zhCN.md)
-* [русский (данный документ)](https://github.com/arbox/rails-style-guide/blob/master/README-ruRU.md)
+* [русский (данный документ)][russian]
 * [турецкий](https://github.com/tolgaavci/rails-style-guide/blob/master/README-trTR.md)
 * [японский](https://github.com/satour/rails-style-guide/blob/master/README-jaJA.md)
 

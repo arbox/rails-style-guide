@@ -1337,7 +1337,7 @@
 на `Rails`, на которые вы можете взглянуть, если у вас будет свободное время:
 
 <!--- @FIXME: Find russian translations. -->
-* [The Rails 4 Way](http://www.amazon.com/The-Rails-Addison-Wesley-Professional-Ruby/dp/0321944275)
+* [The Rails 4 Way](https://www.amazon.com/Rails-Way-Addison-Wesley-Professional-Ruby/dp/0321944275)
 * [Ruby on Rails Guides](http://guides.rubyonrails.org/)
 * [The RSpec Book](https://pragprog.com/book/achbd/the-rspec-book)
 * [The Cucumber Book](https://pragprog.com/book/hwcuc/the-cucumber-book)
@@ -1369,7 +1369,7 @@
 
 ![Creative Commons License](https://licensebuttons.net/l/by/3.0/88x31.png)
 Данная работа опубликована на условиях лицензии [Creative Commons Attribution 3.0
-Unported License](http://creativecommons.org/licenses/by/3.0/deed.en_US)
+Unported License](https://creativecommons.org/licenses/by/3.0/deed.en_US)
 
 # Расскажи другому
 
