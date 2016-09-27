@@ -16,6 +16,7 @@
 Переводы данного руководства доступны на следующих языках:
 
 * [английский (исходная версия)](https://github.com/bbatsov/rails-style-guide/blob/master/README.md)
+* [вьетнамский](https://github.com/CQBinh/rails-style-guide/blob/master/README-viVN.md)
 * [китайский традиционный](https://github.com/JuanitoFatas/rails-style-guide/blob/master/README-zhTW.md)
 * [китайский упрощенный](https://github.com/JuanitoFatas/rails-style-guide/blob/master/README-zhCN.md)
 * [корейский](https://github.com/pureugong/rails-style-guide/blob/master/README-koKR.md)
