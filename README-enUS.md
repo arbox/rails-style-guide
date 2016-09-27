@@ -22,6 +22,7 @@ Translations of the guide are available in the following languages:
 * [Russian](https://github.com/arbox/rails-style-guide/blob/master/README-ruRU.md)
 * [Turkish](https://github.com/tolgaavci/rails-style-guide/blob/master/README-trTR.md)
 * [Korean](https://github.com/pureugong/rails-style-guide/blob/master/README-koKR.md)
+* [Vietnamese](https://github.com/CQBinh/rails-style-guide/blob/master/README-viVN.md)
 
 # The Rails Style Guide
 
@@ -336,7 +337,7 @@ render status: :forbidden
   Unless they have some meaning in the business domain, don't put methods in
   your model that just format your data (like code generating HTML). These
   methods are most likely going to be called from the view layer only, so their
-  place is in helpers. Keep your models for business logic and data-persistance
+  place is in helpers. Keep your models for business logic and data-persistence
   only.
 <sup>[[link](#model-business-logic)]</sup>
 
@@ -649,6 +650,38 @@ render status: :forbidden
   end
   ```
 
+* <a name="save-bang"></a>
+  When persisting AR objects always use the exception raising bang! method or handle the method return value.
+  This applies to `create`, `save`, `update`, `destroy`, `first_or_create` and `find_or_create_by`.
+<sup>[[link](#save-bang)]</sup>
+
+  ```Ruby
+  # bad
+  user.create(name: 'Bruce')
+
+  # bad
+  user.save
+
+  # good
+  user.create!(name: 'Bruce')
+  # or
+  bruce = user.create(name: 'Bruce')
+  if bruce.persisted?
+    ...
+  else
+    ...
+  end
+
+  # good
+  user.save!
+  # or
+  if user.save
+    ...
+  else
+    ...
+  end
+  ```
+
 ### ActiveRecord Queries
 
 * <a name="avoid-interpolation"></a>
@@ -732,7 +765,7 @@ when you need to retrieve a single record by some attributes.
 <sup>[[link](#squished-heredocs)]</sup>
 
   ```Ruby
-  User.find_by_sql(<<SQL.squish)
+  User.find_by_sql(<<-SQL.squish)
     SELECT
       users.id, accounts.plan
     FROM
@@ -817,6 +850,28 @@ when you need to retrieve a single record by some attributes.
   evolving and at some point in the future migrations that used to work might
   stop, because of changes in the models used.
 <sup>[[link](#no-model-class-migrations)]</sup>
+
+* <a name="meaningful-foreign-key-naming"></a>
+  Name your foreign keys explicitly instead of relying on Rails auto-generated
+  FK names. (http://edgeguides.rubyonrails.org/active_record_migrations.html#foreign-keys)
+
+  ```Ruby
+  # bad
+  class AddFkArticlesToAuthors < ActiveRecord::Migration
+    def change
+      add_foreign_key :articles, :authors
+    end
+  end
+
+  # good
+  class AddFkArticlesToAuthors < ActiveRecord::Migration
+    def change
+      add_foreign_key :articles, :authors, name: :articles_author_id_fk
+    end
+  end
+  ```
+
+<sup>[[link](#meaningful-foreign-key-naming)]</sup>
 
 ## Views
 
@@ -1243,6 +1298,7 @@ you have time to spare:
 * [The RSpec Book](http://pragprog.com/book/achbd/the-rspec-book)
 * [The Cucumber Book](http://pragprog.com/book/hwcuc/the-cucumber-book)
 * [Everyday Rails Testing with RSpec](https://leanpub.com/everydayrailsrspec)
+* [Rails 4 Test Prescriptions](https://pragprog.com/book/nrtest2/rails-4-test-prescriptions)
 * [Better Specs for RSpec](http://betterspecs.org)
 
 # Contributing
