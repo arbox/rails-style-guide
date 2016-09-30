@@ -31,6 +31,8 @@
 
 Хотите помочь в развитии проекта? [Здесь](CONTRIBUTING-ruRU.md) написано, как это сделать!
 
+Огромное спасибо [всем](CONTRIBUTORS.md), кто уже помогает!
+
 [russian]: https://github.com/arbox/rails-style-guide/blob/master/README-ruRU.md
 [english]: https://github.com/bbatsov/rails-style-guide/blob/master/README.md
 [bbatsov]: https://github.com/bbatsov
