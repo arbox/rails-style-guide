@@ -803,8 +803,17 @@ when you need to retrieve a single record by some attributes.
 
   ```Ruby
   # bad - application enforced default value
-  def amount
-    self[:amount] or 0
+  class Product < ActiveRecord::Base
+    def amount
+      self[:amount] || 0
+    end
+  end
+
+  # good - database enforced
+  class AddDefaultAmountToProducts < ActiveRecord::Migration
+    def change
+      change_column :products, :amount, :integer, default: 0
+    end
   end
   ```
 
@@ -854,6 +863,7 @@ when you need to retrieve a single record by some attributes.
 * <a name="meaningful-foreign-key-naming"></a>
   Name your foreign keys explicitly instead of relying on Rails auto-generated
   FK names. (http://edgeguides.rubyonrails.org/active_record_migrations.html#foreign-keys)
+<sup>[[link](#meaningful-foreign-key-naming)]</sup>
 
   ```Ruby
   # bad
@@ -870,8 +880,6 @@ when you need to retrieve a single record by some attributes.
     end
   end
   ```
-
-<sup>[[link](#meaningful-foreign-key-naming)]</sup>
 
 ## Views
 
