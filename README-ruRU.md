@@ -833,9 +833,17 @@
 
   ```Ruby
   # плохо (стандартное значение устанавливается в приложении)
-  def amount
-    self[:amount] or 0
+   class Product < ActiveRecord::Base
+    def amount
+      self[:amount] || 0
+    end
   end
+
+  # хорошо (стандартное значение устанавливается на уровне БД)
+  class AddDefaultAmountToProducts < ActiveRecord::Migration
+    def change
+      change_column :products, :amount, :integer, default: 0
+    end
   ```
 
   Многие опытные разработчики на `Rails` рекомендуют устанавливать стандартные
@@ -881,28 +889,27 @@
   изменений в модели, хотя ранее этот код работал без проблем.
   <sup>[[ссылка](#no-model-class-migrations)]</sup>
 
-<!--- @FIXME --->
 * <a name="meaningful-foreign-key-naming"></a>
-  Name your foreign keys explicitly instead of relying on Rails auto-generated
-  FK names. (http://edgeguides.rubyonrails.org/active_record_migrations.html#foreign-keys)
+  Явно выбирайте наименования для внешних ключей (foreign key), не полагайтесь
+  на автоматически сгенерированные имена ключей:
+  [Foreign Keys](http://edgeguides.rubyonrails.org/active_record_migrations.html#foreign-keys).
+  <sup>[[link](#meaningful-foreign-key-naming)]</sup>
 
   ```Ruby
-  # bad
+  # плохо
   class AddFkArticlesToAuthors < ActiveRecord::Migration
     def change
       add_foreign_key :articles, :authors
     end
   end
 
-  # good
+  # хорошо
   class AddFkArticlesToAuthors < ActiveRecord::Migration
     def change
       add_foreign_key :articles, :authors, name: :articles_author_id_fk
     end
   end
   ```
-
-<sup>[[link](#meaningful-foreign-key-naming)]</sup>
 
 ## Представления
 
