@@ -1,13 +1,12 @@
-# :green_book: Rails: руководство по стилю оформления
+# :green_book: Rails: руководство по стилю оформления [![Build Status](https://api.travis-ci.org/arbox/rails-style-guide.svg?branch=master)](https://travis-ci.org/arbox/rails-style-guide)
 
-[![Build Status](https://api.travis-ci.org/arbox/rails-style-guide.svg?branch=master)](https://travis-ci.org/arbox/rails-style-guide)
+> [<img src="assets/Ruby_on_Rails_logo.jpg" align="right" height="120px" alt="Ruby on Rails Logo" />][ror]
 
-![Ruby on Rails Logo](assets/Ruby_on_Rails_logo.jpg "Rails Style Guide")
+> Коллективно создаваемое руководство по стилю оформления кода на [Rails][ror]
 
-
-Это руководство по оформлению кода на Rails дает передовые рекомендации. С его
-помощью обычный программист на Руби будет создавать код, который с легкостью
-смогут поддерживать и развивать другие обычные разработчики.
+Это руководство по оформлению кода на [Rails][ror] дает передовые рекомендации.
+С его помощью обычный программист на Руби будет создавать код, который
+с легкостью смогут поддерживать и развивать другие обычные разработчики.
 
 Это руководство дополняет уже существующий сборник:
 :blue_book: [Руби: руководство по стилю оформления][ruby-style-guide].
@@ -37,3 +36,4 @@
 [english]: https://github.com/bbatsov/rails-style-guide/blob/master/README.md
 [bbatsov]: https://github.com/bbatsov
 [ruby-style-guide]: https://github.com/arbox/ruby-style-guide/blob/master/README-ruRU.md
+[ror]: http://rubyonrails.org/
