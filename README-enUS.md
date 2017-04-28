@@ -537,12 +537,29 @@ render status: :forbidden
   end
   ```
 
-* <a name="beware-update-attribute"></a>
+* <a name="beware-skip-model-validations"></a>
   Beware of the behavior of the
-  [`update_attribute`](http://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-update_attribute)
-  method. It doesn't run the model validations (unlike `update_attributes`) and
+  [following](http://guides.rubyonrails.org/active_record_validations.html#skipping-validations)
+  methods. They do not run the model validations and
   could easily corrupt the model state.
-<sup>[[link](#beware-update-attribute)]</sup>
+<sup>[[link](#beware-skip-model-validations)]</sup>
+
+  ```Ruby
+  # bad
+  Article.first.decrement!(:view_count)
+  DiscussionBoard.decrement_counter(:post_count, 5)
+  Article.first.increment!(:view_count)
+  DiscussionBoard.increment_counter(:post_count, 5)
+  person.toggle :active
+  product.touch
+  Billing.update_all("category = 'authorized', author = 'David'")
+  user.update_attribute(:website, 'example.com')
+  user.update_columns(last_request_at: Time.current)
+  Post.update_counters 5, comment_count: -1, action_count: 1
+
+  # good
+  user.update_attributes(website: 'example.com')
+  ```
 
 * <a name="user-friendly-urls"></a>
   Use user-friendly URLs. Show some descriptive attribute of the model in the URL
@@ -812,7 +829,7 @@ when you need to retrieve a single record by some attributes.
   # good - database enforced
   class AddDefaultAmountToProducts < ActiveRecord::Migration
     def change
-      change_column :products, :amount, :integer, default: 0
+      change_column_default :products, :amount, 0
     end
   end
   ```
@@ -854,15 +871,68 @@ when you need to retrieve a single record by some attributes.
   end
   ```
 
-* <a name="no-model-class-migrations"></a>
-  Don't use model classes in migrations. The model classes are constantly
-  evolving and at some point in the future migrations that used to work might
-  stop, because of changes in the models used.
-<sup>[[link](#no-model-class-migrations)]</sup>
+* <a name="define-model-class-migrations"></a>
+  If you have to use models in migrations, make sure you define them
+  so that you don't end up with broken migrations in the future
+<sup>[[link](#define-model-class-migrations)]</sup>
+
+  ```Ruby
+  # db/migrate/<migration_file_name>.rb
+  # frozen_string_literal: true
+
+  # bad
+  class ModifyDefaultStatusForProducts < ActiveRecord::Migration
+    def change
+      old_status = 'pending_manual_approval'
+      new_status = 'pending_approval'
+
+      reversible do |dir|
+        dir.up do
+          Product.where(status: old_status).update_all(status: new_status)
+          change_column :products, :status, :string, default: new_status
+        end
+
+        dir.down do
+          Product.where(status: new_status).update_all(status: old_status)
+          change_column :products, :status, :string, default: old_status
+        end
+      end
+    end
+  end
+
+  # good
+  # Define `table_name` in a custom named class to make sure that
+  # you run on the same table you had during the creation of the migration.
+  # In future if you override the `Product` class
+  # and change the `table_name`, it won't break
+  # the migration or cause serious data corruption.
+  class MigrationProduct < ActiveRecord::Base
+    self.table_name = :products
+  end
+
+  class ModifyDefaultStatusForProducts < ActiveRecord::Migration
+    def change
+      old_status = 'pending_manual_approval'
+      new_status = 'pending_approval'
+
+      reversible do |dir|
+        dir.up do
+          MigrationProduct.where(status: old_status).update_all(status: new_status)
+          change_column :products, :status, :string, default: new_status
+        end
+
+        dir.down do
+          MigrationProduct.where(status: new_status).update_all(status: old_status)
+          change_column :products, :status, :string, default: old_status
+        end
+      end
+    end
+  end
+  ```
 
 * <a name="meaningful-foreign-key-naming"></a>
   Name your foreign keys explicitly instead of relying on Rails auto-generated
-  FK names. (http://edgeguides.rubyonrails.org/active_record_migrations.html#foreign-keys)
+  FK names. (http://guides.rubyonrails.org/active_record_migrations.html#foreign-keys)
 <sup>[[link](#meaningful-foreign-key-naming)]</sup>
 
   ```Ruby
@@ -877,6 +947,45 @@ when you need to retrieve a single record by some attributes.
   class AddFkArticlesToAuthors < ActiveRecord::Migration
     def change
       add_foreign_key :articles, :authors, name: :articles_author_id_fk
+    end
+  end
+  ```
+
+* <a name="reversible-migration"></a>
+  Don't use non-reversible migration commands in the `change` method.
+  Reversible migration commands are listed below.
+  [ActiveRecord::Migration::CommandRecorder](http://api.rubyonrails.org/classes/ActiveRecord/Migration/CommandRecorder.html)
+<sup>[[link](#reversible-migration)]</sup>
+
+  ```ruby
+  # bad
+  class DropUsers < ActiveRecord::Migration
+    def change
+      drop_table :users
+    end
+  end
+
+  # good
+  class DropUsers < ActiveRecord::Migration
+    def up
+      drop_table :users
+    end
+
+    def down
+      create_table :users do |t|
+        t.string :name
+      end
+    end
+  end
+
+  # good
+  # In this case, block will be used by create_table in rollback
+  # http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters.html#method-i-drop_table
+  class DropUsers < ActiveRecord::Migration
+    def change
+      drop_table :users do |t|
+        t.string :name
+      end
     end
   end
   ```
