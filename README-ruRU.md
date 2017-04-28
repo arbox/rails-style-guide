@@ -558,13 +558,28 @@
   end
   ```
 
-* <a name="beware-update-attribute"></a>
-  Поймите принцип работы метода [`update_attribute`
-  ](http://api.rubyonrails.org/classes/ActiveRecord/Persistence.html#method-i-update_attribute).
-  Он не вызывает валидации моделей (в отличие от
-  `update_attributes`) и может быстро привести к появлению ошибочных записей в
-  базе данных.
-  <sup>[[ссылка](#beware-update-attribute)]</sup>
+* <a name="beware-skip-model-validations"></a>
+  Поймите принцип работы следующих [методов](http://guides.rubyonrails.org/active_record_validations.html#skipping-validations).
+  Они не вызывают валидацию моделей и могут быстро привести к появлению
+  ошибочных записей в базе данных.
+  <sup>[[ссылка](#beware-skip-model-validations)]</sup>
+
+   ```Ruby
+  # плохо
+  Article.first.decrement!(:view_count)
+  DiscussionBoard.decrement_counter(:post_count, 5)
+  Article.first.increment!(:view_count)
+  DiscussionBoard.increment_counter(:post_count, 5)
+  person.toggle :active
+  product.touch
+  Billing.update_all("category = 'authorized', author = 'David'")
+  user.update_attribute(:website, 'example.com')
+  user.update_columns(last_request_at: Time.current)
+  Post.update_counters 5, comment_count: -1, action_count: 1
+
+  # хорошо
+  user.update_attributes(website: 'example.com')
+  ```
 
 * <a name="user-friendly-urls"></a>
   Используйте дружественную пользователю запись URL. Указывайте в URL какой-то
@@ -842,7 +857,7 @@
   # хорошо (стандартное значение устанавливается на уровне БД)
   class AddDefaultAmountToProducts < ActiveRecord::Migration
     def change
-      change_column :products, :amount, :integer, default: 0
+      change_column_default :products, :amount, 0
     end
   ```
 
@@ -883,16 +898,69 @@
   end
   ```
 
-* <a name="no-model-class-migrations"></a>
-  Не используйте классы моделей в миграциях. Классы моделей постоянно меняются,
-  неизбежно наступит момент, когда код миграций перестанет работать из-за
-  изменений в модели, хотя ранее этот код работал без проблем.
-  <sup>[[ссылка](#no-model-class-migrations)]</sup>
+* <a name="define-model-class-migrations"></a>
+  Если вам нужно использовать код модели в миграциях, постарайтесь задать модели
+  так, чтобы не получить в будущем неработающие миграции.
+  <sup>[[ссылка](#define-model-class-migrations)]</sup>
+
+  ```Ruby
+  # db/migrate/<migration_file_name>.rb
+  # frozen_string_literal: true
+
+  # плохо
+  class ModifyDefaultStatusForProducts < ActiveRecord::Migration
+    def change
+      old_status = 'pending_manual_approval'
+      new_status = 'pending_approval'
+
+      reversible do |dir|
+        dir.up do
+          Product.where(status: old_status).update_all(status: new_status)
+          change_column :products, :status, :string, default: new_status
+        end
+
+        dir.down do
+          Product.where(status: new_status).update_all(status: old_status)
+          change_column :products, :status, :string, default: old_status
+        end
+      end
+    end
+  end
+
+  # хорошо
+  # Задайте `table_name` в специальном классе, чтобы обеспечить единообразие.
+  # Вы будете использовать одну и ту же таблицу в любое время после ее создания.
+  # В будущем после изменения класса `Product`
+  # и изменений в `table_name` миграция не перестанет работать и не произойдет
+  # серьезное повреждение данных.
+  class MigrationProduct < ActiveRecord::Base
+    self.table_name = :products
+  end
+
+  class ModifyDefaultStatusForProducts < ActiveRecord::Migration
+    def change
+      old_status = 'pending_manual_approval'
+      new_status = 'pending_approval'
+
+      reversible do |dir|
+        dir.up do
+          MigrationProduct.where(status: old_status).update_all(status: new_status)
+          change_column :products, :status, :string, default: new_status
+        end
+
+        dir.down do
+          MigrationProduct.where(status: new_status).update_all(status: old_status)
+          change_column :products, :status, :string, default: old_status
+        end
+      end
+    end
+  end
+  ```
 
 * <a name="meaningful-foreign-key-naming"></a>
   Явно выбирайте наименования для внешних ключей (foreign key), не полагайтесь
   на автоматически сгенерированные имена ключей:
-  [Foreign Keys](http://edgeguides.rubyonrails.org/active_record_migrations.html#foreign-keys).
+  [Foreign Keys](http://guides.rubyonrails.org/active_record_migrations.html#foreign-keys).
   <sup>[[link](#meaningful-foreign-key-naming)]</sup>
 
   ```Ruby
@@ -907,6 +975,45 @@
   class AddFkArticlesToAuthors < ActiveRecord::Migration
     def change
       add_foreign_key :articles, :authors, name: :articles_author_id_fk
+    end
+  end
+  ```
+
+* <a name="reversible-migration"></a>
+  Не используйте необратимые методы миграций в методе `change`.
+  Обратимые методы можно найти в списке ниже:
+  [ActiveRecord::Migration::CommandRecorder](http://api.rubyonrails.org/classes/ActiveRecord/Migration/CommandRecorder.html)
+  <sup>[[link](#reversible-migration)]</sup>
+
+  ```ruby
+  # плохо
+  class DropUsers < ActiveRecord::Migration
+    def change
+      drop_table :users
+    end
+  end
+
+  # хорошо
+  class DropUsers < ActiveRecord::Migration
+    def up
+      drop_table :users
+    end
+
+    def down
+      create_table :users do |t|
+        t.string :name
+      end
+    end
+  end
+
+  # хорошо
+  # В этом случае при откате будет использоваться блок в `create_table`
+  # http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters.html#method-i-drop_table
+  class DropUsers < ActiveRecord::Migration
+    def change
+      drop_table :users do |t|
+        t.string :name
+      end
     end
   end
   ```
