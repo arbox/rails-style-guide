@@ -20,7 +20,6 @@
 * [китайский традиционный](https://github.com/JuanitoFatas/rails-style-guide/blob/master/README-zhTW.md)
 * [китайский упрощенный](https://github.com/JuanitoFatas/rails-style-guide/blob/master/README-zhCN.md)
 * [корейский](https://github.com/pureugong/rails-style-guide/blob/master/README-koKR.md)
-* [немецкий](https://github.com/arbox/de-rails-style-guide/blob/master/README-deDE.md)
 * [русский (данный документ)](https://github.com/arbox/rails-style-guide/blob/master/README-ruRU.md)
 * [турецкий](https://github.com/tolgaavci/rails-style-guide/blob/master/README-trTR.md)
 * [японский](https://github.com/satour/rails-style-guide/blob/master/README-jaJA.md)
@@ -481,9 +480,7 @@
   ```
 
 * <a name="sexy-validations"></a>
-  Всегда применяйте новый синтаксис валидаций, так называемые ["sexy"
-  validations
-  ](http://thelucid.com/2010/01/08/sexy-validation-in-edge-rails-rails-3/).
+  Всегда применяйте новый синтаксис валидаций, так называемые ["sexy" validations](https://web.archive.org/web/20160827104740/http://thelucid.com/2010/01/08/sexy-validation-in-edge-rails-rails-3/).
   <sup>[[ссылка](#sexy-validations)]</sup>
 
   ```Ruby
@@ -821,7 +818,7 @@
   SQL
   ```
 
-  [`String#squish`](http://apidock.com/rails/String/squish) удаляет отступы и
+  [`String#squish`](https://apidock.com/rails/String/squish) удаляет отступы и
   переносы, таким образом запросы будут отображаться в виде обычных строк, а не
   в виде вот таких последовательностей:
 
@@ -1153,7 +1150,7 @@
   <sup>[[ссылка](#gem-assets)]</sup>
 
   - [jquery-rails](https://github.com/rails/jquery-rails);
-  - [jquery-ui-rails](https://github.com/joliss/jquery-ui-rails);
+  - [jquery-ui-rails](https://github.com/jquery-ui-rails/jquery-ui-rails);
   - [bootstrap-sass](https://github.com/twbs/bootstrap-sass);
   - [zurb-foundation](https://github.com/zurb/foundation-sites).
 
@@ -1458,7 +1455,7 @@
 * [The Cucumber Book](https://pragprog.com/book/hwcuc/the-cucumber-book)
 * [Everyday Rails Testing with RSpec](https://leanpub.com/everydayrailsrspec)
 * [Rails 4 Test Prescriptions](https://pragprog.com/book/nrtest2/rails-4-test-prescriptions)
-* [Better Specs for RSpec](http://betterspecs.org)
+* [Better Specs for RSpec](http://www.betterspecs.org)
 
 # Сотрудничество
 
