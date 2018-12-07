@@ -15,11 +15,12 @@
 
 Переводы данного руководства доступны на следующих языках:
 
-* [английский (исходная версия)](https://github.com/bbatsov/rails-style-guide/blob/master/README.md)
+* [английский (исходная версия)](https://github.com/rubocop-hq/rails-style-guide/blob/master/README.md)
 * [вьетнамский](https://github.com/CQBinh/rails-style-guide/blob/master/README-viVN.md)
 * [китайский традиционный](https://github.com/JuanitoFatas/rails-style-guide/blob/master/README-zhTW.md)
 * [китайский упрощенный](https://github.com/JuanitoFatas/rails-style-guide/blob/master/README-zhCN.md)
 * [корейский](https://github.com/pureugong/rails-style-guide/blob/master/README-koKR.md)
+* [португальский (pt-BR)](https://github.com/abraaomiranda/rails-style-guide/blob/master/README-ptBR.md)
 * [русский (данный документ)](https://github.com/arbox/rails-style-guide/blob/master/README-ruRU.md)
 * [турецкий](https://github.com/tolgaavci/rails-style-guide/blob/master/README-trTR.md)
 * [японский](https://github.com/satour/rails-style-guide/blob/master/README-jaJA.md)
@@ -82,12 +83,12 @@
 
   * Укажите добавленные вами ресурсы для комплиляции (при наличии):
 
-    ```Ruby
-    # config/environments/production.rb
-    # Скомпилируйте дополнительные ресурсы (application.js, application.css,
-    # и прочие не JS/CSS уже добавлены).
-    config.assets.precompile += %w( rails_admin/rails_admin.css rails_admin/rails_admin.js )
-    ```
+  ```ruby
+  # config/environments/production.rb
+  # Скомпилируйте дополнительные ресурсы (application.js, application.css,
+  # и прочие не JS/CSS уже добавлены).
+  config.assets.precompile += %w( rails_admin/rails_admin.css rails_admin/rails_admin.js )
+  ```
 
 * <a name="app-config"></a>
   Сохраняйте настройки, которые относятся ко всем окружениям, в файле
@@ -107,7 +108,7 @@
   Начиная с `Rails 4.2` файлы конфиругации в `YAML` можно легко загружать при
   помощи нового метода `config_for`:
 
-  ```Ruby
+  ```ruby
   Rails::Application.config_for(:yaml_file)
   ```
 ## Маршрутизация
@@ -118,53 +119,53 @@
   и `collection`.
   <sup>[[ссылка](#member-collection-routes)]</sup>
 
-    ```Ruby
-    # плохо
-    get 'subscriptions/:id/unsubscribe'
-    resources :subscriptions
+  ```ruby
+  # плохо
+  get 'subscriptions/:id/unsubscribe'
+  resources :subscriptions
 
-    # хорошо
-    resources :subscriptions do
-      get 'unsubscribe', on: :member
-    end
+  # хорошо
+  resources :subscriptions do
+    get 'unsubscribe', on: :member
+  end
 
-    # плохо
-    get 'photos/search'
-    resources :photos
+  # плохо
+  get 'photos/search'
+  resources :photos
 
-    # хорошо
-    resources :photos do
-      get 'search', on: :collection
-    end
-    ```
+  # хорошо
+  resources :photos do
+    get 'search', on: :collection
+  end
+  ```
 
 * <a name="many-member-collection-routes"></a>
   Когда вам нужно определить несколько контекстов маршрутизации при помощи
   `member` или `collection`, используйте альтернативную блочную запись.
   <sup>[[ссылка](#many-member-collection-routes)]</sup>
 
-    ```Ruby
-    resources :subscriptions do
-      member do
-        get 'unsubscribe'
-        # дополнительные маршруты
-      end
+  ```ruby
+  resources :subscriptions do
+    member do
+      get 'unsubscribe'
+      # дополнительные маршруты
     end
+  end
 
-    resources :photos do
-      collection do
-        get 'search'
-        # дополнительные маршруты
-      end
+  resources :photos do
+    collection do
+      get 'search'
+      # дополнительные маршруты
     end
-    ```
+  end
+  ```
 
 * <a name="nested-routes"></a>
   Используйте вложенные определения маршрутов, чтобы лучше показать отношения
   между разными моделями `ActiveRecord`.
   <sup>[[ссылка](#nested-routes)]</sup>
 
-    ```Ruby
+    ```ruby
     class Post < ActiveRecord::Base
       has_many :comments
     end
@@ -184,7 +185,7 @@
   `posts/1/comments/5/versions/7/edit` и вас от применения длинных наименований
   вроде `edit_post_comment_version`.
 
-  ```Ruby
+  ```ruby
   resources :posts, shallow: true do
     resources :comments do
       resources :versions
@@ -197,7 +198,7 @@
   объединить связанные действия.
   <sup>[[ссылка](#namespaced-routes)]</sup>
 
-    ```Ruby
+    ```ruby
     namespace :admin do
       # Направляет /admin/products/* to Admin::ProductsController
       # (app/controllers/admin/products_controller.rb)
@@ -210,7 +211,7 @@
   все действия во всех контроллерах для запросов `GET`.
   <sup>[[ссылка](#no-wild-routes)]</sup>
 
-    ```Ruby
+    ```ruby
     # очень плохо
     match ':controller(/:action(/:id(.:format)))'
     ```
@@ -237,6 +238,28 @@
   Старайтесь не передавать более двух переменных из контроллера в шаблон.
   <sup>[[ссылка](#shared-instance-variables)]</sup>
 
+<!--- @FIXME -->
+* <a name="lexically-scoped-action-filter"></a>
+  Controller actions specified in the option of Action Filter should be in lexical scope.
+  The ActionFilter specified for an inherited action makes it difficult
+  to understand the scope of its impact on that action.
+  <sup>[[ссылка](#lexically-scoped-action-filter)]</sup>
+
+  ```ruby
+  # плохо
+  class UsersController < ApplicationController
+    before_action :require_login, only: :export
+  end
+
+  # хорошо
+  class UsersController < ApplicationController
+    before_action :require_login, only: :export
+
+    def export
+    end
+  end
+  ```
+
 <!--- @FIXME: Translate this snippet. --->
 ### Rendering
 
@@ -244,7 +267,7 @@
   Prefer using a template over inline rendering.
   <sup>[[link](#inline-rendering)]</sup>
 
-  ```Ruby
+  ```ruby
   # very bad
   class ProductsController < ApplicationController
     def index
@@ -272,7 +295,7 @@
   Prefer `render plain:` over `render text:`.
   <sup>[[link](#plain-text-rendering)]</sup>
 
-  ```Ruby
+  ```ruby
   # bad - sets MIME type to `text/html`
   ...
   render text: 'Ruby!'
@@ -294,10 +317,10 @@
   They are meaningful and do not look like "magic" numbers for less known HTTP status codes.
   <sup>[[link](#http-status-code-symbols)]</sup>
 
-  ```Ruby
+  ```ruby
   # плохо
   # некоторый код
-  render status: 500
+  render status: 403
   # некоторый код
 
   # хорошо
@@ -322,7 +345,7 @@
   [ActiveAttr](https://github.com/cgriego/active_attr).
   <sup>[[ссылка](#activeattr-gem)]</sup>
 
-    ```Ruby
+    ```ruby
     class Message
       include ActiveAttr::Model
 
@@ -360,7 +383,7 @@
   возможности изменить.
   <sup>[[ссылка](#keep-ar-defaults)]</sup>
 
-    ```Ruby
+    ```ruby
     # плохо (не делайте так, если вы можете изменить схему)
     class Transaction < ActiveRecord::Base
       self.table_name = 'order'
@@ -373,7 +396,7 @@
   класса.
   <sup>[[ссылка](#macro-style-methods)]</sup>
 
-  ```Ruby
+  ```ruby
   class User < ActiveRecord::Base
     # записывайте стандартную область видимости в начале (если имеется)
     default_scope { where(active: true) }
@@ -419,7 +442,7 @@
   валидаций на модели объединения.
   <sup>[[ссылка](#has-many-through)]</sup>
 
-    ```Ruby
+    ```ruby
     # не особо (применяется has_and_belongs_to_many)
     class User < ActiveRecord::Base
       has_and_belongs_to_many :groups
@@ -450,7 +473,7 @@
   Используйте `self[:attribute]` вместо `read_attribute(:attribute)`.
   <sup>[[ссылка](#read-attribute)]</sup>
 
-    ```Ruby
+    ```ruby
     # плохо
     def amount
       read_attribute(:amount) * 100
@@ -467,7 +490,7 @@
   `write_attribute(:attribute, value)`.
   <sup>[[ссылка](#write-attribute)]</sup>
 
-  ```Ruby
+  ```ruby
   # плохо
   def amount
     write_attribute(:amount, 100)
@@ -480,10 +503,11 @@
   ```
 
 * <a name="sexy-validations"></a>
-  Всегда применяйте новый синтаксис валидаций, так называемые ["sexy" validations](https://web.archive.org/web/20160827104740/http://thelucid.com/2010/01/08/sexy-validation-in-edge-rails-rails-3/).
+  Всегда применяйте новый синтаксис валидаций, так называемые
+  ["sexy" validations](https://web.archive.org/web/20160827104740/http://thelucid.com/2010/01/08/sexy-validation-in-edge-rails-rails-3/).
   <sup>[[ссылка](#sexy-validations)]</sup>
 
-  ```Ruby
+  ```ruby
   # плохо
   validates_presence_of :email
   validates_length_of :email, maximum: 100
@@ -491,6 +515,21 @@
   # хорошо
   validates :email, presence: true, length: { maximum: 100 }
   ```
+<!--- @FIXME -->
+* <a name="single-attribute-validations"></a>
+    To make validations easy to read, don't list multiple attributes per
+    validation
+    <sup>[[link](#single-attribute-validations)]</sup>
+
+    ```ruby
+    # bad
+    validates :email, :password, presence: true
+    validates :email, length: { maximum: 100 }
+
+    # good
+    validates :email, presence: true, length: { maximum: 100 }
+    validates :password, presence: true
+    ```
 
 * <a name="custom-validator-file"></a>
   Если определенная разработчиком валидация используется несколько раз или
@@ -498,7 +537,7 @@
   валидаторов.
   <sup>[[ссылка](#custom-validator-file)]</sup>
 
-  ```Ruby
+  ```ruby
   # плохо
   class Person
     validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
@@ -530,7 +569,7 @@
   Спокойно применяйте поименованные области поиска (named scopes).
   <sup>[[ссылка](#named-scopes)]</sup>
 
-  ```Ruby
+  ```ruby
   class User < ActiveRecord::Base
     scope :active, -> { where(active: true) }
     scope :inactive, -> { where(active: false) }
@@ -547,13 +586,52 @@
   Наверное, этим же образом можно определять и более простые области поиска.
   <sup>[[ссылка](#named-scop-class)]</sup>
 
-  ```Ruby
+  ```ruby
   class User < ActiveRecord::Base
     def self.with_orders
       joins(:orders).select('distinct(users.id)')
     end
   end
   ```
+<!--- @FIXME -->
+* <a name="callbacks-order"></a>
+  Order callback declarations in the order, in which they will be executed. For
+  referenece, see [Available Callbacks](http://guides.rubyonrails.org/active_record_callbacks.html#available-callbacks)
+  <sup>[[ссылка](#callbacks-order)]</sup>
+
+    ```ruby
+    # плохо
+    class Person
+      after_commit/after_rollback :after_commit_callback
+      after_save :after_save_callback
+      around_save :around_save_callback
+      after_update :after_update_callback
+      before_update :before_update_callback
+      after_validation :after_validation_callback
+      before_validation :before_validation_callback
+      before_save :before_save_callback
+      before_create :before_create_callback
+      after_create :after_create_callback
+      around_create :around_create_callback
+      around_update :around_update_callback
+    end
+
+    # хорошо
+    class Person
+      before_validation :before_validation_callback
+      after_validation :after_validation_callback
+      before_save :before_save_callback
+      around_save :around_save_callback
+      before_create :before_create_callback
+      around_create :around_create_callback
+      after_create :after_create_callback
+      before_update :before_update_callback
+      around_update :around_update_callback
+      after_update :after_update_callback
+      after_save :after_save_callback
+      after_commit/after_rollback :after_commit_callback
+    end
+    ```
 
 * <a name="beware-skip-model-validations"></a>
   Поймите принцип работы следующих [методов](http://guides.rubyonrails.org/active_record_validations.html#skipping-validations).
@@ -561,7 +639,7 @@
   ошибочных записей в базе данных.
   <sup>[[ссылка](#beware-skip-model-validations)]</sup>
 
-   ```Ruby
+   ```ruby
   # плохо
   Article.first.decrement!(:view_count)
   DiscussionBoard.decrement_counter(:post_count, 5)
@@ -589,7 +667,7 @@
     объекта (записи) в виде строки. Это поведение можно переопределить и
     включить некоторый понятный человеку атрибут.
 
-    ```Ruby
+    ```ruby
     class Person
       def to_param
         "#{id} #{name}".parameterize
@@ -605,7 +683,7 @@
   * Используйте гем `friendly_id`. Эта библиотека создает легко читаемые URL
     с использованием некоторых говорящих атрибутов моделей вместо `id`.
 
-    ```Ruby
+    ```ruby
     class Person
       extend FriendlyId
       friendly_id :name, use: :slugged
@@ -626,7 +704,7 @@
   <sup>[[ссылка](#find-each)]</sup>
 
 
-    ```Ruby
+    ```ruby
     # плохо
     Person.all.each do |person|
       person.do_awesome_stuff
@@ -647,19 +725,18 @@
     ```
 
 * <a name="before_destroy"></a>
-  [Rails создает методы обратного вызова для зависимых
-  ассоциаций](https://github.com/rails/rails/issues/3458), поэтому всегда
-  вызывайте метод `before_destroy` для валидации с параметром `prepend: true`.
+  [Rails создает методы обратного вызова для зависимых ассоциаций](https://github.com/rails/rails/issues/3458),
+  поэтому всегда вызывайте метод `before_destroy` для валидации с параметром `prepend: true`.
   <sup>[[ссылка](#before_destroy)]</sup>
 
-  ```Ruby
+  ```ruby
   # плохо (роли будут удалены в любом случае, даже если super_admin? задан)
   has_many :roles, dependent: :destroy
 
   before_destroy :ensure_deletable
 
   def ensure_deletable
-    fail "Cannot delete super admin." if super_admin?
+    raise "Cannot delete super admin." if super_admin?
   end
 
   # хорошо
@@ -668,7 +745,7 @@
   before_destroy :ensure_deletable, prepend: true
 
   def ensure_deletable
-    fail "Cannot delete super admin." if super_admin?
+    raise "Cannot delete super admin." if super_admin?
   end
   ```
 
@@ -676,7 +753,7 @@
   Задавайте опцию `dependent` в ассоциация типа `has_many` и `has_one`.
   <sup>[[link](#has_many-has_one-dependent-option)]</sup>
 
-  ```Ruby
+  ```ruby
   # плохо
   class Post < ActiveRecord::Base
     has_many :comments
@@ -694,7 +771,7 @@
   This applies to `create`, `save`, `update`, `destroy`, `first_or_create` and `find_or_create_by`.
   <sup>[[link](#save-bang)]</sup>
 
-  ```Ruby
+  ```ruby
   # bad
   user.create(name: 'Bruce')
 
@@ -727,7 +804,7 @@
   к атакам типа `SQL injection`.
   <sup>[[ссылка](#avoid-interpolation)]</sup>
 
-  ```Ruby
+  ```ruby
   # плохо (param будет вставлен без экранирования)
   Client.where("orders_count = #{params[:orders]}")
 
@@ -740,7 +817,7 @@
   если у вас в запросе их более двух.
   <sup>[[ссылка](#named-placeholder)]</sup>
 
-  ```Ruby
+  ```ruby
   # сойдет
   Client.where(
     'created_at >= ? AND created_at <= ?',
@@ -754,26 +831,37 @@
   )
   ```
 
+<!--- @FIXME -->
 * <a name="find"></a>
-  Отдавайте предпочтение использованию `find` вместо `where`, если вам нужно
+  Отдавайте предпочтение использованию `find` вместо `where(...).take!`, `find_by!`,` если вам нужно
   получить всего одну запись по ее идентификатору.
+     Favor the use of `find` over `where.take!`, `find_by!`, and `find_by_id!`
+    when you need to retrieve a single record by primary key id and raise
+    `ActiveRecord::RecordNotFound` when the record is not found.
   <sup>[[ссылка](#find)]</sup>
 
-  ```Ruby
+  ```ruby
   # плохо
-  User.where(id: id).take
+  User.where(id: id).take!
+
+  # bad
+  User.find_by_id!(id)
+
+  # bad
+  User.find_by!(id: id)
 
   # хорошо
   User.find(id)
   ```
 
+<!--- @FIXME -->
 * <a name="find_by"></a>
   Отдавайте предпочтение использованию `find_by` вместо `where` и
   `find_by_attribute`, если вам нужно получить всего одну запись по значению
   какого-то ее атрибута.
   <sup>[[ссылка](#find_by)]</sup>
 
-  ```Ruby
+  ```ruby
   # плохо
   User.where(first_name: 'Bruce', last_name: 'Wayne').first
 
@@ -783,19 +871,64 @@
   # хорошо
   User.find_by(first_name: 'Bruce', last_name: 'Wayne')
   ```
+* <a name="find_by"></a>
+    Favor the use of `find_by` over `where.take` and `find_by_attribute`
+    when you need to retrieve a single record by one or more attributes and return
+    `nil` when the record is not found.
+    <sup>[[link](#find_by)]</sup>
 
+    ```ruby
+    # bad
+    User.where(id: id).take
+    User.where(first_name: 'Bruce', last_name: 'Wayne').take
+
+    # bad
+    User.find_by_id(id)
+    # bad, deprecated in ActiveRecord 4.0, removed in 4.1+
+    User.find_by_first_name_and_last_name('Bruce', 'Wayne')
+
+    # good
+    User.find_by(id: id)
+    User.find_by(first_name: 'Bruce', last_name: 'Wayne')
+    ```
 * <a name="where-not"></a>
   Используйте `where.not` вместо простого SQL.
   <sup>[[ссылка](#where-not)]</sup>
 
-  ```Ruby
+  ```ruby
   # плохо
   User.where("id != ?", id)
 
   # хорошо
   User.where.not(id: id)
   ```
+<!--- @FIXME -->
+* <a name ="order-by-id"></a>
+    Don't use the `id` column for ordering. The sequence of ids is not
+    guaranteed to be in any particular order, despite often (incidentally)
+    being chronological. Use a timestamp column to order chronologically.
+    As a bonus the intent is clearer.
+    <sup>[[link](#order-by-id)]</sup>
 
+    ```ruby
+    # bad
+    scope :chronological, -> { order(id: :asc) }
+
+    # good
+    scope :chronological, -> { order(created_at: :asc) }
+    ```
+
+  * <a name="ids"></a>
+    Favor the use of `ids` over `pluck(:id)`.
+    <sup>[[link](#ids)]</sup>
+
+    ```ruby
+    # bad
+    User.pluck(:id)
+
+    # good
+    User.ids
+    ```
 * <a name="squished-heredocs"></a>
   При явном формулировании запроса в таких методах, как `find_by_sql`,
   используйте HEREDOC в сочетании с методом `squish`. Это позволит вам
@@ -804,7 +937,7 @@
   RubyMine).
   <sup>[[link](#squished-heredocs)]</sup>
 
-  ```Ruby
+  ```ruby
   User.find_by_sql(<<-SQL.squish)
     SELECT
       users.id, accounts.plan
@@ -826,6 +959,25 @@
   SELECT\n    users.id, accounts.plan\n  FROM\n    users\n  INNER JOIN\n    acounts\n  ON\n    accounts.user_id = users.id
   ```
 
+<!--- @FIXME -->
+* <a name="size-over-count-or-length"></a>
+  When querying ActiveRecord collections, prefer `size`
+  (selects between count/length behavior based on whether collection is already loaded)
+  or `length` (always loads the whole collection and counts the array elements)
+  over `count` (always does a database query for the count).
+  <sup>[[link](#size-over-count-or-length)]</sup>
+
+    ```ruby
+    # bad
+    User.count
+
+    # good
+    User.all.size
+
+    # good - if you really need to load all users into memory
+    User.all.length
+    ```
+
 ## Миграции
 
 * <a name="schema-version"></a>
@@ -843,7 +995,7 @@
   приложения.
   <sup>[[ссылка](#default-migration-values)]</sup>
 
-  ```Ruby
+  ```ruby
   # плохо (стандартное значение устанавливается в приложении)
    class Product < ActiveRecord::Base
     def amount
@@ -875,7 +1027,7 @@
   `change` вместо методов `up` и `down`.
   <sup>[[ссылка](#change-vs-up-down)]</sup>
 
-  ```Ruby
+  ```ruby
   # старый способ
   class AddNameToPeople < ActiveRecord::Migration
     def up
@@ -900,7 +1052,7 @@
   так, чтобы не получить в будущем неработающие миграции.
   <sup>[[ссылка](#define-model-class-migrations)]</sup>
 
-  ```Ruby
+  ```ruby
   # db/migrate/<migration_file_name>.rb
   # frozen_string_literal: true
 
@@ -960,7 +1112,7 @@
   [Foreign Keys](http://guides.rubyonrails.org/active_record_migrations.html#foreign-keys).
   <sup>[[link](#meaningful-foreign-key-naming)]</sup>
 
-  ```Ruby
+  ```ruby
   # плохо
   class AddFkArticlesToAuthors < ActiveRecord::Migration
     def change
@@ -1068,7 +1220,7 @@
     должны быть определены в файле `application.rb`, чтобы файлы локалей могли
     быть загружены.
 
-      ```Ruby
+      ```ruby
       # config/application.rb
       config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}')]
       ```
@@ -1098,7 +1250,7 @@
   Значение для `users.show.title` можно будет найти в шаблоне
   `app/views/users/show.html.haml`, например, так:
 
-  ```Ruby
+  ```ruby
   = t '.title'
   ```
 
@@ -1108,7 +1260,7 @@
   иерархия более понятна.
   <sup>[[ссылка](#dot-separated-keys)]</sup>
 
-  ```Ruby
+  ```ruby
   # плохо
   I18n.t :record_invalid, scope: [:activerecord, :errors, :messages]
 
@@ -1118,9 +1270,8 @@
 
 * <a name="i18n-guides"></a>
   Более подробную информацию по интернационализации (I18n) в Rails можно найти
-  по адресу [API интернационализации Rails
-  ](http://rusrails.ru/rails-internationalization-i18n-api) либо
-  [Rails Guides](http://guides.rubyonrails.org/i18n.html) (английский оригинал).
+  по адресу [API интернационализации Rails](http://rusrails.ru/rails-internationalization-i18n-api)
+  либо [Rails Guides](http://guides.rubyonrails.org/i18n.html) (английский оригинал).
   <sup>[[ссылка](#i18n-guides)]</sup>
 
 ## Ресурсы
@@ -1171,7 +1322,7 @@
   разработки. По умолчанию эти вызовы отключены.
   <sup>[[ссылка](#enable-delivery-errors)]</sup>
 
-  ```Ruby
+  ```ruby
   # config/environments/development.rb
 
   config.action_mailer.raise_delivery_errors = true
@@ -1182,7 +1333,7 @@
   ](https://github.com/sj26/mailcatcher) в вашем окружении разработки.
   <sup>[[ссылка](#local-smtp)]</sup>
 
-  ```Ruby
+  ```ruby
   # config/environments/development.rb
 
   config.action_mailer.smtp_settings = {
@@ -1196,7 +1347,7 @@
   Указывайте стандартные настройки имени вашего узла.
   <sup>[[ссылка](#default-hostname)]</sup>
 
-  ```Ruby
+  ```ruby
   # config/environments/development.rb
   config.action_mailer.default_url_options = { host: "#{local_ip}:3000" }
 
@@ -1213,7 +1364,7 @@
   имя вашего узла в текст ссылки, а с суффиксом `_path` не включают.
   <sup>[[ссылка](#url-not-path-in-email)]</sup>
 
-  ```Ruby
+  ```ruby
   # плохо
   You can always find more info about this course
   <%= link_to 'here', course_path(@course) %>
@@ -1228,7 +1379,7 @@
   следующий формат:
   <sup>[[ссылка](#email-addresses)]</sup>
 
-  ```Ruby
+  ```ruby
   # в классе мейлера
   default from: 'Your Name <info@your_site.com>'
   ```
@@ -1238,7 +1389,7 @@
   как `test`:
   <sup>[[ссылка](#delivery-method-test)]</sup>
 
-  ```Ruby
+  ```ruby
   # config/environments/test.rb
 
   config.action_mailer.delivery_method = :test
@@ -1248,7 +1399,7 @@
   Методом доставки почты для разработки и развертывания должен быть `smtp`:
   <sup>[[ссылка](#delivery-method-smtp)]</sup>
 
-  ```Ruby
+  ```ruby
   # config/environments/development.rb, config/environments/production.rb
 
   config.action_mailer.delivery_method = :smtp
@@ -1338,14 +1489,6 @@
   # good
   pets = %w(cat dog)
   pets.include? 'cat'
-
-  # bad - Numeric#inquiry
-  0.positive?
-  0.negative?
-
-  # good
-  0 > 0
-  0 < 0
   ```
 
 ## Время
@@ -1354,7 +1497,7 @@
   Настройте в файле `application.rb` вашу временную зону.
   <sup>[[ссылка](#tz-config)]</sup>
 
-  ```Ruby
+  ```ruby
   config.time_zone = 'Eastern European Time'
   # опционально (обратите внимание, возможны только значения :utc или :local,
   # по умолчанию :utc)
@@ -1365,10 +1508,22 @@
   Не используйте `Time.parse`.
   <sup>[[ссылка](#time-parse)]</sup>
 
-  ```Ruby
+  ```ruby
   # плохо
   # Подразумевается, что передаваемая строка со временем отражает временную зону вашей ОС.
   Time.parse('2015-03-02 19:05:37')
+
+  # хорошо
+  Time.zone.parse('2015-03-02 19:05:37') # => Mon, 02 Mar 2015 19:05:37 EET +02:00
+  ```
+
+* <a name="to-time"></a>
+  Не используйте [`String#to_time`](https://apidock.com/rails/String/to_time)
+  <sup>[[ссылка](#to-time)]</sup>
+
+  ```ruby
+  # плохо (временная зона по умолчанию равна системной)
+  '2015-03-02 19:05:37'.to_time
 
   # хорошо
   Time.zone.parse('2015-03-02 19:05:37') # => Mon, 02 Mar 2015 19:05:37 EET +02:00
@@ -1378,7 +1533,7 @@
   Не используйте `Time.now`.
   <sup>[[ссылка](#time-now)]</sup>
 
-  ```Ruby
+  ```ruby
   # плохо
   # Возвращает системное время и не учитывает настройки временной зоны.
   Time.now
@@ -1387,7 +1542,6 @@
   Time.zone.now # => Fri, 12 Mar 2014 22:04:47 EET +02:00
   Time.current # Более короткая форма записи.
   ```
-
 ## Bundler
 
 * <a name="dev-test-gems"></a>
@@ -1409,7 +1563,7 @@
   для `Linux`, в группу `linux`.
   <sup>[[ссылка](#os-specific-gemfile-locks)]</sup>
 
-  ```Ruby
+  ```ruby
   # Gemfile
   group :darwin do
     gem 'rb-fsevent'
@@ -1424,7 +1578,7 @@
   Для включения нужных библиотек только в нужном окружении, добавьте в файл
   `config/application.rb` следующие строки:
 
-  ```Ruby
+  ```ruby
   platform = RUBY_PLATFORM.match(/(linux|darwin)/)[0].to_sym
   Bundler.require(platform)
   ```
@@ -1468,10 +1622,7 @@
 вашего кода. И заранее большое спасибо за вашу помощь!
 
 Вы можете поддержать проект (и РубоКоп) денежным взносом при помощи
-[gittip][gratipay].
-
-[![Дай Gittip](https://raw.githubusercontent.com/twolfson/gittip-badge/0.2.0/dist/gittip.png)][gratipay]
-
+[Patreon](https://www.patreon.com/bbatsov).
 
 ## Как сотрудничать в проекте?
 
@@ -1497,5 +1648,4 @@ Unported License](https://creativecommons.org/licenses/by/3.0/deed.en_US)
 <!--- Links -->
 [ruby-style-guide]: https://github.com/arbox/ruby-style-guide/blob/master/README-ruRU.md
 [transmuter]: https://github.com/kalbasit/transmuter
-[gratipay]: https://gratipay.com/~bbatsov/
 [pandoc]: http://pandoc.org/
