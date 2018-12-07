@@ -596,7 +596,7 @@
 <!--- @FIXME -->
 * <a name="callbacks-order"></a>
   Order callback declarations in the order, in which they will be executed. For
-  referenece, see [Available Callbacks](http://guides.rubyonrails.org/active_record_callbacks.html#available-callbacks)
+  referenece, see [Available Callbacks](https://guides.rubyonrails.org/active_record_callbacks.html#available-callbacks)
   <sup>[[ссылка](#callbacks-order)]</sup>
 
     ```ruby
@@ -634,7 +634,7 @@
     ```
 
 * <a name="beware-skip-model-validations"></a>
-  Поймите принцип работы следующих [методов](http://guides.rubyonrails.org/active_record_validations.html#skipping-validations).
+  Поймите принцип работы следующих [методов](https://guides.rubyonrails.org/active_record_validations.html#skipping-validations).
   Они не вызывают валидацию моделей и могут быстро привести к появлению
   ошибочных записей в базе данных.
   <sup>[[ссылка](#beware-skip-model-validations)]</sup>
@@ -1109,7 +1109,7 @@
 * <a name="meaningful-foreign-key-naming"></a>
   Явно выбирайте наименования для внешних ключей (foreign key), не полагайтесь
   на автоматически сгенерированные имена ключей:
-  [Foreign Keys](http://guides.rubyonrails.org/active_record_migrations.html#foreign-keys).
+  [Foreign Keys](https://guides.rubyonrails.org/active_record_migrations.html#foreign-keys).
   <sup>[[link](#meaningful-foreign-key-naming)]</sup>
 
   ```ruby
@@ -1131,7 +1131,7 @@
 * <a name="reversible-migration"></a>
   Не используйте необратимые методы миграций в методе `change`.
   Обратимые методы можно найти в списке ниже:
-  [ActiveRecord::Migration::CommandRecorder](http://api.rubyonrails.org/classes/ActiveRecord/Migration/CommandRecorder.html)
+  [ActiveRecord::Migration::CommandRecorder](https://api.rubyonrails.org/classes/ActiveRecord/Migration/CommandRecorder.html)
   <sup>[[link](#reversible-migration)]</sup>
 
   ```ruby
@@ -1157,7 +1157,7 @@
 
   # хорошо
   # В этом случае при откате будет использоваться блок в `create_table`
-  # http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters.html#method-i-drop_table
+  # https://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters.html#method-i-drop_table
   class DropUsers < ActiveRecord::Migration
     def change
       drop_table :users do |t|
@@ -1271,13 +1271,13 @@
 * <a name="i18n-guides"></a>
   Более подробную информацию по интернационализации (I18n) в Rails можно найти
   по адресу [API интернационализации Rails](http://rusrails.ru/rails-internationalization-i18n-api)
-  либо [Rails Guides](http://guides.rubyonrails.org/i18n.html) (английский оригинал).
+  либо [Rails Guides](https://guides.rubyonrails.org/i18n.html) (английский оригинал).
   <sup>[[ссылка](#i18n-guides)]</sup>
 
 ## Ресурсы
 
 Применяйте
-[конвейер ресурсов](http://guides.rubyonrails.org/asset_pipeline.html)
+[конвейер ресурсов](https://guides.rubyonrails.org/asset_pipeline.html)
 (assets pipeline) для упорядочения структуры вашего приложения.
 
 * <a name="reserve-app-assets"></a>
@@ -1604,7 +1604,7 @@
 
 <!--- @FIXME: Find russian translations. -->
 * [The Rails 4 Way](https://www.amazon.com/Rails-Way-Addison-Wesley-Professional-Ruby/dp/0321944275)
-* [Ruby on Rails Guides](http://guides.rubyonrails.org/)
+* [Ruby on Rails Guides](https://guides.rubyonrails.org/)
 * [The RSpec Book](https://pragprog.com/book/achbd/the-rspec-book)
 * [The Cucumber Book](https://pragprog.com/book/hwcuc/the-cucumber-book)
 * [Everyday Rails Testing with RSpec](https://leanpub.com/everydayrailsrspec)

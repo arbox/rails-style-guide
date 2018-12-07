@@ -33,7 +33,7 @@
 Огромное спасибо [всем](CONTRIBUTORS.md), кто уже помогает!
 
 [russian]: https://github.com/arbox/rails-style-guide/blob/master/README-ruRU.md
-[english]: https://github.com/bbatsov/rails-style-guide/blob/master/README.md
+[english]: https://github.com/rubocop-hq/rails-style-guide/blob/master/README.md
 [bbatsov]: https://github.com/bbatsov
 [ruby-style-guide]: https://github.com/arbox/ruby-style-guide/blob/master/README-ruRU.md
-[ror]: http://rubyonrails.org/
+[ror]: https://rubyonrails.org/
