@@ -1,6 +1,6 @@
-# :green_book: Rails: руководство по стилю оформления [![Build Status](https://api.travis-ci.org/arbox/rails-style-guide.svg?branch=master)](https://travis-ci.org/arbox/rails-style-guide)
+# :green_book: Rails: руководство по стилю оформления
 
-> [<img src="assets/Ruby_on_Rails_logo.jpg" align="right" height="120px" alt="Ruby on Rails Logo" />][ror]
+[<img src="assets/Ruby_on_Rails_logo.jpg" align="right" height="120px" alt="Ruby on Rails Logo" />][ror]
 
 > Коллективно создаваемое руководство по стилю оформления кода на [Rails][ror]
 
