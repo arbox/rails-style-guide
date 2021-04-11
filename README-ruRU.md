@@ -260,22 +260,21 @@
   end
   ```
 
-<!--- @FIXME: Translate this snippet. --->
-### Rendering
+### Рендеринг
 
 * <a name="inline-rendering"></a>
-  Prefer using a template over inline rendering.
-  <sup>[[link](#inline-rendering)]</sup>
+  Предпочитайте подшаблоны вместо встроенного рендеринга.
+  <sup>[[ссылка](#inline-rendering)]</sup>
 
   ```ruby
-  # very bad
+  # очень плохо
   class ProductsController < ApplicationController
     def index
       render inline: "<% products.each do |p| %><p><%= p.name %></p><% end %>", type: :erb
     end
   end
 
-  # good
+  # хорошо
   ## app/views/products/index.html.erb
   <%= render partial: 'product', collection: products %>
 
@@ -292,30 +291,30 @@
   ```
 
 * <a name="plain-text-rendering"></a>
-  Prefer `render plain:` over `render text:`.
-  <sup>[[link](#plain-text-rendering)]</sup>
+  Используйте `render plain:` вместо `render text:`.
+  <sup>[[ссылка](#plain-text-rendering)]</sup>
 
   ```ruby
-  # bad - sets MIME type to `text/html`
+  # плохо (устанавливает MIME-тип в `text/html`)
   ...
   render text: 'Ruby!'
   ...
 
-  # bad - requires explicit MIME type declaration
+  # плохо (требуется явное объявление MIME-типа)
   ...
   render text: 'Ruby!', content_type: 'text/plain'
   ...
 
-  # good - short and precise
+  # хорошо (коротко и точно)
   ...
   render plain: 'Ruby!'
   ...
   ```
-<!--- @FIXME --->
 * <a name="http-status-code-symbols"></a>
-  Prefer [corresponding symbols](https://gist.github.com/mlanett/a31c340b132ddefa9cca) to numeric HTTP status codes.
-  They are meaningful and do not look like "magic" numbers for less known HTTP status codes.
-  <sup>[[link](#http-status-code-symbols)]</sup>
+  
+  Предпочтите [соответствующие символы](https://gist.github.com/mlanett/a31c340b132ddefa9cca) числовым кодам состояния HTTP.
+  Они имеют смысл и не похожи на "магические" числа для менее известных кодов состояния HTTP.
+  <sup>[[ссылка](#http-status-code-symbols)]</sup>
 
   ```ruby
   # плохо
@@ -372,7 +371,7 @@
   вероятностью будут вызываться только из шаблонов представлений, поэтому
   их лучше разместить во вспомогательных модулях (helpers). Реализуйте в моделях
   только бизнес-логику и функционал работы с данными.
-  <sup>[[link](#model-business-logic)]</sup>
+  <sup>[[ссылка](#model-business-logic)]</sup>
 
 ### ActiveRecord
 
@@ -519,14 +518,14 @@
 * <a name="single-attribute-validations"></a>
     To make validations easy to read, don't list multiple attributes per
     validation
-    <sup>[[link](#single-attribute-validations)]</sup>
+    <sup>[[ссылка](#single-attribute-validations)]</sup>
 
     ```ruby
-    # bad
+    # плохо
     validates :email, :password, presence: true
     validates :email, length: { maximum: 100 }
 
-    # good
+    # хорошо
     validates :email, presence: true, length: { maximum: 100 }
     validates :password, presence: true
     ```
@@ -593,10 +592,9 @@
     end
   end
   ```
-<!--- @FIXME -->
 * <a name="callbacks-order"></a>
-  Order callback declarations in the order, in which they will be executed. For
-  referenece, see [Available Callbacks](https://guides.rubyonrails.org/active_record_callbacks.html#available-callbacks)
+  Располагайте объявления колбэков в том порядке, в котором они будут выполняться.
+  Для справки см. [Доступные колбэки](http://rusrails.ru/active-record-callbacks.html#dostupnye-kolbeki)
   <sup>[[ссылка](#callbacks-order)]</sup>
 
     ```ruby
@@ -634,7 +632,7 @@
     ```
 
 * <a name="beware-skip-model-validations"></a>
-  Поймите принцип работы следующих [методов](https://guides.rubyonrails.org/active_record_validations.html#skipping-validations).
+  Поймите принцип работы следующих [методов](http://rusrails.ru/active-record-validations.html#propusk-validatsiy).
   Они не вызывают валидацию моделей и могут быстро привести к появлению
   ошибочных записей в базе данных.
   <sup>[[ссылка](#beware-skip-model-validations)]</sup>
@@ -751,7 +749,7 @@
 
 * <a name="has_many-has_one-dependent-option"></a>
   Задавайте опцию `dependent` в ассоциация типа `has_many` и `has_one`.
-  <sup>[[link](#has_many-has_one-dependent-option)]</sup>
+  <sup>[[ссылка](#has_many-has_one-dependent-option)]</sup>
 
   ```ruby
   # плохо
@@ -765,22 +763,21 @@
   end
   ```
 
-<!--- @FIXME --->
 * <a name="save-bang"></a>
-  When persisting AR objects always use the exception raising bang! method or handle the method return value.
-  This applies to `create`, `save`, `update`, `destroy`, `first_or_create` and `find_or_create_by`.
-  <sup>[[link](#save-bang)]</sup>
+  При сохранении объектов Active Record всегда используйте создающие исключение bang! метод (мутатор) или обрабатывайте возвращаемое значения метода.
+  Это относится к `create`, `save`, `update`, `destroy`, `first_or_create` и `find_or_create_by`.
+  <sup>[[ссылка](#save-bang)]</sup>
 
   ```ruby
-  # bad
+  # плохо
   user.create(name: 'Bruce')
 
-  # bad
+  # плохо
   user.save
 
-  # good
+  # хорошо
   user.create!(name: 'Bruce')
-  # or
+  # или
   bruce = user.create(name: 'Bruce')
   if bruce.persisted?
     ...
@@ -788,9 +785,9 @@
     ...
   end
 
-  # good
+  # хорошо
   user.save!
-  # or
+  # или
   if user.save
     ...
   else
@@ -831,30 +828,28 @@
   )
   ```
 
-<!--- @FIXME -->
 * <a name="find"></a>
-  Отдавайте предпочтение использованию `find` вместо `where(...).take!`, `find_by!`,` если вам нужно
+  Отдавайте предпочтение использованию `find` вместо `where(...).take!`, `find_by!`, если вам нужно
   получить всего одну запись по ее идентификатору.
-     Favor the use of `find` over `where.take!`, `find_by!`, and `find_by_id!`
-    when you need to retrieve a single record by primary key id and raise
-    `ActiveRecord::RecordNotFound` when the record is not found.
+  Предпочитайте использовать `find` вместо `where.take!`, `find_by!`, или `find_by_id!`
+  когда вам нужно получить одну запись по первичному ключу (primary key) и вызвать
+  `ActiveRecord::RecordNotFound` если запись не найдена.
   <sup>[[ссылка](#find)]</sup>
 
   ```ruby
   # плохо
   User.where(id: id).take!
 
-  # bad
+  # плохо
   User.find_by_id!(id)
 
-  # bad
+  # плохо
   User.find_by!(id: id)
 
   # хорошо
   User.find(id)
   ```
 
-<!--- @FIXME -->
 * <a name="find_by"></a>
   Отдавайте предпочтение использованию `find_by` вместо `where` и
   `find_by_attribute`, если вам нужно получить всего одну запись по значению
@@ -871,23 +866,24 @@
   # хорошо
   User.find_by(first_name: 'Bruce', last_name: 'Wayne')
   ```
+<!--- @FIXME -->
 * <a name="find_by"></a>
     Favor the use of `find_by` over `where.take` and `find_by_attribute`
     when you need to retrieve a single record by one or more attributes and return
     `nil` when the record is not found.
-    <sup>[[link](#find_by)]</sup>
+    <sup>[[ссылка](#find_by)]</sup>
 
     ```ruby
-    # bad
+    # плохо
     User.where(id: id).take
     User.where(first_name: 'Bruce', last_name: 'Wayne').take
 
-    # bad
+    # плохо
     User.find_by_id(id)
-    # bad, deprecated in ActiveRecord 4.0, removed in 4.1+
+    # плохо, устарел в ActiveRecord 4.0, удален в 4.1+
     User.find_by_first_name_and_last_name('Bruce', 'Wayne')
 
-    # good
+    # хорошо
     User.find_by(id: id)
     User.find_by(first_name: 'Bruce', last_name: 'Wayne')
     ```
@@ -908,25 +904,25 @@
     guaranteed to be in any particular order, despite often (incidentally)
     being chronological. Use a timestamp column to order chronologically.
     As a bonus the intent is clearer.
-    <sup>[[link](#order-by-id)]</sup>
+    <sup>[[ссылка](#order-by-id)]</sup>
 
     ```ruby
-    # bad
+    # плохо
     scope :chronological, -> { order(id: :asc) }
 
-    # good
+    # хорошо
     scope :chronological, -> { order(created_at: :asc) }
     ```
 
   * <a name="ids"></a>
     Favor the use of `ids` over `pluck(:id)`.
-    <sup>[[link](#ids)]</sup>
+    <sup>[[ссылка](#ids)]</sup>
 
     ```ruby
-    # bad
+    # плохо
     User.pluck(:id)
 
-    # good
+    # хорошо
     User.ids
     ```
 * <a name="squished-heredocs"></a>
@@ -935,7 +931,7 @@
   оформить код SQL читаемым образом с переносами строк и отступами и
   сохранит подержку подсветки синтаксиса на большинстве платформ (GitHub, Atom,
   RubyMine).
-  <sup>[[link](#squished-heredocs)]</sup>
+  <sup>[[ссылка](#squished-heredocs)]</sup>
 
   ```ruby
   User.find_by_sql(<<-SQL.squish)
@@ -959,22 +955,21 @@
   SELECT\n    users.id, accounts.plan\n  FROM\n    users\n  INNER JOIN\n    acounts\n  ON\n    accounts.user_id = users.id
   ```
 
-<!--- @FIXME -->
 * <a name="size-over-count-or-length"></a>
-  When querying ActiveRecord collections, prefer `size`
-  (selects between count/length behavior based on whether collection is already loaded)
-  or `length` (always loads the whole collection and counts the array elements)
-  over `count` (always does a database query for the count).
-  <sup>[[link](#size-over-count-or-length)]</sup>
+  При запросе коллекций ActiveRecord отдавайте предпочтение `size`
+  (выбирает между count/length в зависимости от того, загружена ли уже коллекция)
+  или `length` (всегда загружает всю коллекцию и подсчитывает элементы массива)
+  вместо `count`  (всегда выполняет запрос в базу данных для подсчета).
+  <sup>[[ссылка](#size-over-count-or-length)]</sup>
 
     ```ruby
-    # bad
+    # плохо
     User.count
 
-    # good
+    # хорошо
     User.all.size
 
-    # good - if you really need to load all users into memory
+    # хорошо (если вам действительно нужно загрузить всех пользователей в память)
     User.all.length
     ```
 
@@ -1109,8 +1104,8 @@
 * <a name="meaningful-foreign-key-naming"></a>
   Явно выбирайте наименования для внешних ключей (foreign key), не полагайтесь
   на автоматически сгенерированные имена ключей:
-  [Foreign Keys](https://guides.rubyonrails.org/active_record_migrations.html#foreign-keys).
-  <sup>[[link](#meaningful-foreign-key-naming)]</sup>
+  [Foreign Keys](http://rusrails.ru/rails-database-migrations#foreign-keys.html).
+  <sup>[[ссылка](#meaningful-foreign-key-naming)]</sup>
 
   ```ruby
   # плохо
@@ -1132,7 +1127,7 @@
   Не используйте необратимые методы миграций в методе `change`.
   Обратимые методы можно найти в списке ниже:
   [ActiveRecord::Migration::CommandRecorder](https://api.rubyonrails.org/classes/ActiveRecord/Migration/CommandRecorder.html)
-  <sup>[[link](#reversible-migration)]</sup>
+  <sup>[[ссылка](#reversible-migration)]</sup>
 
   ```ruby
   # плохо
@@ -1270,14 +1265,14 @@
 
 * <a name="i18n-guides"></a>
   Более подробную информацию по интернационализации (I18n) в Rails можно найти
-  по адресу [API интернационализации Rails](http://rusrails.ru/rails-internationalization-i18n-api)
+  по адресу [API интернационализации Rails](http://rusrails.ru/rails-internationalization-i18n-api.html)
   либо [Rails Guides](https://guides.rubyonrails.org/i18n.html) (английский оригинал).
   <sup>[[ссылка](#i18n-guides)]</sup>
 
 ## Ресурсы
 
 Применяйте
-[конвейер ресурсов](https://guides.rubyonrails.org/asset_pipeline.html)
+[конвейер ресурсов](http://rusrails.ru/asset-pipeline.html)
 (assets pipeline) для упорядочения структуры вашего приложения.
 
 * <a name="reserve-app-assets"></a>
@@ -1428,41 +1423,41 @@
 
 * <a name="try-bang"></a>
   Prefer Ruby 2.3's safe navigation operator `&.` over `ActiveSupport#try!`.
-  <sup>[[link](#try-bang)]</sup>
+  <sup>[[ссылка](#try-bang)]</sup>
 
   ```ruby
-  # bad
+  # плохо
   obj.try! :fly
 
-  # good
+  # хорошо
   obj&.fly
   ```
 
 * <a name="active_support_aliases"></a>
   Prefer Ruby's Standard Library methods over `ActiveSupport` aliases.
-  <sup>[[link](#active_support_aliases)]</sup>
+  <sup>[[ссылка](#active_support_aliases)]</sup>
 
   ```ruby
-  # bad
+  # плохо
   'the day'.starts_with? 'th'
   'the day'.ends_with? 'ay'
 
-  # good
+  # хорошо
   'the day'.start_with? 'th'
   'the day'.end_with? 'ay'
   ```
 
 * <a name="active_support_extensions"></a>
   Prefer Ruby's Standard Library over uncommon ActiveSupport extensions.
-  <sup>[[link](#active_support_extensions)]</sup>
+  <sup>[[ссылка](#active_support_extensions)]</sup>
 
   ```ruby
-  # bad
+  # плохо
   (1..50).to_a.forty_two
   1.in? [1, 2]
   'day'.in? 'the day'
 
-  # good
+  # хорошо
   (1..50).to_a[41]
   [1, 2].include? 1
   'the day'.include? 'day'
@@ -1471,22 +1466,22 @@
 * <a name="inquiry"></a>
   Prefer Ruby's comparison operators over `ActiveSupport` `Array#inquiry`,
   `Numeric#inquiry` and `String#inquiry`.
-  <sup>[[link](#inquiry)]</sup>
+  <sup>[[ссылка](#inquiry)]</sup>
 
   ```ruby
-  # bad - String#inquiry
+  # плохо (String#inquiry)
   ruby = 'two'.inquiry
   ruby.two?
 
-  # good
+  # хорошо
   ruby = 'two'
   ruby == 'two'
 
-  # bad - Array#inquiry
+  # плохо (Array#inquiry)
   pets = %w(cat dog).inquiry
   pets.gopher?
 
-  # good
+  # хорошо
   pets = %w(cat dog)
   pets.include? 'cat'
   ```
@@ -1605,6 +1600,7 @@
 <!--- @FIXME: Find russian translations. -->
 * [The Rails 4 Way](https://www.amazon.com/Rails-Way-Addison-Wesley-Professional-Ruby/dp/0321944275)
 * [Ruby on Rails Guides](https://guides.rubyonrails.org/)
+* [Перевод Ruby on Rails Guides](http://rusrails.ru/)
 * [The RSpec Book](https://pragprog.com/book/achbd/the-rspec-book)
 * [The Cucumber Book](https://pragprog.com/book/hwcuc/the-cucumber-book)
 * [Everyday Rails Testing with RSpec](https://leanpub.com/everydayrailsrspec)
