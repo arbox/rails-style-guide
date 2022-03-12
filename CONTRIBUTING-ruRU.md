@@ -43,7 +43,7 @@
 
 * Загрузите вашу ветку на GitHub.
 
-* Отправье нам [запрос на слияние][pull request], добавьте комментарий к нему.
+* Отправьте нам [запрос на слияние][pull request], добавьте комментарий к нему.
 
 [fork]: https://help.github.com/articles/fork-a-repo
 [pull request]: https://help.github.com/articles/using-pull-requests
